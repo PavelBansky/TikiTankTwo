@@ -1,0 +1,12 @@
+﻿@Master['master.sshtml']
+
+@Section['Content']
+Content
+
+<div id="colorwheel" style="float:left; margin-right:20px; width:300px; text-align:left;"></div>
+
+
+<script>
+	var cw = Raphael.colorwheel($("#colorwheel"), 300);
+</script>
+@EndSection

@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>TikiTank Console</title>
+<script src="@Path['~/content/jquery-2.1.1.min.js']"></script>
+<script src="@Path['~/content/raphael-min.js']"></script>
+<script src="@Path['~/content/colorwheel.js']"></script>
+<script>
+$(document).ready(function(){
+  
+  $("button").click(function(){
+    $.getJSON("http://localhost:9090/api/tread/effect",function(data,status)
+    {
+      alert("Data: " + data.color + "\nStatus: " + status);
+    });
+  });
+});
+</script>
+
+
+
+</head>
+<body>
+<button>Send an HTTP GET request to a page and get the result back</button>
+
+
+@Section['Content']
+</body>
+</html>

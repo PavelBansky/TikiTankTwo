@@ -1,0 +1,9 @@
+d:\Projects\TikiTankTwo\TikiTankCommon\bin\Debug\TikiTankCommon.dll
+d:\Projects\TikiTankTwo\TikiTankCommon\bin\Debug\TikiTankCommon.pdb
+d:\Projects\TikiTankTwo\TikiTankCommon\obj\Debug\TikiTankCommon.csprojResolveAssemblyReference.cache
+d:\Projects\TikiTankTwo\TikiTankCommon\obj\Debug\TikiTankCommon.dll
+d:\Projects\TikiTankTwo\TikiTankCommon\obj\Debug\TikiTankCommon.pdb
+D:\TikiTankTwo\TikiTankCommon\obj\Debug\TikiTankCommon.dll
+D:\TikiTankTwo\TikiTankCommon\obj\Debug\TikiTankCommon.pdb
+D:\TikiTankTwo\TikiTankCommon\bin\Debug\TikiTankCommon.dll
+D:\TikiTankTwo\TikiTankCommon\bin\Debug\TikiTankCommon.pdb
