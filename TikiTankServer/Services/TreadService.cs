@@ -15,6 +15,7 @@ namespace TikiTankServer.Services
             if (int.TryParse(index, out i))
             {
                 TankManager.TreadManager.SelectEffect(i);
+                Console.WriteLine(TankManager.TreadManager.ActiveEffect.Information.Name);
             }
             else
             {

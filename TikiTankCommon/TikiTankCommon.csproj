@@ -41,6 +41,7 @@
     <Compile Include="Color.cs" />
     <Compile Include="EffectInfo.cs" />
     <Compile Include="EffectManager.cs" />
+    <Compile Include="Effects\DMXSolidColor.cs" />
     <Compile Include="Effects\Rainbow.cs" />
     <Compile Include="Effects\SimpleTread.cs" />
     <Compile Include="Effect.cs" />

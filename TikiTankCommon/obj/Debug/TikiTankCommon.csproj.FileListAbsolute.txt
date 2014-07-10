@@ -7,3 +7,7 @@ D:\TikiTankTwo\TikiTankCommon\obj\Debug\TikiTankCommon.dll
 D:\TikiTankTwo\TikiTankCommon\obj\Debug\TikiTankCommon.pdb
 D:\TikiTankTwo\TikiTankCommon\bin\Debug\TikiTankCommon.dll
 D:\TikiTankTwo\TikiTankCommon\bin\Debug\TikiTankCommon.pdb
+D:\GitHub\TikiTankTwo\TikiTankCommon\bin\Debug\TikiTankCommon.dll
+D:\GitHub\TikiTankTwo\TikiTankCommon\bin\Debug\TikiTankCommon.pdb
+D:\GitHub\TikiTankTwo\TikiTankCommon\obj\Debug\TikiTankCommon.dll
+D:\GitHub\TikiTankTwo\TikiTankCommon\obj\Debug\TikiTankCommon.pdb

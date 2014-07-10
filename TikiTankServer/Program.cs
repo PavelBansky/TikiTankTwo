@@ -15,6 +15,7 @@ namespace TikiTankServer
         {
 
             LPD8806 treadsLED = new LPD8806((5 * 32) * 3, "/dev/spidev1.0");
+            DMXControl dmx = new DMXControl(6);
             
             TankManager.TreadManager.AddEffect(new SimpleTread(new EffectInfo() 
                                                    { Name = "Simple Treads", 
@@ -39,8 +40,14 @@ namespace TikiTankServer
                                                       Description = "One color strip",
                                                       ArgumentDescription = ""
                                                     },
-                                                    treadsLED)); 
+                                                    treadsLED));
 
+
+            TankManager.TreadManager.AddEffect(new DMXSolidColor(new EffectInfo()
+                                                { Name = "Color sides",
+                                                  Description = "Solid color for sides",
+                                                  ArgumentDescription = "Channel selector"
+                                                }, dmx));
 
             TankManager.TreadManager.SelectEffect(0);
 

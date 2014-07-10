@@ -36,11 +36,11 @@ namespace TikiTankServer.Modules
             // Set color for given effect
             Post["/effect"] = _ =>
                                     {
-                                        if (Request.Form.color.HasValue)
-                                            treadService.SetColor((string)Request.Form.color);
-
                                         if (Request.Form.argument.HasValue)
                                             treadService.SetArgument((string)Request.Form.argument);
+
+                                        if (Request.Form.color.HasValue)
+                                            treadService.SetColor((string)Request.Form.color);
 
                                         return HttpStatusCode.OK;
                                     };
