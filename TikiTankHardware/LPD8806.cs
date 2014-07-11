@@ -74,10 +74,6 @@ namespace TikiTankHardware
                 Channels[pixel + 2] = (byte)(color | 0x80);
             }
         }
-        public override void SetPixelColor(int pixel, Color color)
-        {
-            SetPixelRGB(pixel, color.R, color.G, color.B);
-        }
 
         public override void FillRGB(int start, int count, byte r, byte g, byte b)
         {
@@ -85,11 +81,6 @@ namespace TikiTankHardware
             {
                 SetPixelRGB(i, r, g, b);
             }
-        }
-
-        public override void FillRGB(int start, int count, Color color)
-        {
-            FillRGB(start, count, color.R, color.G, color.B);
         }
 
         public override int GetPixelColor(int pixel)

@@ -11,14 +11,12 @@ namespace TikiTankCommon.Effects
         {
             this.Information = info;
             this.LedStrip = strip;
-            _colors = new Color[strip.Length];
-            SetArgument("0");
-            SetColor(Color.FromRgb(0, 0,0));
+            _arg = 0;
         }
 
         public override void Activate()
         {
-            //
+
         }
 
         public override void Deactivate()
@@ -38,7 +36,7 @@ namespace TikiTankCommon.Effects
             int a;
             if (int.TryParse(argument, out a))
             {
-                if (a >=0 && a < _colors.Length)
+                if (a >=0 && a < LedStrip.Length)
                 {
                     _arg = a;
                 }
@@ -51,17 +49,15 @@ namespace TikiTankCommon.Effects
         }
 
         public override void SetColor(Color color)
-        {
-            _colors[_arg] = color;
+        {           
             LedStrip.SetPixelColor(_arg, color);
         }
 
         public override Color GetColor()
         {
-            return _colors[_arg];
+            return Color.FromRgb(LedStrip.GetPixelColor(_arg));
         }
 
         private int _arg;
-        private Color[] _colors;
     }
 }

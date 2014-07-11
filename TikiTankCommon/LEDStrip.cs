@@ -25,11 +25,17 @@ namespace TikiTankCommon
 
         public abstract void SetPixelColor(int pixel, int color);
 
-        public abstract void SetPixelColor(int pixel, Color color);
+        public void SetPixelColor(int pixel, Color color)
+        {
+            SetPixelRGB(pixel, color.R, color.G, color.B);
+        }
 
         public abstract void FillRGB(int start, int count, byte r, byte g, byte b);
 
-        public abstract void FillRGB(int start, int count, Color color);
+        public void FillRGB(int start, int count, Color color)
+        {
+            FillRGB(start, count, color.R, color.G, color.B);
+        }
 
         public abstract int GetPixelColor(int pixel);
 

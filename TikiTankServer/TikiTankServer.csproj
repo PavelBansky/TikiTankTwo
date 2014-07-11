@@ -50,11 +50,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Managers\EffectManager.cs" />
+    <Compile Include="Modules\SidesApi.cs" />
     <Compile Include="Modules\TreadApi.cs" />
     <Compile Include="Modules\Web.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ISidesService.cs" />
     <Compile Include="Services\ITreadService.cs" />
+    <Compile Include="Services\SidesService.cs" />
     <Compile Include="Services\TreadService.cs" />
     <Compile Include="TankManager.cs" />
   </ItemGroup>

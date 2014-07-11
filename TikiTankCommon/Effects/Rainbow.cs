@@ -31,7 +31,7 @@ namespace TikiTankCommon.Effects
 
             for (i = 0; i < LedStrip.Length; i++)
             {
-                LedStrip.SetPixelColor((LedStrip.Length-1) - i, Wheel(((i * 384 / 30) + _counter) % 384));
+                LedStrip.SetPixelColor((LedStrip.Length-1) - i, Color.Wheel(((i * 384 / 30) + _counter) % 384));
             }
             LedStrip.Show(); // write all the pixels out
 
@@ -39,31 +39,6 @@ namespace TikiTankCommon.Effects
             _counter = (_counter < 384) ? _counter + 10 : 0;
 
             return _delay;
-        }
-
-        private int Wheel(int WheelPos)
-        {
-            int r=0, g=0, b=0;
-            switch(WheelPos / 128)
-            {
-                case 0:
-                    r = 127 - WheelPos % 128; // red down
-                    g = WheelPos % 128; // green up
-                    b = 0; // blue off
-                    break;
-                case 1:
-                    g = 127 - WheelPos % 128; // green down
-                    b = WheelPos % 128; // blue up
-                    r = 0; // red off
-                    break;
-                case 2:
-                    b = 127 - WheelPos % 128; // blue down
-                    r = WheelPos % 128; // red up
-                    g = 0; // green off
-                    break;
-            }           
-
-            return Color.FromRgb((byte)r, (byte)g, (byte)b).ToRgb();
         }
 
         public override void SetArgument(string argument)
