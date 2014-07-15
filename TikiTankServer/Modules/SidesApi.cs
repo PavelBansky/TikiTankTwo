@@ -1,6 +1,8 @@
 ﻿using Nancy;
 using System;
+using System.Collections.Generic;
 using System.Text;
+using TikiTankServer.Managers;
 using TikiTankServer.Services;
 
 namespace TikiTankServer.Modules
@@ -12,9 +14,12 @@ namespace TikiTankServer.Modules
         {
             Get["/effect"] = _ =>
             {
-                //Effect eff = new Effect() { Name = "Duha", Color = "FF00FF", Arg = "123" };
-
                 return HttpStatusCode.OK;
+            };
+
+            Get["/effects"] = _ =>
+            {
+                return Response.AsJson(sidesService.GetEffectsInformation().ToArray());
             };
 
             // Set effect for treads

@@ -11,18 +11,12 @@ namespace TikiTankCommon.Effects
         {
             this.Information = info;
             this.LedStrip = strip;                        
-            SetColor(Color.FromRgb(255, 0, 0));
+            this.Color = Color.FromRgb(255, 0, 0);
         }
 
-        public override void Activate()
-        {
-            
-        }
+        public override void Activate() { }
 
-        public override void Deactivate()
-        {
-            
-        }
+        public override void Deactivate() { }
 
         public override int Step()
         {
@@ -32,24 +26,22 @@ namespace TikiTankCommon.Effects
             return 2000;
         }
 
-        public override void SetArgument(string argument)
+        public override string Argument
         {
-            //
+            get;
+            set;
         }
 
-        public override string GetArgument()
+        public override Color Color
         {
-            return string.Empty;
-        }
-
-        public override void SetColor(Color color)
-        {
-            _color = color;
-        }
-
-        public override Color GetColor()
-        {
-            return this._color;
+            get
+            {
+                return this._color;
+            }
+            set
+            {
+                _color = value;
+            }
         }
 
         private Color _color;

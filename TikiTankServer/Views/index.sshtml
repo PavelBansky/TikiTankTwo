@@ -1,12 +1,40 @@
 ﻿@Master['master.sshtml']
 
 @Section['Content']
-Content
+
+<div id="sidesTab">
+	<div id="zones">
+		<input type="button" onClick="setEffectParameters('sides', eval(cw.color()), 0)" value="Zone 0"> 
+		<input type="button" onClick="setEffectParameters('sides', eval(cw.color()), 1)" value="Zone 1"> 
+		<input type="button" onClick="setEffectParameters('sides', eval(cw.color()), 2)" value="Zone 2"> 
+		<input type="button" onClick="setEffectParameters('sides', eval(cw.color()), 3)" value="Zone 3"> 
+		<input type="button" onClick="setEffectParameters('sides', eval(cw.color()), 4)" value="Zone 4"> 
+		<input type="button" onClick="setEffectParameters('sides', eval(cw.color()), 5)" value="Zone 5"> 
+		<input type="button" onClick="setEffectParameters('sides', eval(cw.color()), 6)" value="Zone 6"> 
+		<input type="button" onClick="setEffectParameters('sides', eval(cw.color()), 7)" value="Zone 7"> 
+		<input type="button" onClick="setEffectParameters('sides', eval(cw.color()), 8)" value="Zone 8"> 
+	</div>
+</div>
+
+<hr />
+
+<div id="treadsTab">
+	<div class="activeEffect">
+		<input id="treadsActiveEffectArgument" size="10">
+		<input type="button" onClick="setEffectParameters('treads', eval(cw.color()), eval(treadsActiveEffectArgument.value))" value="Set!"> 
+	</div>
+</div>
+
+<div id="barrelTab">
+</div>
 
 <div id="colorwheel" style="float:left; margin-right:20px; width:300px; text-align:left;"></div>
 
 
+
 <script>
 	var cw = Raphael.colorwheel($("#colorwheel"), 300);
+	cw.color("#FF0000")
+
 </script>
 @EndSection

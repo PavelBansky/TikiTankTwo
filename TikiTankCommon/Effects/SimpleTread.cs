@@ -18,8 +18,8 @@ namespace TikiTankCommon.Effects
         {
             this.Information = info;
             this.LedStrip = strip;            
-            SetArgument("5");
-            SetColor(Color.FromRgb(255, 255, 255));
+            this.Argument ="5";
+            this.Color = Color.FromRgb(255, 255, 255);
         }
 
         public override void Activate()
@@ -29,7 +29,7 @@ namespace TikiTankCommon.Effects
                 // Fill five pixel with color
                 for (int redi = 0; redi < 5; redi++)
                 {
-                    LedStrip.SetPixelColor(j + redi, this.GetColor());
+                    LedStrip.SetPixelColor(j + redi, this.Color);
                 }
                 for (int gri = 0; gri < 10; gri++)
                 {
@@ -38,10 +38,7 @@ namespace TikiTankCommon.Effects
             }
         }
 
-        public override void Deactivate()
-        {
-            //
-        }
+        public override void Deactivate() { }
 
         public override int Step()
         {
@@ -55,35 +52,39 @@ namespace TikiTankCommon.Effects
             return _delay;
         }
 
-        public override void SetColor(Color color)
+        public override Color Color
         {
-            _color = color;
-            Activate();
-        }
-
-        public override Color GetColor()
-        {
-            return _color;
-        }
-
-        public override void SetArgument(string argument)
-        {
-            int i;            
-            if (int.TryParse(argument, out i))
-            {                
-                if (i < 0)
-                    _direction = Direction.Backward;
-                else if (i > 0)
-                    _direction = Direction.Forward;
-
-                _delay = 400 / Math.Abs(i);
-                _arg = i;
+            get
+            {
+                return _color;
+            }
+            set
+            {
+                _color = value;
+                Activate();
             }
         }
 
-        public override string GetArgument()
+        public override string Argument
         {
-            return _arg.ToString();
+            get
+            {
+                return _arg.ToString();
+            }
+            set 
+            {
+                int i;
+                if (int.TryParse(value, out i))
+                {
+                    if (i < 0)
+                        _direction = Direction.Backward;
+                    else if (i > 0)
+                        _direction = Direction.Forward;
+
+                    _delay = 400 / Math.Abs(i);
+                    _arg = i;
+                }
+            }
         }
 
         private Color _color;        

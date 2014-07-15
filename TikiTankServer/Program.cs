@@ -16,37 +16,37 @@ namespace TikiTankServer
             LPD8806 treadsLED = new LPD8806((5 * 32) * 3, "/dev/spidev1.0");
             DMXControl dmx = new DMXControl(6);
             
-            TankManager.TreadManager.AddEffect(new SimpleTread(new EffectInfo() 
+            TankManager.TreadsManager.AddEffect(new SimpleTread(new EffectInfo() 
                                                    { Name = "Simple Treads", 
                                                      Description = "Gold old tread effect",
                                                      ArgumentDescription = "Speed and direction [+/-]" },
                                                      treadsLED));
 
-            TankManager.TreadManager.AddEffect(new Rainbow(new EffectInfo()
+            TankManager.TreadsManager.AddEffect(new Rainbow(new EffectInfo()
                                                     { Name = "Rainbow",
                                                       Description = "Running rainbow",
                                                       ArgumentDescription = "Speed"},
                                                       treadsLED));
 
-            TankManager.TreadManager.AddEffect(new SinWave(new EffectInfo()
+            TankManager.TreadsManager.AddEffect(new SinWave(new EffectInfo()
                                                     { Name = "Sinus Wave",
                                                       Description = "Runing sinus wave",
                                                       ArgumentDescription = "Speed"},
                                                      treadsLED));
 
-            TankManager.TreadManager.AddEffect(new SolidColor(new EffectInfo()
+            TankManager.TreadsManager.AddEffect(new SolidColor(new EffectInfo()
                                                     { Name = "Solid color",
                                                       Description = "One color strip",                                                      
                                                     },
                                                     treadsLED));
 
-            TankManager.TreadManager.SelectEffect(0);
+            TankManager.TreadsManager.SelectEffect(0);
             Console.WriteLine("Starting Tread Manager");
-            TankManager.TreadManager.Start();
+            TankManager.TreadsManager.Start();
 
 
             TankManager.SidesManager.AddEffect(new DMXSolidColor(new EffectInfo()
-                                                { Name = "Color sides",
+                                                { Name = "Solid color",
                                                   Description = "Solid color for sides",
                                                   ArgumentDescription = "Channel selector"
                                                 }, dmx));
@@ -59,7 +59,7 @@ namespace TikiTankServer
 
             TankManager.SidesManager.AddEffect(new DMXBreath(new EffectInfo()
                                                 {  Name = "Breathing",
-                                                   Description = "Fading the brightness",
+                                                   Description = "Fading brightness",
                                                    ArgumentDescription = "Speed"
                                                 }, dmx));
 
@@ -80,7 +80,7 @@ namespace TikiTankServer
             }
 
             Console.WriteLine("Stopping Tread Manager");
-            TankManager.TreadManager.Stop();
+            TankManager.TreadsManager.Stop();
             Console.WriteLine("Stopping Sides Manager");
             TankManager.SidesManager.Stop();
             Console.WriteLine("Stopping Nancy");

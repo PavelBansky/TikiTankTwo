@@ -11,19 +11,13 @@ namespace TikiTankCommon.Effects
         {
             this.Information = info;
             this.LedStrip = strip;
-            SetArgument("8");
+            this.Argument = "8";
             _counter = 0;
         }
 
-        public override void Activate()
-        {
-            //
-        }
+        public override void Activate() { }
 
-        public override void Deactivate()
-        {
-            //
-        }
+        public override void Deactivate() { }
 
         public override int Step()
         {
@@ -41,29 +35,27 @@ namespace TikiTankCommon.Effects
             return _delay;
         }
 
-        public override void SetArgument(string argument)
+        public override string Argument
         {
-            int i;
-            if (int.TryParse(argument, out i))
+            get
             {
-                _arg = Math.Abs(i);
-                _delay = 400 / _arg;                
+                return _arg.ToString();
+            }
+            set
+            {
+                int i;
+                if (int.TryParse(value, out i))
+                {
+                    _arg = Math.Abs(i);
+                    _delay = 400 / _arg;
+                }
             }
         }
 
-        public override string GetArgument()
+        public override Color Color
         {
-            return _arg.ToString();
-        }
-
-        public override void SetColor(Color color)
-        {
-            //
-        }
-
-        public override Color GetColor()
-        {
-            return Color.FromRgb(0);
+            get;
+            set;
         }
         
         private int _delay;

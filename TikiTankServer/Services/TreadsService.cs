@@ -1,21 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using TikiTankCommon;
+using TikiTankServer.Managers;
 
 namespace TikiTankServer.Services
 {
-    public class TreadService : ITreadService
+    public class TreadsService : ITreadsService
     {
+        public List<EffectInformation> GetEffectsInformation()
+        {
+            Console.WriteLine("Treads: Getting list of effects");
+            return TankManager.TreadsManager.GetEffectsInformation();
+        }
+
         public void SetEffect(string index)
         {
             int i;
             Console.WriteLine("Treads: Setting effect to {0}", index);
             if (int.TryParse(index, out i))
             {
-                TankManager.TreadManager.SelectEffect(i);
-                Console.WriteLine(TankManager.TreadManager.ActiveEffect.Information.Name);
+                TankManager.TreadsManager.SelectEffect(i);
+                Console.WriteLine(TankManager.TreadsManager.ActiveEffect.Information.Name);
             }
             else
             {
@@ -27,14 +32,14 @@ namespace TikiTankServer.Services
         {
             Console.WriteLine("Treads: Setting color to {0}", color);
             Color clr = Color.ColorStringToColor(color);
-            TankManager.TreadManager.ActiveEffect.SetColor(clr);
+            TankManager.TreadsManager.ActiveEffect.Color = clr;
         }
 
         public void SetArgument(string argument)
         {
             Console.WriteLine("Treads: Setting argument to {0}", argument);
-            TankManager.TreadManager.ActiveEffect.SetArgument(argument);
-        }        
+            TankManager.TreadsManager.ActiveEffect.Argument =argument;
+        }
     }
 
 }

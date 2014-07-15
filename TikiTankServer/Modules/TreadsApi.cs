@@ -8,28 +8,26 @@ using TikiTankServer.Services;
 
 namespace TikiTankServer.Modules
 {
-    public class Effect
+    public class TreadsApi : NancyModule
     {
-        public string Name { get; set; }
-        public string Color { get; set; }
-        public string Arg { get; set; }
-    }
-
-    public class TreadApi : NancyModule
-    {
-        public TreadApi(ITreadService treadService) : base("/api/tread")
+        public TreadsApi(ITreadsService treadsService) : base("/api/treads")
         {
             Get["/effect"] = _ =>
                                     {
-                                        Effect eff = new Effect() { Name = "Duha", Color = "FF00FF", Arg = "123" };
+                                       // Effect eff = new Effect() { Name = "Duha", Color = "FF00FF", Arg = "123" };
 
-                                        return Response.AsJson<Effect>(eff);
+                                        return HttpStatusCode.OK; // Response.AsJson<Effect>(eff);
                                     };
+
+            Get["/effects"] = _ =>
+            {
+                return Response.AsJson(treadsService.GetEffectsInformation().ToArray());
+            };
 
             // Set effect for treads
             Post["/effect/{effect}"] = parameters =>
                                     {
-                                        treadService.SetEffect(parameters.effect);
+                                        treadsService.SetEffect(parameters.effect);
                                         return HttpStatusCode.OK;
                                     };
 
@@ -37,10 +35,10 @@ namespace TikiTankServer.Modules
             Post["/effect"] = _ =>
                                     {
                                         if (Request.Form.argument.HasValue)
-                                            treadService.SetArgument((string)Request.Form.argument);
+                                            treadsService.SetArgument((string)Request.Form.argument);
 
                                         if (Request.Form.color.HasValue)
-                                            treadService.SetColor((string)Request.Form.color);
+                                            treadsService.SetColor((string)Request.Form.color);
 
                                         return HttpStatusCode.OK;
                                     };

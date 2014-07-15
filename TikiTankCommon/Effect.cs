@@ -22,18 +22,13 @@ namespace TikiTankCommon
         /// <returns>Time for which is next step expected</returns>
         public abstract int Step();
         /// <summary>
-        /// Set effect parameter
+        /// Gets or Sets the effect parameter
         /// </summary>
-        /// <param name="argument">Parameter</param>
-        public abstract void SetArgument(string argument);
+        public abstract string Argument { get; set; }
         /// <summary>
-        /// Get effect parameter
+        /// Gets or Sets the effect color
         /// </summary>
-        /// <returns>Effect parameter</returns>
-        public abstract string GetArgument();
-
-        public abstract void SetColor(Color color);
-        public abstract Color GetColor();
+        public abstract Color Color { get; set; }
         public bool SensorDriven { get; set; }
         public EffectInfo Information { get; set; }
         protected LEDStrip LedStrip { get; set; }

@@ -10,20 +10,69 @@
 <script>
 $(document).ready(function(){
   
-  $("button").click(function(){
-    $.getJSON("http://localhost:9090/api/tread/effect",function(data,status)
+	// Get sides effects
+    $.getJSON("/api/sides/effects",function(data,status)
     {
-      alert("Data: " + data.color + "\nStatus: " + status);
+		for (var i=0, len=data.length; i < len; i++) {
+			$("#sidesTab").append(getEffectHtml(data[i],"sides"));
+			console.log(data[i]);
+		}
     });
-  });
+
+	// get treads effects
+    $.getJSON("/api/treads/effects",function(data,status)
+    {
+		for (var i=0, len=data.length; i < len; i++) {
+			$("#treadsTab").append(getEffectHtml(data[i],"treads"));
+			console.log(data[i]);
+		}
+    });
 });
+
+function getEffectHtml(effect, api)
+{
+	var html = "<div class=\"effectInfo\" onClick=\"selectEffect("+effect.id+",'"+api+"')\">"; 
+	html += effect.name;
+	html += "</div>";
+
+	return html;
+}
+
+function selectEffect(id, api)
+{
+ $.post("/api/"+api+"/effect/"+id);
+ /*
+  {
+    name:"Donald Duck",
+    city:"Duckburg"
+  },
+  function(data,status){
+    alert("Data: " + data + "\nStatus: " + status);
+  });*/
+}
+
+
+function setEffectParameters(api, color, arg)
+{
+	var clr = color.toString().replace("#", "");
+
+ $.post("/api/"+api+"/effect/", 
+  {
+    color: clr,
+    argument: arg
+  },
+  function(data,status){
+   // alert("Data: " + data + "\nStatus: " + status);
+  });
+  
+}
+
 </script>
 
 
 
 </head>
 <body>
-<button>Send an HTTP GET request to a page and get the result back</button>
 
 
 @Section['Content']

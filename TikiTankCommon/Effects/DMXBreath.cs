@@ -24,10 +24,7 @@ namespace TikiTankCommon.Effects
             }
         }
 
-        public override void Deactivate()
-        {
-            //
-        }
+        public override void Deactivate() { }
 
         public override int Step()
         {
@@ -44,34 +41,38 @@ namespace TikiTankCommon.Effects
                 LedStrip.Show();
             }
 
-            return 50;
+            return 20;
         }
 
-        public override void SetArgument(string argument)
+        public override string Argument
         {
+            get
+            {
+                return _arg.ToString();
+            }
+            set
+            {
             int a;
-            if (int.TryParse(argument, out a))
+            if (int.TryParse(value, out a))
             {
                 if (a >=0 && a < _colors.Length)
                 {
                     _arg = a;
                 }
             }
+            }
         }
-
-        public override string GetArgument()
+ 
+        public override Color Color
         {
-            return _arg.ToString();
-        }
-
-        public override void SetColor(Color color)
-        {
-            _colors[_arg] = color;
-        }
-
-        public override Color GetColor()
-        {
-            return _colors[_arg];
+            get
+            {
+                return _colors[_arg];
+            }
+            set
+            {
+                _colors[_arg] = value;
+            }
         }
 
         private int _step;

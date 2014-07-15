@@ -40,7 +40,6 @@
   <ItemGroup>
     <Compile Include="Color.cs" />
     <Compile Include="EffectInfo.cs" />
-    <Compile Include="EffectManager.cs" />
     <Compile Include="Effects\DMXBreath.cs" />
     <Compile Include="Effects\DMXSolidColor.cs" />
     <Compile Include="Effects\Rainbow.cs" />

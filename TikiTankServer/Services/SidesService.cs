@@ -3,11 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TikiTankCommon;
+using TikiTankServer.Managers;
 
 namespace TikiTankServer.Services
 {
     public class SidesService : ISidesService
     {
+        public List<EffectInformation> GetEffectsInformation()
+        {
+            Console.WriteLine("Sides: Getting list of effects");
+            return TankManager.SidesManager.GetEffectsInformation();
+        }
+    
         public void SetEffect(string index)
         {
             int i;
@@ -27,13 +34,13 @@ namespace TikiTankServer.Services
         {
             Console.WriteLine("Sides: Setting color to {0}", color);
             Color clr = Color.ColorStringToColor(color);
-            TankManager.SidesManager.ActiveEffect.SetColor(clr);
+            TankManager.SidesManager.ActiveEffect.Color =clr;
         }
 
         public void SetArgument(string argument)
         {
             Console.WriteLine("Sides: Setting argument to {0}", argument);
-            TankManager.SidesManager.ActiveEffect.SetArgument(argument);
+            TankManager.SidesManager.ActiveEffect.Argument = argument;
         }
     }
 }
