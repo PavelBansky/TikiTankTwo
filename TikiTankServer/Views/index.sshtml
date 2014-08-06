@@ -1,40 +1,108 @@
-﻿@Master['master.sshtml']
+﻿<!DOCTYPE html>
 
-@Section['Content']
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>TikiTank Console</title>
+    <script src="@Path['~/content/jquery-2.1.1.min.js']"></script>
+    <script src="@Path['~/content/raphael-min.js']"></script>
+    <script src="@Path['~/content/colorwheel.js']"></script>
+    <script>
+        $(document).ready(function () {
 
-<div id="sidesTab">
-	<div id="zones">
-		<input type="button" onClick="setEffectParameters('sides', eval(cw.color()), 0)" value="Zone 0"> 
-		<input type="button" onClick="setEffectParameters('sides', eval(cw.color()), 1)" value="Zone 1"> 
-		<input type="button" onClick="setEffectParameters('sides', eval(cw.color()), 2)" value="Zone 2"> 
-		<input type="button" onClick="setEffectParameters('sides', eval(cw.color()), 3)" value="Zone 3"> 
-		<input type="button" onClick="setEffectParameters('sides', eval(cw.color()), 4)" value="Zone 4"> 
-		<input type="button" onClick="setEffectParameters('sides', eval(cw.color()), 5)" value="Zone 5"> 
-		<input type="button" onClick="setEffectParameters('sides', eval(cw.color()), 6)" value="Zone 6"> 
-		<input type="button" onClick="setEffectParameters('sides', eval(cw.color()), 7)" value="Zone 7"> 
-		<input type="button" onClick="setEffectParameters('sides', eval(cw.color()), 8)" value="Zone 8"> 
-	</div>
-</div>
+            // Get sides effects
+            $.getJSON("/api/sides/effects", function (data, status) {
+                for (var i = 0, len = data.length; i < len; i++) {
+                    $("#sidesTab").append(getEffectHtml(data[i], "sides"));
+                    console.log(data[i]);
+                }
+            });
 
-<hr />
+            // get treads effects
+            $.getJSON("/api/treads/effects", function (data, status) {
+                for (var i = 0, len = data.length; i < len; i++) {
+                    $("#treadsTab").append(getEffectHtml(data[i], "treads"));
+                    console.log(data[i]);
+                }
+            });
 
-<div id="treadsTab">
-	<div class="activeEffect">
-		<input id="treadsActiveEffectArgument" size="10">
-		<input type="button" onClick="setEffectParameters('treads', eval(cw.color()), eval(treadsActiveEffectArgument.value))" value="Set!"> 
-	</div>
-</div>
+            // get barrel effects
+            $.getJSON("/api/barrel/effects", function (data, status) {
+                for (var i = 0, len = data.length; i < len; i++) {
+                    $("#barrelTab").append(getEffectHtml(data[i], "barrel"));
+                    console.log(data[i]);
+                }
+            });
+        });
 
-<div id="barrelTab">
-</div>
+        function getEffectHtml(effect, api) {
+            var html = "<div class=\"effectInfo\" onClick=\"selectEffect(" + effect.id + ",'" + api + "')\">";
+            html += effect.name;
+            html += "</div>";
 
-<div id="colorwheel" style="float:left; margin-right:20px; width:300px; text-align:left;"></div>
+            return html;
+        }
+
+        function selectEffect(id, api) {
+            $.post("/api/" + api + "/effect/" + id);
+        }
+
+        function setEffectParameters(api, color, arg) {
+            var clr = color.toString().replace("#", "");
+
+            $.post("/api/" + api + "/effect/",
+             {
+                 color: clr,
+                 argument: arg
+             },
+             function (data, status) {
+                 // alert("Data: " + data + "\nStatus: " + status);
+             });
+        }
+
+    </script>
+
+</head>
+<body>
+
+    <div id="sidesTab">
+        <div id="zones">
+            <input type="button" onclick="setEffectParameters('sides', eval(cw.color()), 0)" value="Zone 0">
+            <input type="button" onclick="setEffectParameters('sides', eval(cw.color()), 1)" value="Zone 1">
+            <input type="button" onclick="setEffectParameters('sides', eval(cw.color()), 2)" value="Zone 2">
+            <input type="button" onclick="setEffectParameters('sides', eval(cw.color()), 3)" value="Zone 3">
+            <input type="button" onclick="setEffectParameters('sides', eval(cw.color()), 4)" value="Zone 4">
+            <input type="button" onclick="setEffectParameters('sides', eval(cw.color()), 5)" value="Zone 5">
+            <input type="button" onclick="setEffectParameters('sides', eval(cw.color()), 6)" value="Zone 6">
+            <input type="button" onclick="setEffectParameters('sides', eval(cw.color()), 7)" value="Zone 7">
+            <input type="button" onclick="setEffectParameters('sides', eval(cw.color()), 8)" value="Zone 8">
+        </div>
+    </div>
+
+    <hr />
+
+    <div id="treadsTab">
+        <div class="activeEffect">
+            <input id="treadsActiveEffectArgument" size="10">
+            <input type="button" onclick="setEffectParameters('treads', eval(cw.color()), eval(treadsActiveEffectArgument.value))" value="Set!">
+        </div>
+    </div>
+
+    <div id="barrelTab">
+        <div class="activeEffect">
+            <input id="barrelActiveEffectArgument" size="10">
+            <input type="button" onclick="setEffectParameters('barrel', eval(cw.color()), eval(barrelActiveEffectArgument.value))" value="Set!">
+        </div>
+    </div>
+
+    <div id="colorwheel" style="float:left; margin-right:20px; width:300px; text-align:left;"></div>
 
 
 
-<script>
-	var cw = Raphael.colorwheel($("#colorwheel"), 300);
-	cw.color("#FF0000")
+    <script>
+        var cw = Raphael.colorwheel($("#colorwheel"), 300);
+        cw.color("#FF0000")
+    </script>
 
-</script>
-@EndSection
+</body>
+</html>

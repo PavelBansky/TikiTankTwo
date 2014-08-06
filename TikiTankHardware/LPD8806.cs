@@ -17,6 +17,7 @@ namespace TikiTankHardware
                 base.Gama[i] = (byte)(0x80 | (int)(Math.Pow((float)i / 255.0F, 2.5F) * 127.0F + 0.5F));
             }
 
+            Console.WriteLine("Opening SPI: {0}", fileName);
             _fstream = File.OpenWrite(fileName);
 
             // Crate latch bytes array

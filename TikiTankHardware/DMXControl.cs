@@ -21,11 +21,20 @@ namespace TikiTankHardware
             if (_dmx.IsOpen)
             {
                 Console.WriteLine("uDMX is connected and open");
+                _dmxReady = true;
+            }
+            else
+            {
+                Console.WriteLine("uDMX NOT FOUND, it's going to be sad :-(");
+                _dmxReady = false;
             }
         }
 
         public override void Show()
         {
+            if (!_dmxReady)
+                return;
+
             for(short i=0; i < base.Channels.Length; i++)
             {
                 _dmx.SetSingleChannel(i, base.Channels[i]);
@@ -87,6 +96,6 @@ namespace TikiTankHardware
         }
 
         private uDMX _dmx;
-
+        private bool _dmxReady;
     }
 }

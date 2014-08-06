@@ -3,14 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using TikiTankServer.Services;
 
 namespace TikiTankServer.Modules
 {
-    public class TreadsApi : NancyModule
+    public class BarrelApi : NancyModule
     {
-        public TreadsApi(ITreadsService treadsService) : base("/api/treads")
+        public BarrelApi(IBarrelService barrelService) : base("/api/barrel")
         {
             Get["/effect"] = _ =>
                                     {
@@ -20,13 +19,13 @@ namespace TikiTankServer.Modules
 
             Get["/effects"] = _ =>
             {
-                return Response.AsJson(treadsService.GetEffectsInformation().ToArray());
+                return Response.AsJson(barrelService.GetEffectsInformation().ToArray());
             };
 
             // Set effect for treads
             Post["/effect/{effect}"] = parameters =>
                                     {
-                                        treadsService.SetEffect(parameters.effect);
+                                        barrelService.SetEffect(parameters.effect);
                                         return HttpStatusCode.OK;
                                     };
 
@@ -34,13 +33,13 @@ namespace TikiTankServer.Modules
             Post["/effect"] = _ =>
                                     {
                                         if (Request.Form.argument.HasValue)
-                                            treadsService.SetArgument((string)Request.Form.argument);
+                                            barrelService.SetArgument((string)Request.Form.argument);
 
                                         if (Request.Form.color.HasValue)
-                                            treadsService.SetColor((string)Request.Form.color);
+                                            barrelService.SetColor((string)Request.Form.color);
 
                                         return HttpStatusCode.OK;
                                     };
         }
-    }
+    }    
 }
