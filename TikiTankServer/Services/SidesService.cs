@@ -42,5 +42,27 @@ namespace TikiTankServer.Services
             Console.WriteLine("Sides: Setting argument to {0}", argument);
             TankManager.SidesManager.ActiveEffect.Argument = argument;
         }
+
+        public void SetSensorDrive(string sensorDrive)
+        {
+            bool result = false;
+            string arg = sensorDrive.ToUpper();
+            if (arg == true.ToString().ToUpper() || arg == "1")
+            {
+                result = true;
+            }
+            else
+            {
+                result = false;
+            }
+
+            Console.WriteLine("Sides: Setting sensor drive to {0} ({1})", result, sensorDrive);
+            lock (this)
+            {
+                TankManager.SidesManager.ActiveEffect.IsSensorDriven = result;
+                // I don't like to call this here, but I have to for now
+                TankManager.SidesManager.ActiveEffect.Activate();
+            }
+        }                    
     }
 }

@@ -29,7 +29,7 @@ namespace TikiTankCommon
         /// Gets or Sets the effect color
         /// </summary>
         public abstract Color Color { get; set; }
-        public bool SensorDriven { get; set; }
+        public bool IsSensorDriven { get; set; }
         public EffectInfo Information { get; set; }
         protected LEDStrip LedStrip { get; set; }
     }

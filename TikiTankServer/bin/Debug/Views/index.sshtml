@@ -60,6 +60,17 @@
              });
         }
 
+		function setEffectSensorDrive(api, arg)
+		{
+            $.post("/api/" + api + "/effect/",
+             {
+                 sensordriven: arg                 
+             },
+             function (data, status) {
+                 // alert("Data: " + data + "\nStatus: " + status);
+             });
+		}
+
     </script>
 
 </head>
@@ -84,14 +95,24 @@
     <div id="treadsTab">
         <div class="activeEffect">
             <input id="treadsActiveEffectArgument" size="10">
-            <input type="button" onclick="setEffectParameters('treads', eval(cw.color()), eval(treadsActiveEffectArgument.value))" value="Set!">
+			<input type="button" onclick="setEffectParameters('treads', eval(cw.color()), treadsActiveEffectArgument.value)" value="Set!">
+
+            <input id="treadsSensorDrive" type="checkbox" value="true">
+            <input type="button" onclick="setEffectSensorDrive('treads', treadsSensorDrive.checked)" value="Sensor">
+
+            
         </div>
     </div>
+
+	<hr />
 
     <div id="barrelTab">
         <div class="activeEffect">
             <input id="barrelActiveEffectArgument" size="10">
-            <input type="button" onclick="setEffectParameters('barrel', eval(cw.color()), eval(barrelActiveEffectArgument.value))" value="Set!">
+			<input type="button" onclick="setEffectParameters('barrel', eval(cw.color()), barrelActiveEffectArgument)" value="Set!">
+
+            <input id="barrelSensorDrive" type="checkbox" value="true">
+            <input type="button" onclick="setEffectSensorDrive('barrel', barrelSensorDrive.checked)" value="Sensor">
         </div>
     </div>
 

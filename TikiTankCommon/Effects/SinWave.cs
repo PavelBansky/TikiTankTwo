@@ -12,8 +12,10 @@ namespace TikiTankCommon.Effects
             this.Information = info;
             this.LedStrip = strip;
             _counter = 0;
+            IsSensorDriven = false;
             this.Argument = "8";
             this.Color = Color.FromRgb(255, 0, 0);
+
         }
 
         public override void Activate() { }

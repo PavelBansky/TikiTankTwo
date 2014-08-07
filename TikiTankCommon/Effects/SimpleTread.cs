@@ -18,12 +18,13 @@ namespace TikiTankCommon.Effects
         {
             this.Information = info;
             this.LedStrip = strip;            
-            this.Argument ="5";
+            this.Argument ="0";
             this.Color = Color.FromRgb(255, 255, 255);
+            IsSensorDriven = true;
         }
 
         public override void Activate()
-        {
+        {            
             for (int j = 0; j < LedStrip.Length; j += 15)
             {   
                 // Fill five pixel with color
@@ -36,6 +37,8 @@ namespace TikiTankCommon.Effects
                     LedStrip.SetPixelColor(j + gri + 5, 0);
                 }
             }
+
+            LedStrip.Show();
         }
 
         public override void Deactivate() { }

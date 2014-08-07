@@ -13,6 +13,7 @@ namespace TikiTankServer.Managers
         public EffectManager()
         {
             _effectList = new List<Effect>();
+            Speed = 0;            
         }
 
         public void AddEffect(Effect effect)
@@ -28,11 +29,38 @@ namespace TikiTankServer.Managers
             lock (this)
             {
                 if (index < _effectList.Count)
-                {
+                {                                        
                     _effectList[_activeIndex].Deactivate();
-                    _activeIndex = index;
+                    _activeIndex = index;                    
                     _effectList[_activeIndex].Activate();
                 }
+            }
+        }
+
+        public void SelectIdleEffect(int index)
+        {
+            if (index < _effectList.Count)
+            {                
+                _idleIndex = index;             
+            }
+        }
+
+        private void ActivateRunningEffect()
+        {
+            lock (this)
+            {
+                _effectList[_idleIndex].Deactivate();
+                _effectList[_activeIndex].Activate();
+                
+            }
+        }
+
+        private void ActivateIdleEffect()
+        {
+            lock (this)
+            {                
+                _effectList[_activeIndex].Deactivate();
+                _effectList[_idleIndex].Activate();
             }
         }
 
@@ -64,22 +92,94 @@ namespace TikiTankServer.Managers
 
         private void DoWork()
         {
+            Console.WriteLine("Starting thread");
+
             int delay = 0;
-            DateTime startTime = DateTime.Now;
+            startTime = DateTime.Now;
+            TimeSpan delta;
 
             while (_isRunning)
             {
-                TimeSpan delta = DateTime.Now - startTime;
-                if (delta.TotalMilliseconds >= delay)
-                {
-                    lock (this)
+                delta = DateTime.Now - startTime;
+
+                // If we are sensor driven
+                if (ActiveEffect.IsSensorDriven)
+                {                    
+                    // And we are running and it's time to tick
+                    if (State == TankState.Running && Speed > 0 && delta.TotalMilliseconds >= delay)
                     {
-                        delay = ActiveEffect.Step();
+                        ActiveEffectStep();                         
+                        delay = Speed;
                     }
-                    startTime = DateTime.Now;
+                    // If we are sensor based on idle and it's time to tick
+                    else if (State == TankState.Idle && delta.TotalMilliseconds >= delay)
+                    {
+                        delay = IdleEffectStep();                            
+                    }
+                }
+                // If we are not sensor driven
+                else
+                {                    
+                    // And it's time to tick
+                    if (delta.TotalMilliseconds >= delay)
+                    {
+                        // do the step
+                        delay = ActiveEffectStep();                        
+                    }
                 }
             }
+
             Console.WriteLine("Exiting thread");
+        }
+
+        // Thread-safe step
+        private int ActiveEffectStep()
+        {
+            int delay;
+            lock (this)
+            {
+                delay = ActiveEffect.Step();
+                startTime = DateTime.Now;
+            }
+
+            return delay;
+        }
+
+        private int IdleEffectStep()
+        {
+            int delay;
+            lock (this)
+            {
+                delay = IdleEffect.Step();
+                startTime = DateTime.Now;
+            }
+
+            return delay;
+        }
+        
+        public TankState State 
+        {
+            get { return _state; }
+            set
+            {
+                // Transition from running to idle when in sensor driven mode
+                if (_state == TankState.Running && value == TankState.Idle && ActiveEffect.IsSensorDriven)
+                {
+                    ActivateIdleEffect();
+                }
+                // Transitioin from idle to running when in sensor driven mode
+                else if (_state == TankState.Idle && value == TankState.Running && ActiveEffect.IsSensorDriven)
+                {
+                    ActivateRunningEffect();
+                }
+
+                _state = value;
+            }
+        }
+
+        public Effect IdleEffect
+        {
+            get { return _effectList[_idleIndex]; }
         }
 
         public Effect ActiveEffect
@@ -87,9 +187,14 @@ namespace TikiTankServer.Managers
             get { return _effectList[_activeIndex]; }
         }
 
+        public int Speed { get; set; }
+
+
+        private DateTime startTime;
+        private TankState _state;
         private bool _isRunning = false;
         private Thread _thread;
-        private int _activeIndex;
+        private int _activeIndex, _idleIndex;
         private List<Effect> _effectList;
     }
 }

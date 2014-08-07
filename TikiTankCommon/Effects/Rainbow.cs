@@ -13,6 +13,7 @@ namespace TikiTankCommon.Effects
             this.LedStrip = strip;
             this.Argument = "8";
             _counter = 0;
+            IsSensorDriven = false;
         }
 
         public override void Activate() { }

@@ -9,5 +9,6 @@ namespace TikiTankServer.Services
         void SetEffect(string index);
         void SetColor(string color);
         void SetArgument(string argument);
+        void SetSensorDrive(string sensorDrive);
     }
 }

@@ -30,7 +30,7 @@ namespace TikiTankServer.Modules
                                         return HttpStatusCode.OK;
                                     };
 
-            // Set color for given effect
+            // Set color, argument, sensorDrievr for given effect
             Post["/effect"] = _ =>
                                     {
                                         if (Request.Form.argument.HasValue)
@@ -38,6 +38,9 @@ namespace TikiTankServer.Modules
 
                                         if (Request.Form.color.HasValue)
                                             treadsService.SetColor((string)Request.Form.color);
+
+                                        if (Request.Form.sensordriven.HasValue)
+                                            treadsService.SetSensorDrive((string)Request.Form.sensordriven);
 
                                         return HttpStatusCode.OK;
                                     };

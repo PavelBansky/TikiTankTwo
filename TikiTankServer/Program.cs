@@ -11,18 +11,17 @@ namespace TikiTankServer
     class Program
     {
         static void Main(string[] args)
-        {
-            string spi2file = "/home/ubuntu/spidev2.0";
-            if (args.Length <= 0)
-            {
-                HardwareHelper.SetupOverlays();
-                spi2file = "/dev/spidev2.0";
-            }
-
+          {
+            HardwareHelper.SetupOverlays();
+    
             LPD8806 treadsLED = new LPD8806((5 * 32) * 3, "/dev/spidev1.0");
-            LPD8806 barrelLED = new LPD8806(77, spi2file);
+            LPD8806 barrelLED = new LPD8806(77, "/dev/spidev2.0");
             DMXControl dmx = new DMXControl(6);
+            TankManager.Sensor = new SpeedSensor("/dev/ttyO1");
+            NancyHost host = new NancyHost(new Uri("http://localhost:8080"));
             
+    
+
             TankManager.TreadsManager.AddEffect(new SimpleTread(new EffectInfo() 
                                                    { Name = "Simple Treads", 
                                                      Description = "Gold old tread effect",
@@ -43,40 +42,34 @@ namespace TikiTankServer
 
             TankManager.TreadsManager.AddEffect(new SolidColor(new EffectInfo()
                                                     { Name = "Solid color",
-                                                      Description = "One color strip",                                                      
-                                                    },
+                                                      Description = "One color strip"},
                                                     treadsLED));
 
             TankManager.TreadsManager.SelectEffect(0);
-            Console.WriteLine("Starting Tread Manager");
+            TankManager.TreadsManager.SelectIdleEffect(1);
+            Console.Write("Tread Manager: ");
             TankManager.TreadsManager.Start();
 
             
             TankManager.BarrelManager.AddEffect(new Rainbow(new EffectInfo()
-                                                    {
-                                                        Name = "Rainbow",
-                                                        Description = "Running rainbow",
-                                                        ArgumentDescription = "Speed"
-                                                    },
-                                                    barrelLED));
+                                                    { Name = "Rainbow",
+                                                      Description = "Running rainbow",
+                                                      ArgumentDescription = "Speed"},
+                                                     barrelLED));
 
             TankManager.BarrelManager.AddEffect(new SinWave(new EffectInfo()
-                                                    {
-                                                        Name = "Sinus Wave",
-                                                        Description = "Runing sinus wave",
-                                                        ArgumentDescription = "Speed"
-                                                    },
-                                                    barrelLED));
+                                                    { Name = "Sinus Wave",
+                                                      Description = "Runing sinus wave",
+                                                      ArgumentDescription = "Speed"},
+                                                     barrelLED));
 
             TankManager.BarrelManager.AddEffect(new SolidColor(new EffectInfo()
-                                                    {
-                                                        Name = "Solid color",
-                                                        Description = "One color strip",
-                                                    },
+                                                    { Name = "Solid color",
+                                                      Description = "One color strip"},
                                                     barrelLED));
 
             TankManager.BarrelManager.SelectEffect(0);
-            Console.WriteLine("Starting Barrel Manager");
+            Console.Write("Barrel Manager: ");
             TankManager.BarrelManager.Start();
            
             TankManager.SidesManager.AddEffect(new DMXSolidColor(new EffectInfo()
@@ -98,12 +91,13 @@ namespace TikiTankServer
                                                 }, dmx));
 
             TankManager.SidesManager.SelectEffect(0);
-            Console.WriteLine("Starting Sides Manager");
+            Console.Write("Sides Manager: ");
             TankManager.SidesManager.Start();
 
 
+            TankManager.Sensor.Start();
+
             Console.WriteLine("Starting Nancy self host");
-            NancyHost host = new NancyHost(new Uri("http://localhost:8080"));
             host.Start();
 
             Console.WriteLine("Awaiting commands");
@@ -113,11 +107,13 @@ namespace TikiTankServer
                 command=Console.ReadLine();
             }
 
-            Console.WriteLine("Stopping Tread Manager");
+            TankManager.Sensor.Stop();
+
+            Console.Write("Tread Manager: ");
             TankManager.TreadsManager.Stop();
-            Console.WriteLine("Stopping Barrel Manager");
+            Console.Write("Barrel Manager: ");
             TankManager.BarrelManager.Stop();
-            Console.WriteLine("Stopping Sides Manager");
+            Console.Write("Sides Manager: ");
             TankManager.SidesManager.Stop();
             Console.WriteLine("Stopping Nancy");
             host.Stop();  // stop hosting

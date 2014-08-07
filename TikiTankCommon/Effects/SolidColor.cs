@@ -10,7 +10,8 @@ namespace TikiTankCommon.Effects
         public SolidColor(EffectInfo info, LEDStrip strip)
         {
             this.Information = info;
-            this.LedStrip = strip;                        
+            this.LedStrip = strip;
+            IsSensorDriven = false;
             this.Color = Color.FromRgb(255, 0, 0);
         }
 

@@ -46,6 +46,7 @@
     <Compile Include="HardwareHelper.cs" />
     <Compile Include="LPD8806.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SpeedSensor.cs" />
     <Compile Include="uDMX.cs" />
   </ItemGroup>
   <ItemGroup>
