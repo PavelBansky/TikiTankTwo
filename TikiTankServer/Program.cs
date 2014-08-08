@@ -16,7 +16,7 @@ namespace TikiTankServer
     
             LPD8806 treadsLED = new LPD8806((5 * 32) * 3, "/dev/spidev1.0");
             LPD8806 barrelLED = new LPD8806(77, "/dev/spidev2.0");
-            DMXControl dmx = new DMXControl(6);
+            DMXControl dmx = new DMXControl(10);
             TankManager.Sensor = new SpeedSensor("/dev/ttyO1");
             NancyHost host = new NancyHost(new Uri("http://localhost:8080"));
             

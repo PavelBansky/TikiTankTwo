@@ -18,7 +18,7 @@ namespace TikiTankCommon.Effects
         {
             this.Information = info;
             this.LedStrip = strip;            
-            this.Argument ="0";
+            this.Argument ="1";
             this.Color = Color.FromRgb(255, 255, 255);
             IsSensorDriven = true;
         }

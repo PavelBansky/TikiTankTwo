@@ -87,6 +87,7 @@
             <input type="button" onclick="setEffectParameters('sides', eval(cw.color()), 6)" value="Zone 6">
             <input type="button" onclick="setEffectParameters('sides', eval(cw.color()), 7)" value="Zone 7">
             <input type="button" onclick="setEffectParameters('sides', eval(cw.color()), 8)" value="Zone 8">
+			<input type="button" onclick="setEffectParameters('sides', eval(cw.color()), 9)" value="Zone 9">
         </div>
     </div>
 
