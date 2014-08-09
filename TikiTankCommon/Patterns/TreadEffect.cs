@@ -42,7 +42,7 @@ public class TreadEffect : IPattern
 
 	public void Update(int frame, Color[] pixels)
 	{
-		Color color = Color.FromName(TreadColor);
+        Color color = ColorHelper.StringToColor(TreadColor); // Color.FromName(TreadColor);
 		System.Diagnostics.Debug.Assert(0 != color.ToArgb());
 
 		// move the treads about 5% of the way toward the goal each frame

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace TikiTankCommon
+namespace TikiTankCommon.Converters
 {
     public class FrameScheduler
     {

@@ -64,9 +64,10 @@
     <Content Include="Json\devices.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Json\patterns.json">
+    <Content Include="Json\treadpatterns.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Json\barrelpatterns.json" />
     <None Include="packages.config" />
     <None Include="Views\index.sshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

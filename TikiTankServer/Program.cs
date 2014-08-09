@@ -8,6 +8,7 @@ using TikiTankServer.Managers;
 using System.IO;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using TikiTankCommon.Converters;
 
 namespace TikiTankServer
 {
@@ -46,6 +47,8 @@ namespace TikiTankServer
                     srPat.ReadToEnd(),
                     new PatternConverter());
             }          
+
+
 
             Console.WriteLine("Starting Nancy self host");
             host.Start();

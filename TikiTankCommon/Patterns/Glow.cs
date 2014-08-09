@@ -15,20 +15,9 @@ public class Glow : IPattern
 		rng = new Random();
 	}
 
-	[DataMember]
-	public string OutputDevice { get; set; }
-
-	[DataMember]
-	public string PeakColor { get; set; }
-
-	public bool WouldUpdate(int frame)
-	{
-		return true;
-	}
-
 	public void Update( int frame, Color[] pixels )
 	{
-		Color color = Color.FromName(PeakColor);
+        Color color = ColorHelper.StringToColor(PeakColor); // Color.FromName(PeakColor);
 		System.Diagnostics.Debug.Assert(color.ToArgb() != 0);
 
 		Color current = Color.FromArgb(
@@ -39,6 +28,17 @@ public class Glow : IPattern
 		for( int i = 0; i < pixels.Length; i++ )
 			pixels[i] = current;
 	}
+
+    [DataMember]
+    public string OutputDevice { get; set; }
+
+    [DataMember]
+    public string PeakColor { get; set; }
+
+    public bool WouldUpdate(int frame)
+    {
+        return true;
+    }
 
 	private Random rng;
 }
