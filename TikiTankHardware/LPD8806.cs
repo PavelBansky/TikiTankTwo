@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using TikiTankCommon;
 
 namespace TikiTankHardware
 {

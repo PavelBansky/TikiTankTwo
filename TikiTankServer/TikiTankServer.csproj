@@ -42,6 +42,10 @@
     <Reference Include="Nancy.Hosting.Self">
       <HintPath>..\packages\Nancy.Hosting.Self.0.23.0\lib\net40\Nancy.Hosting.Self.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\JSON\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -50,24 +54,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Managers\EffectInformation.cs" />
-    <Compile Include="Managers\EffectManager.cs" />
-    <Compile Include="Modules\BarrelApi.cs" />
-    <Compile Include="Modules\SidesApi.cs" />
-    <Compile Include="Modules\TreadsApi.cs" />
-    <Compile Include="Modules\Web.cs" />
+    <Compile Include="Managers\PatternManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\BarrelService.cs" />
-    <Compile Include="Services\IBarrelService.cs" />
-    <Compile Include="Services\IEffectService.cs" />
-    <Compile Include="Services\ISidesService.cs" />
-    <Compile Include="Services\ITreadsService.cs" />
-    <Compile Include="Services\SidesService.cs" />
-    <Compile Include="Services\TreadsService.cs" />
     <Compile Include="Managers\TankManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <Content Include="Json\devices.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Json\patterns.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
     <None Include="Views\index.sshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -93,6 +92,9 @@
     <Content Include="Content\raphael-min.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Modules\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

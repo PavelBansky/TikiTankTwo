@@ -1,0 +1,20 @@
+[
+	{
+		"Class":"TreadEffect",
+		"OutputDevice":"Barrel",
+		"Period":500,
+		"MetersPerTick":0.1016,
+		"TreadColor":"Purple"
+	},
+	{
+		"Class":"CameraFlashes",
+		"OutputDevice":"Tread",
+		"Interval":500,
+		"Inertia":15
+	},
+	{
+		"Class":"Glow",
+		"OutputDevice":"Panels",
+		"PeakColor":"Blue"
+	}
+]
