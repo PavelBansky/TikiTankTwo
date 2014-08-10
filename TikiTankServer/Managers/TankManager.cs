@@ -20,7 +20,9 @@ namespace TikiTankServer.Managers
 
             idleTimer = new Timer(60000);
             idleTimer.Enabled = true;
-            idleTimer.Elapsed += idleTimer_Elapsed;            
+            idleTimer.Elapsed += idleTimer_Elapsed;
+
+            SchedulerManager = new SchedulerManager();
         }
 
         /// <summary>
@@ -83,8 +85,9 @@ namespace TikiTankServer.Managers
 
         private static Timer idleTimer = new Timer();
 
+        
+        public static SchedulerManager SchedulerManager { get; set; }
         /*
-        public static EffectManager TreadsManager { get; set; }
         public static EffectManager BarrelManager { get; set; }
         public static EffectManager SidesManager { get; set; }
          */

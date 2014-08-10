@@ -55,19 +55,24 @@
   <ItemGroup>
     <Compile Include="Managers\EffectInformation.cs" />
     <Compile Include="Managers\PatternManager.cs" />
+    <Compile Include="Managers\SchedulerManager.cs" />
+    <Compile Include="Modules\TreadsApi.cs" />
+    <Compile Include="Modules\Web.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Managers\TankManager.cs" />
+    <Compile Include="Services\IPatternService.cs" />
+    <Compile Include="Services\ITreadsService.cs" />
+    <Compile Include="Services\TreadsService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <Content Include="Json\devices.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Json\treadpatterns.json">
+    <Content Include="Json\patterns.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="Json\barrelpatterns.json" />
     <None Include="packages.config" />
     <None Include="Views\index.sshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -94,9 +99,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Modules\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

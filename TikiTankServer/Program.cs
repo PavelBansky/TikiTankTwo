@@ -20,52 +20,33 @@ namespace TikiTankServer
   
             TankManager.Sensor = new SpeedSensor("/dev/ttyO1");
             NancyHost host = new NancyHost(new Uri("http://localhost:8080"));
+            DMXControl.Instance.SetChannel(0, 0);
+
             TankManager.Sensor.Start();
 
-            FrameScheduler scheduler = new FrameScheduler(TimeSpan.FromMilliseconds(50));
-
-            using (StreamReader srDev = new StreamReader("Json/devices.json"))
-            {
-                // json device file, parse once
-                var devices = JsonConvert.DeserializeObject<List<IShowable>>(
-                    srDev.ReadToEnd(),
-                    new DeviceConverter());
-
-                foreach (IShowable show in devices)
-                {
-                    show.Init();
-                    scheduler.AddDevice(show);
-
-                }
-            }
-
-            List<IPattern> patterns;
-            using (StreamReader srPat = new StreamReader("Json/patterns.json"))
-            {
-                // json parse patterns file
-                patterns = JsonConvert.DeserializeObject<List<IPattern>>(
-                    srPat.ReadToEnd(),
-                    new PatternConverter());
-            }          
-
-
+            TankManager.SchedulerManager.Start();
 
             Console.WriteLine("Starting Nancy self host");
             host.Start();
-
             Console.WriteLine("Awaiting commands");
+
+
             string command = string.Empty;
+            
             while(command != "e")
-            {
-                scheduler.Show(patterns); 
-                //command=Console.ReadLine();
+            {                
+                command=Console.ReadLine();
             }
 
+
+            TankManager.SchedulerManager.Stop();
             TankManager.Sensor.Stop();
 
             Console.WriteLine("Stopping Nancy");
             host.Stop();  // stop hosting
-            Console.WriteLine("Closing uDMX");                    
+            Console.WriteLine("Closing uDMX");
+            DMXControl.Instance.Dispose();
+
         }
     }
 }

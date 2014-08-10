@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using TikiTankCommon.Patterns;
 
-namespace TikiTankCommon
+namespace TikiTankCommon.Converters
 {
     public class PatternConverter : CustomCreationConverter<IPattern>
     {

@@ -48,11 +48,11 @@
     <Compile Include="Devices\DmxLedStrip.cs" />
     <Compile Include="DoubleBufferShowable.cs" />
     <Compile Include="EffectInfo.cs" />
-    <Compile Include="PatternConverter.cs" />
+    <Compile Include="Converters\PatternConverter.cs" />
     <Compile Include="Patterns\CameraFlashes.cs" />
     <Compile Include="Patterns\Glow.cs" />
     <Compile Include="Patterns\TreadEffect.cs" />
-    <Compile Include="Converters\FrameScheduler.cs" />
+    <Compile Include="FrameScheduler.cs" />
     <Compile Include="IPattern.cs" />
     <Compile Include="IShowable.cs" />
     <Compile Include="Converters\DeviceConverters.cs" />

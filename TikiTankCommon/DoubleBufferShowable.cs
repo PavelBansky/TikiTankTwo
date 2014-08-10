@@ -13,7 +13,7 @@ namespace TikiTankCommon
 		    front = new Color[_len];
 		    back = new Color[_len];
 		    frontNext = true;
-	    }
+	    }        
 
 	    public string Name {get; private set;}
 	    public IShowable Device {get; private set;}

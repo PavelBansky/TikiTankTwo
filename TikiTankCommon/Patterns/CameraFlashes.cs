@@ -70,6 +70,12 @@ public class CameraFlashes : IPattern
 	[DataMember]
 	public string OutputDevice { get; set; }
 
+    [DataMember]
+    public string Name { get; set; }
+
+    [DataMember]
+    public bool IsSensorDriven{ get; set; }
+
 	[DataMember]
 	public int Delay { get; set; }
 

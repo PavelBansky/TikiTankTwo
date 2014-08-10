@@ -33,7 +33,7 @@ D:\TikiTankTwo\TikiTankServer\bin\Debug\TikiTankHardware.dll
 D:\TikiTankTwo\TikiTankServer\bin\Debug\TikiTankCommon.pdb
 D:\TikiTankTwo\TikiTankServer\bin\Debug\TikiTankHardware.pdb
 D:\GitHub\TikiTankTwo\TikiTankServer\bin\Debug\Json\devices.json
-D:\GitHub\TikiTankTwo\TikiTankServer\bin\Debug\Json\treadpatterns.json
+D:\GitHub\TikiTankTwo\TikiTankServer\bin\Debug\Json\patterns.json
 D:\GitHub\TikiTankTwo\TikiTankServer\bin\Debug\Content\colorwheel.js
 D:\GitHub\TikiTankTwo\TikiTankServer\bin\Debug\Content\jquery-2.1.1.min.js
 D:\GitHub\TikiTankTwo\TikiTankServer\bin\Debug\Content\raphael-min.js
