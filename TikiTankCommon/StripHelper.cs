@@ -6,7 +6,7 @@ using System.Text;
 
 namespace TikiTankCommon
 {
-    public static class DisplayHelper
+    public static class StripHelper
     {
         public static void FillColor(Color[] Pixels, int start, int count, Color color)
         {

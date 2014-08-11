@@ -1,0 +1,62 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+
+namespace TikiTankCommon.Effects
+{
+    public class DMXGlow : IEffect
+    {
+        public DMXGlow()
+        {
+            rng = new Random();
+            this.Argument = "0";
+            this.Color = Color.Black;
+        }
+
+        public void Activate(Color[] pixels)
+        {
+            strip = new Color[pixels.Length];
+            Array.ConstrainedCopy(pixels, 0, strip, 0, pixels.Length);
+            //StripHelper.FillColor(strip, 0, strip.Length, Color.Black);   
+        }
+
+        public void Deactivate(Color[] pixels)
+        {
+           
+        }
+
+        public int Update(Color[] pixels)
+        {
+            for (int i = 0; i < pixels.Length; i++)
+            {
+                Color current = Color.FromArgb(
+                    strip[i].R - rng.Next(0, strip[i].R / 16 + 1),
+                    strip[i].G - rng.Next(0, strip[i].G / 16 + 1),
+                    strip[i].B - rng.Next(0, strip[i].B / 16 + 1)
+                    );
+
+                strip[i] = current;
+            }
+
+            Array.Copy(strip, 0, pixels, 0, strip.Length);
+            return 0;
+        }
+
+        public string Argument
+        {
+            get;
+            set;
+        }
+
+        public Color Color
+        {
+            get;
+            set;
+        }
+
+        private Color[] strip = new Color[1];
+        private Random rng;
+    }
+}

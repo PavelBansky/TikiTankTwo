@@ -4,10 +4,9 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 
-
 namespace TikiTankCommon.Effects
 {
-    public class SimpleTread : IEffect
+    public class RainbowTread : IEffect
     {
         enum Direction
         {            
@@ -16,7 +15,7 @@ namespace TikiTankCommon.Effects
             Backward            
         }
 
-        public SimpleTread()
+        public RainbowTread()
         {         
             this.Argument ="0";
             this.Color = Color.FromArgb(255, 255, 255);
@@ -24,13 +23,13 @@ namespace TikiTankCommon.Effects
 
         public void Activate(Color[] pixels)
         {            
+            for (int i = 0; i < pixels.Length; i++)
+            {
+                pixels[(pixels.Length - 1) - i] = ColorHelper.Wheel(((i * 384 / pixels.Length) ) % 384);
+            }
+
             for (int j = 0; j < pixels.Length; j += 15)
             {   
-                // Fill five pixel with color
-                for (int redi = 0; redi < 5; redi++)
-                {
-                    pixels[j + redi] =  this.Color;
-                }
                 for (int gri = 0; gri < 10; gri++)
                 {
                     pixels[j + gri + 5] = Color.Black;

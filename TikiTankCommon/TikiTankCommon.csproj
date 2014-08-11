@@ -40,10 +40,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ColorHelper.cs" />
-    <Compile Include="DisplayHelper.cs" />
+    <Compile Include="Effects\CameraFlashes.cs" />
+    <Compile Include="Effects\DMXGlow.cs" />
+    <Compile Include="Effects\DMXRainbow.cs" />
+    <Compile Include="Effects\RainbowTread.cs" />
+    <Compile Include="StripHelper.cs" />
     <Compile Include="EffectContainer.cs" />
     <Compile Include="EffectInfo.cs" />
     <Compile Include="Effects\DMXSolidColor.cs" />
+    <Compile Include="Effects\Glow.cs" />
     <Compile Include="Effects\Rainbow.cs" />
     <Compile Include="Effects\SimpleTread.cs" />
     <Compile Include="Effect.cs" />

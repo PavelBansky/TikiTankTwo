@@ -6,9 +6,9 @@ using System.Text;
 
 namespace TikiTankCommon.Effects
 {
-    public class Rainbow : IEffect
+    public class DMXRainbow : IEffect
     {
-        public Rainbow()
+        public DMXRainbow() 
         {
             this.Argument = "8";
             _counter = 0;
@@ -27,7 +27,7 @@ namespace TikiTankCommon.Effects
             //LedStrip.Show(); // write all the pixels out
 
             //cycles of all 384 colors in the wheel
-            _counter = (_counter < 384) ? _counter + 10 : 0;
+            _counter = (_counter < 384) ? _counter + 1 : 0;
 
             return _delay;
         }

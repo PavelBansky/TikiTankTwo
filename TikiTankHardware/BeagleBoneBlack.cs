@@ -5,7 +5,7 @@ using System.Threading;
 
 namespace TikiTankHardware
 {
-    public class HardwareHelper
+    public class BeagleBoneBlack
     {
         public const string SPI0_FIRMWARE = "BBB-SPI0";
         public const string SPI1_FIRMWARE = "BBB-SPI1";
@@ -14,7 +14,7 @@ namespace TikiTankHardware
 
         public static void SetupOverlays()
         {
-            HardwareHelper hw = new HardwareHelper();            
+            BeagleBoneBlack hw = new BeagleBoneBlack();            
             hw.EnableOverlays();                       
         }
 

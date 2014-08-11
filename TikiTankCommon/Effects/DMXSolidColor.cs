@@ -10,22 +10,22 @@ namespace TikiTankCommon.Effects
     {
         public DMXSolidColor()
         {
-            this.Color = Color.Black ;
+            this.Color = Color.Black;
             _arg = 0;
         }
 
         public void Activate(Color[] pixels) 
         {
             strip = new Color[pixels.Length];
-
-            DisplayHelper.FillColor(strip, 0, strip.Length, Color.Black);            
+            Array.Copy(pixels, 0, strip, 0, pixels.Length);
+           // StripHelper.FillColor(strip, 0, strip.Length, Color.Black);            
         }
 
         public void Deactivate(Color[] pixels) { }
 
         public int Update(Color[] pixels)
         {
-            Array.ConstrainedCopy(strip, 0, pixels, 0, strip.Length);
+            Array.Copy(strip, 0, pixels, 0, strip.Length);
             return 2000;
         }
 

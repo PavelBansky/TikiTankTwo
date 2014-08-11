@@ -18,17 +18,20 @@ namespace TikiTankCommon
         public void Activate()
         {
             Effect.Activate(LedStrip.Pixels);
+            LedStrip.Show();
         }
 
         public void Deactivate()
         {
             Effect.Deactivate(LedStrip.Pixels);
+            LedStrip.Show();
         }
 
         public int Update()
         {
             int result = Effect.Update(LedStrip.Pixels);
             LedStrip.Show();
+
             return result;
         }
 

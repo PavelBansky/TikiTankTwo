@@ -19,7 +19,7 @@ namespace TikiTankCommon.Effects
 
         public int Update(Color[] pixels)
         {
-            DisplayHelper.FillColor(pixels, 0, pixels.Length, _color);
+            StripHelper.FillColor(pixels, 0, pixels.Length, _color);
             //LedStrip.Show();
             // Refresh every second
             return 2000;

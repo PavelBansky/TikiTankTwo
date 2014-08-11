@@ -12,7 +12,7 @@ namespace TikiTankServer
     {
         static void Main(string[] args)
           {
-            HardwareHelper.SetupOverlays();
+            BeagleBoneBlack.SetupOverlays();
 
             DMXControl dmxControl = new DMXControl(10);
             LEDStrip treadsLED = new LEDStrip(new LPD8806((5 * 32) * 3, "/dev/spidev1.0"));            
@@ -23,12 +23,19 @@ namespace TikiTankServer
             NancyHost host = new NancyHost(new Uri("http://localhost:8080"));
             
     
-
             TankManager.TreadsManager.AddEffect(new EffectContainer(new SimpleTread(), treadsLED, 
                                                     new EffectInfo() { 
                                                         Name = "Simple Treads", 
-                                                        Description = "Gold old tread effect",
+                                                        Description = "Good old tread effect",
                                                         ArgumentDescription = "Speed and direction [+/-]" 
+                                                    }));
+
+            TankManager.TreadsManager.AddEffect(new EffectContainer(new RainbowTread(), treadsLED,
+                                                    new EffectInfo()
+                                                    {
+                                                        Name = "Rainbow Treads",
+                                                        Description = "Rainbow tread effect",
+                                                        ArgumentDescription = "Speed and direction [+/-]"
                                                     }));
 
             TankManager.TreadsManager.AddEffect(new EffectContainer(new Rainbow(), treadsLED,
@@ -36,17 +43,33 @@ namespace TikiTankServer
                                                         Name = "Rainbow",
                                                         Description = "Running rainbow",
                                                         ArgumentDescription = "Speed"
-                                                    }));                                                      
+                                                    }));
+
+            TankManager.TreadsManager.AddEffect(new EffectContainer(new CameraFlashes(), treadsLED,
+                                                    new EffectInfo()
+                                                    {
+                                                        Name = "Camera Flashes",
+                                                        Description = "Camera flashes",
+                                                        ArgumentDescription = "Flashes per second"
+                                                    }));
 
             TankManager.TreadsManager.AddEffect(new EffectContainer(new SinWave(), treadsLED,
                                                     new EffectInfo() { 
-                                                        Name = "Sinus Wave",
+                                                        Name = "Sin Wave",
                                                         Description = "Runing sinus wave",
                                                         ArgumentDescription = "Speed"
                                                     }));
 
+            TankManager.TreadsManager.AddEffect(new EffectContainer(new Glow(), treadsLED,
+                                                    new EffectInfo()
+                                                    {
+                                                        Name = "Glow",
+                                                        Description = "Glowing"
+                                                    }));
+
             TankManager.TreadsManager.AddEffect(new EffectContainer(new SolidColor(), treadsLED,
-                                                    new EffectInfo() { 
+                                                    new EffectInfo()
+                                                    {
                                                         Name = "Solid color",
                                                         Description = "One color strip"
                                                     }));
@@ -64,11 +87,25 @@ namespace TikiTankServer
                                                         ArgumentDescription = "Speed"
                                                     }));
 
+            TankManager.BarrelManager.AddEffect(new EffectContainer(new CameraFlashes(), barrelLED,
+                                                    new EffectInfo()
+                                                    {
+                                                        Name = "Camera Flashes",
+                                                        Description = "Camera flashes",
+                                                        ArgumentDescription = "Flashes per second"
+                                                    }));
+
             TankManager.BarrelManager.AddEffect(new EffectContainer(new SinWave(), barrelLED, 
                                                     new EffectInfo() { 
-                                                        Name = "Sinus Wave",
+                                                        Name = "Sin Wave",
                                                         Description = "Runing sinus wave",
                                                         ArgumentDescription = "Speed"
+                                                    }));
+
+            TankManager.BarrelManager.AddEffect(new EffectContainer(new Glow(), barrelLED,
+                                                    new EffectInfo() {
+                                                        Name = "Glow",
+                                                        Description = "Glowing"
                                                     }));
 
             TankManager.BarrelManager.AddEffect(new EffectContainer(new SolidColor(), barrelLED,
@@ -81,7 +118,15 @@ namespace TikiTankServer
             TankManager.BarrelManager.SelectEffect(0);
             Console.Write("Barrel Manager: ");
             TankManager.BarrelManager.Start();
-           
+
+            TankManager.SidesManager.AddEffect(new EffectContainer(new DMXRainbow(), dmxLED,
+                                                    new EffectInfo()
+                                                    {
+                                                        Name = "Rainbow",
+                                                        Description = "Clasic rainbow",
+                                                        ArgumentDescription = "Speed"
+                                                    }));
+
             TankManager.SidesManager.AddEffect(new EffectContainer(new DMXSolidColor(), dmxLED,
                                                     new EffectInfo() { 
                                                         Name = "Solid color",
@@ -89,14 +134,15 @@ namespace TikiTankServer
                                                         ArgumentDescription = "Channel selector"
                                                     }));
 
-            TankManager.SidesManager.AddEffect(new EffectContainer(new Rainbow(), dmxLED, 
-                                                    new EffectInfo() { 
-                                                        Name = "Rainbow",
-                                                        Description = "Running rainbow",
-                                                        ArgumentDescription = "Speed"
+            TankManager.SidesManager.AddEffect(new EffectContainer(new DMXGlow(), dmxLED,
+                                                    new EffectInfo()
+                                                    {
+                                                        Name = "Glow",
+                                                        Description = "Glowing"
                                                     }));
 
-            TankManager.SidesManager.SelectEffect(1);
+
+            TankManager.SidesManager.SelectEffect(0);
             Console.Write("Sides Manager: ");
             TankManager.SidesManager.Start();
 
