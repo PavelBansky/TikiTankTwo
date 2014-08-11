@@ -7,10 +7,10 @@ using TikiTankServer.Services;
 
 namespace TikiTankServer.Modules
 {
-    public class SidesApi : NancyModule
+    public class PanelsApi : NancyModule
     {
-        public SidesApi(ISidesService sidesService)
-            : base("/api/sides")
+        public PanelsApi(IPanelsService panelsService)
+            : base("/api/panels")
         {
             Get["/effect"] = _ =>
             {
@@ -19,13 +19,13 @@ namespace TikiTankServer.Modules
 
             Get["/effects"] = _ =>
             {
-                return Response.AsJson(sidesService.GetEffectsInformation().ToArray());
+                return Response.AsJson(panelsService.GetEffectsInformation().ToArray());
             };
 
             // Set effect for treads
             Post["/effect/{effect}"] = parameters =>
             {
-                sidesService.SetEffect(parameters.effect);
+                panelsService.SetEffect(parameters.effect);
                 return HttpStatusCode.OK;
             };
 
@@ -33,10 +33,10 @@ namespace TikiTankServer.Modules
             Post["/effect"] = _ =>
             {
                 if (Request.Form.argument.HasValue)
-                    sidesService.SetArgument((string)Request.Form.argument);
+                    panelsService.SetArgument((string)Request.Form.argument);
 
                 if (Request.Form.color.HasValue)
-                    sidesService.SetColor((string)Request.Form.color);
+                    panelsService.SetColor((string)Request.Form.color);
 
                 return HttpStatusCode.OK;
             };

@@ -8,18 +8,18 @@ using TikiTankServer.Managers;
 
 namespace TikiTankServer.Services
 {
-    public class SidesService : ISidesService
+    public class PanelsService : IPanelsService
     {
         public List<EffectInformation> GetEffectsInformation()
         {
-            Console.WriteLine("Sides: Getting list of effects");
+            Console.WriteLine("Panels: Getting list of effects");
             return TankManager.SidesManager.GetEffectsInformation();
         }
     
         public void SetEffect(string index)
         {
             int i;
-            Console.WriteLine("Sides: Setting effect to {0}", index);
+            Console.WriteLine("Panels: Setting effect to {0}", index);
             if (int.TryParse(index, out i))
             {
                 TankManager.SidesManager.SelectEffect(i);
@@ -27,20 +27,20 @@ namespace TikiTankServer.Services
             }
             else
             {
-                Console.WriteLine("Sides: Setting effect to {0} FAILED!", index);
+                Console.WriteLine("Panels: Setting effect to {0} FAILED!", index);
             }
         }
 
         public void SetColor(string color)
         {
-            Console.WriteLine("Sides: Setting color to {0}", color);
+            Console.WriteLine("Panels: Setting color to {0}", color);
             Color clr = ColorHelper.StringToColor(color);
             TankManager.SidesManager.ActiveEffect.Color =clr;
         }
 
         public void SetArgument(string argument)
         {
-            Console.WriteLine("Sides: Setting argument to {0}", argument);
+            Console.WriteLine("Panels: Setting argument to {0}", argument);
             TankManager.SidesManager.ActiveEffect.Argument = argument;
         }
 
@@ -57,7 +57,7 @@ namespace TikiTankServer.Services
                 result = false;
             }
 
-            Console.WriteLine("Sides: Setting sensor drive to {0} ({1})", result, sensorDrive);
+            Console.WriteLine("Panels: Setting sensor drive to {0} ({1})", result, sensorDrive);
             lock (this)
             {
                 TankManager.SidesManager.ActiveEffect.IsSensorDriven = result;

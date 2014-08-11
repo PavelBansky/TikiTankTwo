@@ -53,7 +53,7 @@
     <Compile Include="Managers\EffectInformation.cs" />
     <Compile Include="Managers\EffectManager.cs" />
     <Compile Include="Modules\BarrelApi.cs" />
-    <Compile Include="Modules\SidesApi.cs" />
+    <Compile Include="Modules\PanelsApi.cs" />
     <Compile Include="Modules\TreadsApi.cs" />
     <Compile Include="Modules\Web.cs" />
     <Compile Include="Program.cs" />
@@ -61,9 +61,9 @@
     <Compile Include="Services\BarrelService.cs" />
     <Compile Include="Services\IBarrelService.cs" />
     <Compile Include="Services\IEffectService.cs" />
-    <Compile Include="Services\ISidesService.cs" />
+    <Compile Include="Services\IPanelsService.cs" />
     <Compile Include="Services\ITreadsService.cs" />
-    <Compile Include="Services\SidesService.cs" />
+    <Compile Include="Services\PanelsService.cs" />
     <Compile Include="Services\TreadsService.cs" />
     <Compile Include="Managers\TankManager.cs" />
   </ItemGroup>

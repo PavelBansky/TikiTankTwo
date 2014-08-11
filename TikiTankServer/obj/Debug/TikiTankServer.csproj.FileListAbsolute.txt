@@ -38,7 +38,6 @@ D:\GitHub\TikiTankTwo\TikiTankServer\obj\Debug\TikiTankServer.pdb
 D:\GitHub\TikiTankTwo\TikiTankServer\bin\Debug\Content\colorwheel.js
 D:\GitHub\TikiTankTwo\TikiTankServer\bin\Debug\Content\jquery-2.1.1.min.js
 D:\GitHub\TikiTankTwo\TikiTankServer\bin\Debug\Content\raphael-min.js
-D:\GitHub\TikiTankTwo\TikiTankServer\bin\Debug\Views\index.sshtml
 D:\GitHub\TikiTankTwo\TikiTankServer\bin\Debug\TikiTankServer.exe
 D:\GitHub\TikiTankTwo\TikiTankServer\bin\Debug\TikiTankServer.pdb
 D:\GitHub\TikiTankTwo\TikiTankServer\bin\Debug\Nancy.dll
@@ -72,3 +71,4 @@ D:\GitHub\TikiTankTwo\OldVerison\TikiTankTwo\TikiTankServer\obj\Debug\TikiTankSe
 D:\GitHub\TikiTankTwo\OldVerison\TikiTankTwo\TikiTankServer\obj\Debug\TikiTankServer.exe
 D:\GitHub\TikiTankTwo\OldVerison\TikiTankTwo\TikiTankServer\obj\Debug\TikiTankServer.pdb
 D:\GitHub\TikiTankTwo\TikiTankServer\bin\Debug\Content\tank.css
+D:\GitHub\TikiTankTwo\TikiTankServer\bin\Debug\Views\index.sshtml

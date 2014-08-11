@@ -37,25 +37,44 @@ namespace TikiTankCommon.Effects
                     strip[i].B - rng.Next(0, strip[i].B / 16 + 1)
                     );
 
-                strip[i] = current;
+                pixels[i] = current;
             }
-
-            Array.Copy(strip, 0, pixels, 0, strip.Length);
+            
             return 0;
         }
 
         public string Argument
         {
-            get;
-            set;
+            get
+            {
+                return _arg.ToString();
+            }
+            set
+            {
+                int a;
+                if (int.TryParse(value, out a))
+                {
+                    if (a >= 0 && a < strip.Length)
+                    {
+                        _arg = a;
+                    }
+                }
+            }
         }
 
         public Color Color
         {
-            get;
-            set;
+            get
+            {
+                return strip[_arg];
+            }
+            set
+            {
+                strip[_arg] = value;
+            }
         }
 
+        private int _arg;
         private Color[] strip = new Color[1];
         private Random rng;
     }

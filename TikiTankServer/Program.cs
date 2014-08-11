@@ -154,7 +154,7 @@ namespace TikiTankServer
 
             Console.WriteLine("Awaiting commands");
             string command = string.Empty;
-            while(command != "e")
+            while(command.Trim() != "e")
             {
                 command=Console.ReadLine();
             }

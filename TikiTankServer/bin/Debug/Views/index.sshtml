@@ -10,13 +10,13 @@
     <script src="@Path['~/content/colorwheel.js']"></script>
     <script>
         $(document).ready(function () {
-			$('#sidesTab').show();
+			$('#panelsTab').show();
 			$('#treadsTab').hide();
 			$('#barrelTab').hide();
 			$('#settingsTab').hide();
 
 			$( 'div.optPanels' ).click(function() {
-				  $('#sidesTab').show();
+				  $('#panelsTab').show();
 				  $('#treadsTab').hide();
 				  $('#barrelTab').hide();
 				  $('#settingsTab').hide();
@@ -27,7 +27,7 @@
 				});
 
 				$( 'div.optTreads' ).click(function() {
-				  $('#sidesTab').hide();
+				  $('#panelsTab').hide();
 				  $('#treadsTab').show();
 				  $('#barrelTab').hide();
 				  $('#settingsTab').hide();
@@ -38,7 +38,7 @@
 				});
 
 				$( 'div.optBarrel' ).click(function() {
-				  $('#sidesTab').hide();
+				  $('#panelsTab').hide();
 				  $('#treadsTab').hide();
 				  $('#barrelTab').show();
 				  $('#settingsTab').hide();
@@ -49,7 +49,7 @@
 				});
 
 				$( 'div.optSettings' ).click(function() {
-				  $('#sidesTab').hide();
+				  $('#panelsTab').hide();
 				  $('#treadsTab').hide();
 				  $('#barrelTab').hide();
 				  $('#settingsTab').show();
@@ -61,43 +61,40 @@
 
 
             // Get sides effects
-            $.getJSON("/api/sides/effects", function (data, status) {
-                for (var i = 0, len = data.length; i < len; i++) {
-                    $("#sidesTab").append(getEffectHtml(data[i], "sides"));
-                    console.log(data[i]);
-                }
+            $.getJSON("/api/panels/effects", function (data, status) {
+                    $("#panelsEffectsList").html(displayEffectsList(data, "panels"));
             });
 
             // get treads effects
-            $.getJSON("/api/treads/effects", function (data, status) {
-                for (var i = 0, len = data.length; i < len; i++) {
-                    $("#treadsTab").append(getEffectHtml(data[i], "treads"));
-                    console.log(data[i]);
-                }
+            $.getJSON("/api/treads/effects", function (data, status) {                
+                $("#treadsEffectsList").html(displayEffectsList(data, "treads"));                 
             });
 
             // get barrel effects
-            $.getJSON("/api/barrel/effects", function (data, status) {
-                for (var i = 0, len = data.length; i < len; i++) {
-                    $("#barrelTab").append(getEffectHtml(data[i], "barrel"));
-                    console.log(data[i]);
-                }
+            $.getJSON("/api/barrel/effects", function (data, status) {                
+                    $("#barrelEffectsList").html(displayEffectsList(data, "barrel"));                
             });
         });
 
-        function getEffectHtml(effect, api) {
-            var html = "<div class=\"effectInfo\" onClick=\"selectEffect(" + effect.id + ",'" + api + "')\">";
-            html += effect.name;
-            html += "</div>";
+		function displayEffectsList(effects, api)
+		{
+			var html="<ul>";
+
+			for (var i = 0, len = effects.length; i < len; i++) {
+				html += "<li onClick=\"selectEffect(" + effects[i].id + ",'" + api + "')\">" + effects[i].name + "</li>";
+                console.log(effects[i]);
+			}
+
+			html +="</ul>";
 
             return html;
-        }
+		}
 
         function selectEffect(id, api) {
             $.post("/api/" + api + "/effect/" + id);
         }
 
-        function setEffectParameters(api, color, arg) {
+        function setEffectParameters(api, color) {
             var clr = color.toString();
 
             $.post("/api/" + api + "/effect/",
@@ -110,17 +107,38 @@
              });
         }
 
+        function setEffectColor(api, color) {
+            var clr = color.toString();
+
+            $.post("/api/" + api + "/effect/",
+             {
+                 color: clr,
+             },
+             function (data, status) {
+                 // alert("Data: " + data + "\nStatus: " + status);
+             });
+        }
+
+        function setEffectArgument(api, arg) {
+            $.post("/api/" + api + "/effect/",
+             {
+                 argument: arg
+             },
+             function (data, status) {
+                 // alert("Data: " + data + "\nStatus: " + status);
+             });
+        }
+
 		function setEffectSensorDrive(api, arg)
 		{
             $.post("/api/" + api + "/effect/",
              {
-                 sensordriven: arg                 
+                 sensordriven: arg
              },
              function (data, status) {
                  // alert("Data: " + data + "\nStatus: " + status);
              });
 		}
-
     </script>
 
 </head>
@@ -128,76 +146,137 @@
 <div id="headerBar">
 	TIKI TANK CONTROL
 </div>
-<div id="pageWrapper">
-	<div id="leftContainer">
-		<div id="tabHeader">
-			<div class="tabOption optPanels"><a href="#">Panels</a></div>
-			<div class="tabOption optTreads"><a href="#">Treads</a></div>
-			<div class="tabOption optBarrel"><a href="#">Barrel</a></div>
-			<div class="tabOption optSettings"><a href="#">Settings</a></div>
-		</div>
-		<div id="controlContainer">
-			<div id="sidesTab">
-				<div id="zones">
-					<input type="button" onclick="setEffectParameters('sides', eval(cw.color()), 0)" value="Zone 0">
-					<input type="button" onclick="setEffectParameters('sides', eval(cw.color()), 1)" value="Zone 1">
-					<input type="button" onclick="setEffectParameters('sides', eval(cw.color()), 2)" value="Zone 2">
-					<input type="button" onclick="setEffectParameters('sides', eval(cw.color()), 3)" value="Zone 3">
-					<input type="button" onclick="setEffectParameters('sides', eval(cw.color()), 4)" value="Zone 4">
-					<br />
-					<input type="button" onclick="setEffectParameters('sides', eval(cw.color()), 5)" value="Zone 5">
-					<input type="button" onclick="setEffectParameters('sides', eval(cw.color()), 6)" value="Zone 6">
-					<input type="button" onclick="setEffectParameters('sides', eval(cw.color()), 7)" value="Zone 7">
-					<input type="button" onclick="setEffectParameters('sides', eval(cw.color()), 8)" value="Zone 8">
-					<input type="button" onclick="setEffectParameters('sides', eval(cw.color()), 9)" value="Zone 9">
-				</div>
-			</div>
+    <div id="pageWrapper">
+        <div id="leftContainer">
+            <div id="tabHeader">
+                <div class="tabOption optPanels"><a href="#">Panels</a></div>
+                <div class="tabOption optTreads"><a href="#">Treads</a></div>
+                <div class="tabOption optBarrel"><a href="#">Barrel</a></div>
+                <div class="tabOption optSettings"><a href="#">Settings</a></div>
+            </div>
+            <div id="controlContainer">
+                <div id="panelsTab">
+                    <div id="effectsWrapper">
+                        <div id="effectsLeft_bodyMap">
+                            <div id="rectangle_G" class="frontGrill tankMap" onclick="setEffectParameters('panels', eval(cw.color()), 5)"></div>
+                            <div id="triangle-down" class="turretFront tankMap" onclick="setEffectParameters('panels', eval(cw.color()), 4)"></div>
+                            <div id="triangle-left" class="turretRight tankMap" onclick="setEffectParameters('panels', eval(cw.color()), 1)"></div>
+                            <div id="triangle-right" class="turretLeft tankMap" onclick="setEffectParameters('panels', eval(cw.color()), 9)"></div>
+                            <div id="rectangle_R" class="rearDeck tankMap" onclick="setEffectParameters('panels', eval(cw.color()), 7)"></div>
+                            <div id="rectangle_side" class="sideRight tankMap" onclick="setEffectParameters('panels', eval(cw.color()), 2)"></div>
+                            <div id="rectangle_side" class="sideLeft tankMap" onclick="setEffectParameters('panels', eval(cw.color()), 6)"></div>
+                            <div id="trapezoid" class="cabFront tankMap" onclick="setEffectParameters('panels', eval(cw.color()), 3)"></div>
+                            <div id="trapezoid_L" class="cabLeft tankMap" onclick="setEffectParameters('panels', eval(cw.color()), 8)"></div>
+                            <div id="trapezoid_R" class="cabRight tankMap" onclick="setEffectParameters('panels', eval(cw.color()), 0)"></div>
 
-			<div id="treadsTab">
-				<div class="activeEffect">
-					<input id="treadsActiveEffectArgument" size="10">
-					<input type="button" onclick="setEffectParameters('treads', eval(cw.color()), treadsActiveEffectArgument.value)" value="Set!">
+                        </div>
+                        <div id="effectsRight_bodyMap">
+                            <div id="effectDisplay_bodyMap">
+                                current effect:
+                                <div id="panelsActiveEffect" class="displayName_bodyMap">
+                                    CURRENT EFFECT
+                                </div>
+                            </div>
+                            <div id="panelsEffectsList" class="effectsList_bodyMap">
+                                <ul>
+                                    <li>No FX :(</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-					<input id="treadsSensorDrive" type="checkbox" value="true">
-					<input type="button" onclick="setEffectSensorDrive('treads', treadsSensorDrive.checked)" value="Sensor">            
-				</div>
-			</div>
+                <div id="treadsTab">
+                    <div id="effectsWrapper">
+                        <div id="effectsLeft">
+                            <div id="effectDisplay">
+                                current effect:
+                                <div id="treadsActiveEffect" class="displayName">
+                                    CURRENT EFFECT
+                                </div>
+                            </div>
+                            <div id="treadsEffectsList" class="effectsList">
+                                <ul>
+                                    <li>No FX :(</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div id="effectsRight">
+                            <div id="effectDisplay">
+                                <div id="treadslArgumentName">input:</div>
+                                <input id="treadsActiveEffectArgument" type="text" name="argInput">
+                            </div>
+                            <div id="effectControlWrapper">
+                                <div class="effectControlButton" onclick="setEffectArgument('treads', treadsActiveEffectArgument.value)">
+                                    SET VALUE
+                                </div>
+                                <div class="effectControlButton" onclick="setEffectColor('treads', eval(cw.color()))">
+                                    SET COLOR
+                                </div>
+                                <div class="effectControlButton" onclick="setEffectSensorDrive('treads', true)">
+                                    AUTOMATIC
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-			<div id="barrelTab">
-				<div class="activeEffect">
-					<input id="barrelActiveEffectArgument" size="10">
-					<input type="button" onclick="setEffectParameters('barrel', eval(cw.color()), barrelActiveEffectArgument)" value="Set!">
+                <div id="barrelTab">
+                    <div id="effectsWrapper">
+                        <div id="effectsLeft">
+                            <div id="effectDisplay">
+                                current effect:
+                                <div id="barrelActiveEffect" class="displayName">
+                                    CURRENT EFFECT
+                                </div>
+                            </div>
+                            <div id="barrelEffectsList" class="effectsList">
+                                <ul>
+                                    <li>No FX :(</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div id="effectsRight">
+                            <div id="effectDisplay">
+                                input:
+                                <input id="barrelActiveEffectArgument" type="text" name="argInput">
+                            </div>
+                            <div id="effectControlWrapper">
+                                <div class="effectControlButton" onclick="setEffectArgument('barrel', barrelActiveEffectArgument.value)">
+                                    SET VALUE
+                                </div>
+                                <div class="effectControlButton" onclick="setEffectColor('barrel', eval(cw.color()))">
+                                    SET COLOR
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-					<input id="barrelSensorDrive" type="checkbox" value="true">
-					<input type="button" onclick="setEffectSensorDrive('barrel', barrelSensorDrive.checked)" value="Sensor">
-				</div>
-			</div>
+            </div>
+        </div>
 
-		</div>
-	</div>
-	<div id="rightContainer">	
+        <div id="rightContainer">
+            <div id="colorGrid">
+                <div class="colorOption" style="background-color:#7F0A7F;" onclick="cw.color('#7F0A7F')"></div>
+                <div class="colorOption" style="background-color:red;" onclick="cw.color('#FF0000')"></div>
+                <div class="colorOption" style="background-color:orange;" onclick="cw.color('#FFA500')"></div>
+                <div class="colorOption" style="background-color:yellow;" onclick="cw.color('#FFFF00')"></div>
+                <div class="colorOption" style="background-color:green;" onclick="cw.color('#00FF00')"></div>
+                <div class="colorOption" style="background-color:blue;" onclick="cw.color('#0000FF')"></div>
+            </div>
 
+            <div class="colorwheel" style="float:left; margin-right:20px; width:300px; text-align:left;"></div>
+            <p align="center"><input style="width: 50%; font-family: sans-serif; font-size: 2em; margin-top: 20px;" name="input_example" value="#FFAA37" type="text" size="10" /></p>
 
-			<p align="center"><input style="width: 50%; font-family: sans-serif; font-size: 24px;" name="input_example"  value="#FFAA37" type="text" size="10" /></a>
-			<div class="colorwheel" style="float:left; margin-right:20px; width:300px; text-align:left;"></div>			
+            <script>
+			    var cw = Raphael.colorwheel($("#rightContainer .colorwheel")[0], 300);
+			    cw.input($("#rightContainer input")[0]);
+			    cw.color("#FF0000");
+			    window.scrollTo(0, 1);
+            </script>
+        </div>
 
-			<script>
-				var cw = Raphael.colorwheel($("#rightContainer .colorwheel")[0], 300);
-				cw.input($("#rightContainer input")[0]);
-				cw.color("#FF0000");
-			</script>
-
-		<div id="colorGrid">
-			<div class="colorOption" style="background-color:white;"></div>
-			<div class="colorOption" style="background-color:red;"></div>
-			<div class="colorOption" style="background-color:orange;"></div>
-			<div class="colorOption" style="background-color:yellow;"></div>
-			<div class="colorOption" style="background-color:green;"></div>
-			<div class="colorOption" style="background-color:blue;"></div>
-			<div class="colorOption" style="background-color:purple;"></div>
-			<div class="colorOption" style="background-color:pink;"></div>
-		</div>
-	</div>
 </div>
 </body>
 </html>
