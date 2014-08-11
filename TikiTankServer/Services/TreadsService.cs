@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using TikiTankCommon;
 using TikiTankServer.Managers;
 
@@ -10,7 +11,7 @@ namespace TikiTankServer.Services
         public List<EffectInformation> GetEffectsInformation()
         {
             Console.WriteLine("Treads: Getting list of effects");
-            return TankManager.SchedulerManager.GetEffectsInformation(DeviceType.Treads);
+            return TankManager.TreadsManager.GetEffectsInformation();
         }
 
         public void SetEffect(string index)
@@ -19,8 +20,8 @@ namespace TikiTankServer.Services
             Console.WriteLine("Treads: Setting effect to {0}", index);
             if (int.TryParse(index, out i))
             {
-                TankManager.SchedulerManager.SelectEffect(DeviceType.Treads, i);
-                //Console.WriteLine(TankManager.TreadsManager.ActiveEffect.Information.Name);
+                TankManager.TreadsManager.SelectEffect(i);
+                Console.WriteLine(TankManager.TreadsManager.ActiveEffect.Information.Name);
             }
             else
             {
@@ -28,10 +29,10 @@ namespace TikiTankServer.Services
             }
         }
 
-/*        public void SetColor(string color)
+        public void SetColor(string color)
         {
             Console.WriteLine("Treads: Setting color to {0}", color);
-            Color clr = Color.ColorStringToColor(color);
+            Color clr = ColorHelper.StringToColor(color);
             TankManager.TreadsManager.ActiveEffect.Color = clr;
         }
 
@@ -62,7 +63,6 @@ namespace TikiTankServer.Services
                 TankManager.TreadsManager.ActiveEffect.Activate();
             }
         }
- */
     }
 
 }

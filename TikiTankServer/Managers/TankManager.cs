@@ -3,7 +3,7 @@ using System.Timers;
 using TikiTankHardware;
 using TikiTankServer.Managers;
 
-namespace TikiTankServer.Managers
+namespace TikiTankServer
 {
     public enum TankState
     {
@@ -16,13 +16,15 @@ namespace TikiTankServer.Managers
     {       
         static TankManager()
         {
+            TreadsManager = new EffectManager();
+            BarrelManager = new EffectManager();
+            SidesManager = new EffectManager();
+
             State = TankState.Running;
 
             idleTimer = new Timer(60000);
             idleTimer.Enabled = true;
-            idleTimer.Elapsed += idleTimer_Elapsed;
-
-            SchedulerManager = new SchedulerManager();
+            idleTimer.Elapsed += idleTimer_Elapsed;            
         }
 
         /// <summary>
@@ -44,7 +46,7 @@ namespace TikiTankServer.Managers
         /// <param name="changedSpeed"></param>
         static void _sensor_OnSpeedChanged(byte oldSpeed, byte changedSpeed)
         {
-            //TreadsManager.Speed = BarrelManager.Speed = SidesManager.Speed = changedSpeed;
+            TreadsManager.Speed = BarrelManager.Speed = SidesManager.Speed = changedSpeed;
 
             Console.WriteLine("Tank State: Speed changed from {0} to {1}", oldSpeed, changedSpeed);
 
@@ -78,18 +80,14 @@ namespace TikiTankServer.Managers
             get { return _state;  }
             set
             {
-                //_state = TreadsManager.State = BarrelManager.State = SidesManager.State = value;
-                _state = value;
+                _state = TreadsManager.State = BarrelManager.State = SidesManager.State = value;
             }
         }
 
         private static Timer idleTimer = new Timer();
 
-        
-        public static SchedulerManager SchedulerManager { get; set; }
-        /*
+        public static EffectManager TreadsManager { get; set; }
         public static EffectManager BarrelManager { get; set; }
         public static EffectManager SidesManager { get; set; }
-         */
     }
 }

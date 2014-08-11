@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using TikiTankCommon;
@@ -33,7 +34,7 @@ namespace TikiTankServer.Services
         public void SetColor(string color)
         {
             Console.WriteLine("Barrel: Setting color to {0}", color);
-            Color clr = Color.ColorStringToColor(color);
+            Color clr = ColorHelper.StringToColor(color);
             TankManager.BarrelManager.ActiveEffect.Color = clr;
         }
 

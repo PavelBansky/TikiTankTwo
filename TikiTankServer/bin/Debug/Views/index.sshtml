@@ -4,11 +4,61 @@
 <head>
     <meta charset="utf-8" />
     <title>TikiTank Console</title>
+	<link rel="stylesheet" type="text/css" href="@Path['~/content/tank.css']" />
     <script src="@Path['~/content/jquery-2.1.1.min.js']"></script>
     <script src="@Path['~/content/raphael-min.js']"></script>
     <script src="@Path['~/content/colorwheel.js']"></script>
     <script>
         $(document).ready(function () {
+			$('#sidesTab').show();
+			$('#treadsTab').hide();
+			$('#barrelTab').hide();
+			$('#settingsTab').hide();
+
+			$( 'div.optPanels' ).click(function() {
+				  $('#sidesTab').show();
+				  $('#treadsTab').hide();
+				  $('#barrelTab').hide();
+				  $('#settingsTab').hide();
+				  $( 'div.optPanels' ).addClass( "selectTab" );
+				  $( 'div.optTreads' ).removeClass( "selectTab" );
+				  $( 'div.optBarrel' ).removeClass( "selectTab" );
+				  $( 'div.optSettings' ).removeClass( "selectTab" );
+				});
+
+				$( 'div.optTreads' ).click(function() {
+				  $('#sidesTab').hide();
+				  $('#treadsTab').show();
+				  $('#barrelTab').hide();
+				  $('#settingsTab').hide();
+				  $( 'div.optPanels' ).removeClass( "selectTab" );
+				  $( 'div.optTreads' ).addClass( "selectTab" );
+				  $( 'div.optBarrel' ).removeClass( "selectTab" );
+				  $( 'div.optSettings' ).removeClass( "selectTab" );
+				});
+
+				$( 'div.optBarrel' ).click(function() {
+				  $('#sidesTab').hide();
+				  $('#treadsTab').hide();
+				  $('#barrelTab').show();
+				  $('#settingsTab').hide();
+				  $( 'div.optPanels' ).removeClass( "selectTab" );
+				  $( 'div.optTreads' ).removeClass( "selectTab" );
+				  $( 'div.optBarrel' ).addClass( "selectTab" );
+				  $( 'div.optSettings' ).removeClass( "selectTab" );
+				});
+
+				$( 'div.optSettings' ).click(function() {
+				  $('#sidesTab').hide();
+				  $('#treadsTab').hide();
+				  $('#barrelTab').hide();
+				  $('#settingsTab').show();
+				  $( 'div.optPanels' ).removeClass( "selectTab" );
+				  $( 'div.optTreads' ).removeClass( "selectTab" );
+				  $( 'div.optBarrel' ).removeClass( "selectTab" );
+				  $( 'div.optSettings' ).addClass( "selectTab" );
+				});
+
 
             // Get sides effects
             $.getJSON("/api/sides/effects", function (data, status) {
@@ -48,7 +98,7 @@
         }
 
         function setEffectParameters(api, color, arg) {
-            var clr = color.toString().replace("#", "");
+            var clr = color.toString();
 
             $.post("/api/" + api + "/effect/",
              {
@@ -75,56 +125,79 @@
 
 </head>
 <body>
+<div id="headerBar">
+	TIKI TANK CONTROL
+</div>
+<div id="pageWrapper">
+	<div id="leftContainer">
+		<div id="tabHeader">
+			<div class="tabOption optPanels"><a href="#">Panels</a></div>
+			<div class="tabOption optTreads"><a href="#">Treads</a></div>
+			<div class="tabOption optBarrel"><a href="#">Barrel</a></div>
+			<div class="tabOption optSettings"><a href="#">Settings</a></div>
+		</div>
+		<div id="controlContainer">
+			<div id="sidesTab">
+				<div id="zones">
+					<input type="button" onclick="setEffectParameters('sides', eval(cw.color()), 0)" value="Zone 0">
+					<input type="button" onclick="setEffectParameters('sides', eval(cw.color()), 1)" value="Zone 1">
+					<input type="button" onclick="setEffectParameters('sides', eval(cw.color()), 2)" value="Zone 2">
+					<input type="button" onclick="setEffectParameters('sides', eval(cw.color()), 3)" value="Zone 3">
+					<input type="button" onclick="setEffectParameters('sides', eval(cw.color()), 4)" value="Zone 4">
+					<br />
+					<input type="button" onclick="setEffectParameters('sides', eval(cw.color()), 5)" value="Zone 5">
+					<input type="button" onclick="setEffectParameters('sides', eval(cw.color()), 6)" value="Zone 6">
+					<input type="button" onclick="setEffectParameters('sides', eval(cw.color()), 7)" value="Zone 7">
+					<input type="button" onclick="setEffectParameters('sides', eval(cw.color()), 8)" value="Zone 8">
+					<input type="button" onclick="setEffectParameters('sides', eval(cw.color()), 9)" value="Zone 9">
+				</div>
+			</div>
 
-    <div id="sidesTab">
-        <div id="zones">
-            <input type="button" onclick="setEffectParameters('sides', eval(cw.color()), 0)" value="Zone 0">
-            <input type="button" onclick="setEffectParameters('sides', eval(cw.color()), 1)" value="Zone 1">
-            <input type="button" onclick="setEffectParameters('sides', eval(cw.color()), 2)" value="Zone 2">
-            <input type="button" onclick="setEffectParameters('sides', eval(cw.color()), 3)" value="Zone 3">
-            <input type="button" onclick="setEffectParameters('sides', eval(cw.color()), 4)" value="Zone 4">
-            <input type="button" onclick="setEffectParameters('sides', eval(cw.color()), 5)" value="Zone 5">
-            <input type="button" onclick="setEffectParameters('sides', eval(cw.color()), 6)" value="Zone 6">
-            <input type="button" onclick="setEffectParameters('sides', eval(cw.color()), 7)" value="Zone 7">
-            <input type="button" onclick="setEffectParameters('sides', eval(cw.color()), 8)" value="Zone 8">
-			<input type="button" onclick="setEffectParameters('sides', eval(cw.color()), 9)" value="Zone 9">
-        </div>
-    </div>
+			<div id="treadsTab">
+				<div class="activeEffect">
+					<input id="treadsActiveEffectArgument" size="10">
+					<input type="button" onclick="setEffectParameters('treads', eval(cw.color()), treadsActiveEffectArgument.value)" value="Set!">
 
-    <hr />
+					<input id="treadsSensorDrive" type="checkbox" value="true">
+					<input type="button" onclick="setEffectSensorDrive('treads', treadsSensorDrive.checked)" value="Sensor">            
+				</div>
+			</div>
 
-    <div id="treadsTab">
-        <div class="activeEffect">
-            <input id="treadsActiveEffectArgument" size="10">
-			<input type="button" onclick="setEffectParameters('treads', eval(cw.color()), treadsActiveEffectArgument.value)" value="Set!">
+			<div id="barrelTab">
+				<div class="activeEffect">
+					<input id="barrelActiveEffectArgument" size="10">
+					<input type="button" onclick="setEffectParameters('barrel', eval(cw.color()), barrelActiveEffectArgument)" value="Set!">
 
-            <input id="treadsSensorDrive" type="checkbox" value="true">
-            <input type="button" onclick="setEffectSensorDrive('treads', treadsSensorDrive.checked)" value="Sensor">
+					<input id="barrelSensorDrive" type="checkbox" value="true">
+					<input type="button" onclick="setEffectSensorDrive('barrel', barrelSensorDrive.checked)" value="Sensor">
+				</div>
+			</div>
 
-            
-        </div>
-    </div>
-
-	<hr />
-
-    <div id="barrelTab">
-        <div class="activeEffect">
-            <input id="barrelActiveEffectArgument" size="10">
-			<input type="button" onclick="setEffectParameters('barrel', eval(cw.color()), barrelActiveEffectArgument)" value="Set!">
-
-            <input id="barrelSensorDrive" type="checkbox" value="true">
-            <input type="button" onclick="setEffectSensorDrive('barrel', barrelSensorDrive.checked)" value="Sensor">
-        </div>
-    </div>
-
-    <div id="colorwheel" style="float:left; margin-right:20px; width:300px; text-align:left;"></div>
+		</div>
+	</div>
+	<div id="rightContainer">	
 
 
+			<p align="center"><input style="width: 50%; font-family: sans-serif; font-size: 24px;" name="input_example"  value="#FFAA37" type="text" size="10" /></a>
+			<div class="colorwheel" style="float:left; margin-right:20px; width:300px; text-align:left;"></div>			
 
-    <script>
-        var cw = Raphael.colorwheel($("#colorwheel"), 300);
-        cw.color("#FF0000")
-    </script>
+			<script>
+				var cw = Raphael.colorwheel($("#rightContainer .colorwheel")[0], 300);
+				cw.input($("#rightContainer input")[0]);
+				cw.color("#FF0000");
+			</script>
 
+		<div id="colorGrid">
+			<div class="colorOption" style="background-color:white;"></div>
+			<div class="colorOption" style="background-color:red;"></div>
+			<div class="colorOption" style="background-color:orange;"></div>
+			<div class="colorOption" style="background-color:yellow;"></div>
+			<div class="colorOption" style="background-color:green;"></div>
+			<div class="colorOption" style="background-color:blue;"></div>
+			<div class="colorOption" style="background-color:purple;"></div>
+			<div class="colorOption" style="background-color:pink;"></div>
+		</div>
+	</div>
+</div>
 </body>
 </html>

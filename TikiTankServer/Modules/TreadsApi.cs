@@ -22,14 +22,14 @@ namespace TikiTankServer.Modules
             {
                 return Response.AsJson(treadsService.GetEffectsInformation().ToArray());
             };
-            
+
             // Set effect for treads
             Post["/effect/{effect}"] = parameters =>
                                     {
                                         treadsService.SetEffect(parameters.effect);
                                         return HttpStatusCode.OK;
                                     };
-            /*
+
             // Set color, argument, sensorDrievr for given effect
             Post["/effect"] = _ =>
                                     {
@@ -44,8 +44,6 @@ namespace TikiTankServer.Modules
 
                                         return HttpStatusCode.OK;
                                     };
-        
-             */
         }
     }
 }

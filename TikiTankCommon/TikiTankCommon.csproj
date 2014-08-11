@@ -34,38 +34,26 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\JSON\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Devices\ConsoleStrip.cs" />
-    <Compile Include="Devices\DmxLedStrip.cs" />
-    <Compile Include="DoubleBufferShowable.cs" />
-    <Compile Include="EffectInfo.cs" />
-    <Compile Include="Converters\PatternConverter.cs" />
-    <Compile Include="Patterns\CameraFlashes.cs" />
-    <Compile Include="Patterns\Glow.cs" />
-    <Compile Include="Patterns\TreadEffect.cs" />
-    <Compile Include="FrameScheduler.cs" />
-    <Compile Include="IPattern.cs" />
-    <Compile Include="IShowable.cs" />
-    <Compile Include="Converters\DeviceConverters.cs" />
-    <Compile Include="Devices\SpiLedStrip.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ColorHelper.cs" />
+    <Compile Include="DisplayHelper.cs" />
+    <Compile Include="EffectContainer.cs" />
+    <Compile Include="EffectInfo.cs" />
+    <Compile Include="Effects\DMXSolidColor.cs" />
+    <Compile Include="Effects\Rainbow.cs" />
+    <Compile Include="Effects\SimpleTread.cs" />
+    <Compile Include="Effect.cs" />
+    <Compile Include="Effects\SinWave.cs" />
+    <Compile Include="Effects\SolidColor.cs" />
+    <Compile Include="IDisplayDevice.cs" />
+    <Compile Include="LEDStrip.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\TikiTankHardware\TikiTankHardware.csproj">
-      <Project>{34196b77-0d40-4768-9abf-13ed1a73cb87}</Project>
-      <Name>TikiTankHardware</Name>
-    </ProjectReference>
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

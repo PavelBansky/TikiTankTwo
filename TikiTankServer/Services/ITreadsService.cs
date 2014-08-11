@@ -5,7 +5,7 @@ using System.Text;
 
 namespace TikiTankServer.Services
 {
-    public interface ITreadsService : IPatternService
+    public interface ITreadsService : IEffectService
     {
 
     }

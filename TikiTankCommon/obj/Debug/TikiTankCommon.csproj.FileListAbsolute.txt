@@ -9,12 +9,9 @@ D:\TikiTankTwo\TikiTankCommon\bin\Debug\TikiTankCommon.dll
 D:\TikiTankTwo\TikiTankCommon\bin\Debug\TikiTankCommon.pdb
 D:\GitHub\TikiTankTwo\TikiTankCommon\bin\Debug\TikiTankCommon.dll
 D:\GitHub\TikiTankTwo\TikiTankCommon\bin\Debug\TikiTankCommon.pdb
-D:\GitHub\TikiTankTwo\TikiTankCommon\bin\Debug\Newtonsoft.Json.dll
-D:\GitHub\TikiTankTwo\TikiTankCommon\bin\Debug\TikiTankHardware.dll
-D:\GitHub\TikiTankTwo\TikiTankCommon\bin\Debug\LibUsbDotNet.dll
-D:\GitHub\TikiTankTwo\TikiTankCommon\bin\Debug\TikiTankHardware.pdb
-D:\GitHub\TikiTankTwo\TikiTankCommon\bin\Debug\Newtonsoft.Json.pdb
-D:\GitHub\TikiTankTwo\TikiTankCommon\bin\Debug\Newtonsoft.Json.xml
-D:\GitHub\TikiTankTwo\TikiTankCommon\obj\Debug\TikiTankCommon.csprojResolveAssemblyReference.cache
 D:\GitHub\TikiTankTwo\TikiTankCommon\obj\Debug\TikiTankCommon.dll
 D:\GitHub\TikiTankTwo\TikiTankCommon\obj\Debug\TikiTankCommon.pdb
+D:\GitHub\TikiTankTwo\OldVerison\TikiTankTwo\TikiTankCommon\bin\Debug\TikiTankCommon.dll
+D:\GitHub\TikiTankTwo\OldVerison\TikiTankTwo\TikiTankCommon\bin\Debug\TikiTankCommon.pdb
+D:\GitHub\TikiTankTwo\OldVerison\TikiTankTwo\TikiTankCommon\obj\Debug\TikiTankCommon.dll
+D:\GitHub\TikiTankTwo\OldVerison\TikiTankTwo\TikiTankCommon\obj\Debug\TikiTankCommon.pdb
