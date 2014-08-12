@@ -6,14 +6,16 @@ using TikiTankCommon;
 
 namespace TikiTankServer.Managers
 {
-    public class EffectInformation : EffectInfo
+    public class EffectData : EffectInfo
     {
-        public EffectInformation(EffectInfo info)
+        public EffectData(EffectInfo info)
         {
             this.Name = info.Name;
             this.ArgumentDescription = info.ArgumentDescription;
             this.Description = info.Description;
         }
         public int Id { get; set; }
+        public string Color;
+        public string Argument;
     }
 }

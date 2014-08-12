@@ -15,8 +15,8 @@ namespace TikiTankServer
             BeagleBoneBlack.SetupOverlays();
 
             DMXControl dmxControl = new DMXControl(10);
-            LEDStrip treadsLED = new LEDStrip(new LPD8806((5 * 32) * 3, "/dev/spidev1.0"));            
-            LEDStrip barrelLED = new LEDStrip(new LPD8806(77, "/dev/spidev2.0"));
+            LEDStrip treadsLED = new LEDStrip(new LPD8806((5 * 32) * 3, "/dev/spidev1.0"));
+            LEDStrip barrelLED = new LEDStrip(new LPD8806((5 * 32) * 3, "/dev/spidev2.0")); //77
             LEDStrip dmxLED = new LEDStrip(dmxControl);
             
             TankManager.Sensor = new SpeedSensor("/dev/ttyO1");
@@ -147,7 +147,7 @@ namespace TikiTankServer
             TankManager.SidesManager.Start();
 
 
-            TankManager.Sensor.Start();
+            //TankManager.Sensor.Start();
 
             Console.WriteLine("Starting Nancy self host");
             host.Start();

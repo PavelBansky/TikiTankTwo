@@ -3,144 +3,13 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
+    <meta name="mobile-web-app-capable" content="yes">
     <title>TikiTank Console</title>
 	<link rel="stylesheet" type="text/css" href="@Path['~/content/tank.css']" />
     <script src="@Path['~/content/jquery-2.1.1.min.js']"></script>
     <script src="@Path['~/content/raphael-min.js']"></script>
     <script src="@Path['~/content/colorwheel.js']"></script>
-    <script>
-        $(document).ready(function () {
-			$('#panelsTab').show();
-			$('#treadsTab').hide();
-			$('#barrelTab').hide();
-			$('#settingsTab').hide();
-
-			$( 'div.optPanels' ).click(function() {
-				  $('#panelsTab').show();
-				  $('#treadsTab').hide();
-				  $('#barrelTab').hide();
-				  $('#settingsTab').hide();
-				  $( 'div.optPanels' ).addClass( "selectTab" );
-				  $( 'div.optTreads' ).removeClass( "selectTab" );
-				  $( 'div.optBarrel' ).removeClass( "selectTab" );
-				  $( 'div.optSettings' ).removeClass( "selectTab" );
-				});
-
-				$( 'div.optTreads' ).click(function() {
-				  $('#panelsTab').hide();
-				  $('#treadsTab').show();
-				  $('#barrelTab').hide();
-				  $('#settingsTab').hide();
-				  $( 'div.optPanels' ).removeClass( "selectTab" );
-				  $( 'div.optTreads' ).addClass( "selectTab" );
-				  $( 'div.optBarrel' ).removeClass( "selectTab" );
-				  $( 'div.optSettings' ).removeClass( "selectTab" );
-				});
-
-				$( 'div.optBarrel' ).click(function() {
-				  $('#panelsTab').hide();
-				  $('#treadsTab').hide();
-				  $('#barrelTab').show();
-				  $('#settingsTab').hide();
-				  $( 'div.optPanels' ).removeClass( "selectTab" );
-				  $( 'div.optTreads' ).removeClass( "selectTab" );
-				  $( 'div.optBarrel' ).addClass( "selectTab" );
-				  $( 'div.optSettings' ).removeClass( "selectTab" );
-				});
-
-				$( 'div.optSettings' ).click(function() {
-				  $('#panelsTab').hide();
-				  $('#treadsTab').hide();
-				  $('#barrelTab').hide();
-				  $('#settingsTab').show();
-				  $( 'div.optPanels' ).removeClass( "selectTab" );
-				  $( 'div.optTreads' ).removeClass( "selectTab" );
-				  $( 'div.optBarrel' ).removeClass( "selectTab" );
-				  $( 'div.optSettings' ).addClass( "selectTab" );
-				});
-
-
-            // Get sides effects
-            $.getJSON("/api/panels/effects", function (data, status) {
-                    $("#panelsEffectsList").html(displayEffectsList(data, "panels"));
-            });
-
-            // get treads effects
-            $.getJSON("/api/treads/effects", function (data, status) {                
-                $("#treadsEffectsList").html(displayEffectsList(data, "treads"));                 
-            });
-
-            // get barrel effects
-            $.getJSON("/api/barrel/effects", function (data, status) {                
-                    $("#barrelEffectsList").html(displayEffectsList(data, "barrel"));                
-            });
-        });
-
-		function displayEffectsList(effects, api)
-		{
-			var html="<ul>";
-
-			for (var i = 0, len = effects.length; i < len; i++) {
-				html += "<li onClick=\"selectEffect(" + effects[i].id + ",'" + api + "')\">" + effects[i].name + "</li>";
-                console.log(effects[i]);
-			}
-
-			html +="</ul>";
-
-            return html;
-		}
-
-        function selectEffect(id, api) {
-            $.post("/api/" + api + "/effect/" + id);
-        }
-
-        function setEffectParameters(api, color) {
-            var clr = color.toString();
-
-            $.post("/api/" + api + "/effect/",
-             {
-                 color: clr,
-                 argument: arg
-             },
-             function (data, status) {
-                 // alert("Data: " + data + "\nStatus: " + status);
-             });
-        }
-
-        function setEffectColor(api, color) {
-            var clr = color.toString();
-
-            $.post("/api/" + api + "/effect/",
-             {
-                 color: clr,
-             },
-             function (data, status) {
-                 // alert("Data: " + data + "\nStatus: " + status);
-             });
-        }
-
-        function setEffectArgument(api, arg) {
-            $.post("/api/" + api + "/effect/",
-             {
-                 argument: arg
-             },
-             function (data, status) {
-                 // alert("Data: " + data + "\nStatus: " + status);
-             });
-        }
-
-		function setEffectSensorDrive(api, arg)
-		{
-            $.post("/api/" + api + "/effect/",
-             {
-                 sensordriven: arg
-             },
-             function (data, status) {
-                 // alert("Data: " + data + "\nStatus: " + status);
-             });
-		}
-    </script>
-
+    <script src="@Path['~/content/tank.js']"></script>
 </head>
 <body>
 <div id="headerBar">
@@ -149,25 +18,32 @@
     <div id="pageWrapper">
         <div id="leftContainer">
             <div id="tabHeader">
-                <div class="tabOption optPanels"><a href="#">Panels</a></div>
-                <div class="tabOption optTreads"><a href="#">Treads</a></div>
-                <div class="tabOption optBarrel"><a href="#">Barrel</a></div>
-                <div class="tabOption optSettings"><a href="#">Settings</a></div>
+                <div class="tabOption optPanels">Panels</div>
+                <div class="tabOption optTreads">Treads</div>
+                <div class="tabOption optBarrel">Barrel</div>
+                <div class="tabOption optSettings">Settings</div>
             </div>
             <div id="controlContainer">
                 <div id="panelsTab">
                     <div id="effectsWrapper">
                         <div id="effectsLeft_bodyMap">
-                            <div id="rectangle_G" class="frontGrill tankMap" onclick="setEffectParameters('panels', eval(cw.color()), 5)"></div>
-                            <div id="triangle-down" class="turretFront tankMap" onclick="setEffectParameters('panels', eval(cw.color()), 4)"></div>
-                            <div id="triangle-left" class="turretRight tankMap" onclick="setEffectParameters('panels', eval(cw.color()), 1)"></div>
-                            <div id="triangle-right" class="turretLeft tankMap" onclick="setEffectParameters('panels', eval(cw.color()), 9)"></div>
-                            <div id="rectangle_R" class="rearDeck tankMap" onclick="setEffectParameters('panels', eval(cw.color()), 7)"></div>
-                            <div id="rectangle_side" class="sideRight tankMap" onclick="setEffectParameters('panels', eval(cw.color()), 2)"></div>
-                            <div id="rectangle_side" class="sideLeft tankMap" onclick="setEffectParameters('panels', eval(cw.color()), 6)"></div>
-                            <div id="trapezoid" class="cabFront tankMap" onclick="setEffectParameters('panels', eval(cw.color()), 3)"></div>
-                            <div id="trapezoid_L" class="cabLeft tankMap" onclick="setEffectParameters('panels', eval(cw.color()), 8)"></div>
-                            <div id="trapezoid_R" class="cabRight tankMap" onclick="setEffectParameters('panels', eval(cw.color()), 0)"></div>
+                            <img src="@Path['~/content/panels.png']" width="256" height="356" usemap="#panelsmap" />
+
+                            <map name="panelsmap">
+                                <area shape="rect" alt="grill" href="javascript:setEffectParameters('panels', eval(cw.color()), 5)" coords="18, 10, 239, 59" />
+                                
+                                <area shape="poly" alt="cabin_F" href="javascript:setEffectParameters('panels', eval(cw.color()), 3)" coords="19, 65, 239, 65, 189, 114, 68, 114, 19, 65" />                               
+                                <area shape="poly" alt="cabin_L" href="javascript:setEffectParameters('panels', eval(cw.color()), 8)" coords="9, 65, 9, 244, 58, 244, 58, 114, 9, 65" />
+                                <area shape="poly" alt="cabin_R" href="javascript:setEffectParameters('panels', eval(cw.color()), 0)" coords="249, 65, 249, 244, 199, 244, 199, 115, 249, 65" />
+
+                                <area shape="poly" alt="turret_F" href="javascript:setEffectParameters('panels', eval(cw.color()), 4)" coords="79, 124, 178,124, 128, 199, 79, 124" />
+                                <area shape="poly" alt="turret_L" href="javascript:setEffectParameters('panels', eval(cw.color()), 9)" coords="69, 125, 69, 249, 119, 200, 69, 125" />
+                                <area shape="poly" alt="turret_R" href="javascript:setEffectParameters('panels', eval(cw.color()), 1)" coords="187, 125, 187, 250, 138, 199, 187, 125" />
+                                
+                                <area shape="rect" alt="side_L" href="javascript:setEffectParameters('panels', eval(cw.color()), 6)" coords="9, 249, 58, 344" />
+                                <area shape="rect" alt="side_R" href="javascript:setEffectParameters('panels', eval(cw.color()), 2)" coords="199, 250, 249, 343" />
+                                <area shape="rect" alt="bridge" href="javascript:setEffectParameters('panels', eval(cw.color()), 7)" coords="69, 294, 188, 343" />
+                            </map> 
 
                         </div>
                         <div id="effectsRight_bodyMap">
@@ -220,7 +96,7 @@
                         </div>
                     </div>
                 </div>
-
+              
                 <div id="barrelTab">
                     <div id="effectsWrapper">
                         <div id="effectsLeft">
@@ -253,6 +129,9 @@
                     </div>
                 </div>
 
+                <div id="sttingsTab">
+
+                </div>
             </div>
         </div>
 
@@ -276,7 +155,6 @@
 			    window.scrollTo(0, 1);
             </script>
         </div>
-
-</div>
+    </div>
 </body>
 </html>

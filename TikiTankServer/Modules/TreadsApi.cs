@@ -27,6 +27,7 @@ namespace TikiTankServer.Modules
             Post["/effect/{effect}"] = parameters =>
                                     {
                                         treadsService.SetEffect(parameters.effect);
+
                                         return HttpStatusCode.OK;
                                     };
 

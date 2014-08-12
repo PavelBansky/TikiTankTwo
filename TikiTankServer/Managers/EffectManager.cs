@@ -24,17 +24,43 @@ namespace TikiTankServer.Managers
             }
         }
 
-        public void SelectEffect(int index)
+        public EffectData SelectEffect(int index)
         {
+            EffectData result = new EffectData(new EffectInfo());
             lock (this)
             {
-                if (index < _effectList.Count)
+                if (index >= 0 && index < _effectList.Count)
                 {                                        
                     _effectList[_activeIndex].Deactivate();
-                    _activeIndex = index;                    
+                    _activeIndex = index;
+                    result = GetEffectData(index);
+
                     _effectList[_activeIndex].Activate();
                 }
             }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Gets status data about affect of a given index.
+        /// This call is thread UN-SAFE!!
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns>EffectData</returns>
+        private EffectData GetEffectData(int index)
+        {
+            EffectData result = new EffectData(new EffectInfo());
+
+            if (index >= 0 && index < _effectList.Count)
+            { 
+                result = new EffectData(_effectList[index].Information);
+                result.Id = index;
+                result.Color = ColorHelper.ColorToString(_effectList[index].Color);
+                result.Argument = (_effectList[index].Argument != null) ? _effectList[index].Argument : string.Empty;
+            }
+
+            return result;
         }
 
         public void SelectIdleEffect(int index)
@@ -64,12 +90,12 @@ namespace TikiTankServer.Managers
             }
         }
 
-        public List<EffectInformation> GetEffectsInformation()
+        public List<EffectData> GetEffectsInformation()
         {
-            List<EffectInformation> result = new List<EffectInformation>();
+            List<EffectData> result = new List<EffectData>();
             for(int i=0; i<_effectList.Count; i++)
             {
-                EffectInformation info = new EffectInformation(_effectList[i].Information);
+                EffectData info = new EffectData(_effectList[i].Information);
                 info.Id = i;
                 result.Add(info);
             }

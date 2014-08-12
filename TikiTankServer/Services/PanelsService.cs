@@ -10,25 +10,30 @@ namespace TikiTankServer.Services
 {
     public class PanelsService : IPanelsService
     {
-        public List<EffectInformation> GetEffectsInformation()
+        public List<EffectData> GetEffectsInformation()
         {
             Console.WriteLine("Panels: Getting list of effects");
             return TankManager.SidesManager.GetEffectsInformation();
         }
-    
-        public void SetEffect(string index)
+
+        public EffectData SetEffect(string index)
         {
             int i;
+            EffectData result;
+
             Console.WriteLine("Panels: Setting effect to {0}", index);
             if (int.TryParse(index, out i))
             {
-                TankManager.SidesManager.SelectEffect(i);
+                result = TankManager.SidesManager.SelectEffect(i);
                 Console.WriteLine(TankManager.SidesManager.ActiveEffect.Information.Name);
             }
             else
             {
+                result = new EffectData(new EffectInfo());
                 Console.WriteLine("Panels: Setting effect to {0} FAILED!", index);
             }
+
+            return result;
         }
 
         public void SetColor(string color)

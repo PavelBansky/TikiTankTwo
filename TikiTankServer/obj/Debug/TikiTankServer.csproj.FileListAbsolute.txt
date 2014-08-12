@@ -72,3 +72,5 @@ D:\GitHub\TikiTankTwo\OldVerison\TikiTankTwo\TikiTankServer\obj\Debug\TikiTankSe
 D:\GitHub\TikiTankTwo\OldVerison\TikiTankTwo\TikiTankServer\obj\Debug\TikiTankServer.pdb
 D:\GitHub\TikiTankTwo\TikiTankServer\bin\Debug\Content\tank.css
 D:\GitHub\TikiTankTwo\TikiTankServer\bin\Debug\Views\index.sshtml
+D:\GitHub\TikiTankTwo\TikiTankServer\bin\Debug\Content\panels.png
+D:\GitHub\TikiTankTwo\TikiTankServer\bin\Debug\Content\tank.js

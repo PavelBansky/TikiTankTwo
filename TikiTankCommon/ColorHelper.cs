@@ -24,6 +24,12 @@ namespace TikiTankCommon
             return result;
         }
 
+        public static string ColorToString(Color col)
+        {
+            string retstr = col.ToArgb().ToString("X2");
+            return ("#" + retstr.Remove(0, 2));
+        }
+
         public static Color FromRgb(int color)
         {
             Color clr = Color.FromArgb((byte)(color >> 16), (byte)(color >> 8), (byte)color);

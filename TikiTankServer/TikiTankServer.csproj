@@ -50,7 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Managers\EffectInformation.cs" />
+    <Compile Include="Managers\EffectData.cs" />
     <Compile Include="Managers\EffectManager.cs" />
     <Compile Include="Modules\BarrelApi.cs" />
     <Compile Include="Modules\PanelsApi.cs" />
@@ -88,6 +88,9 @@
     <Content Include="Content\colorwheel.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\panels.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\tank.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -95,6 +98,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\raphael-min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\tank.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

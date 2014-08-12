@@ -5,8 +5,8 @@ namespace TikiTankServer.Services
 {
     public interface IEffectService
     {
-        List<EffectInformation> GetEffectsInformation();
-        void SetEffect(string index);
+        List<EffectData> GetEffectsInformation();
+        EffectData SetEffect(string index);
         void SetColor(string color);
         void SetArgument(string argument);
         void SetSensorDrive(string sensorDrive);

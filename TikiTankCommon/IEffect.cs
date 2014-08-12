@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-
 
 namespace TikiTankCommon
 {
@@ -12,16 +7,16 @@ namespace TikiTankCommon
         /// <summary>
         /// Method is called when effect is activated
         /// </summary>
-        void Activate(Color[] pixels);
+        void Activate(System.Drawing.Color[] pixels);
         /// <summary>
         /// Method is called when effect is being deactived
         /// </summary>
-        void Deactivate(Color[] pixels);
+        void Deactivate(System.Drawing.Color[] pixels);
         /// <summary>
         /// Perform one step of the effect
         /// </summary>
         /// <returns>Time for which is next step expected</returns>
-        int Update(Color[] pixels);
+        int Update(System.Drawing.Color[] pixels);
         /// <summary>
         /// Gets or Sets the effect parameter
         /// </summary>
@@ -29,6 +24,6 @@ namespace TikiTankCommon
         /// <summary>
         /// Gets or Sets the effect color
         /// </summary>
-        Color Color { get; set; }
+        System.Drawing.Color Color { get; set; }
     }
 }

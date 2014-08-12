@@ -8,25 +8,31 @@ namespace TikiTankServer.Services
 {
     public class TreadsService : ITreadsService
     {
-        public List<EffectInformation> GetEffectsInformation()
+        public List<EffectData> GetEffectsInformation()
         {
             Console.WriteLine("Treads: Getting list of effects");
             return TankManager.TreadsManager.GetEffectsInformation();
         }
 
-        public void SetEffect(string index)
+        public EffectData SetEffect(string index)
         {
             int i;
+            EffectData result;
+
             Console.WriteLine("Treads: Setting effect to {0}", index);
             if (int.TryParse(index, out i))
             {
-                TankManager.TreadsManager.SelectEffect(i);
+                result = TankManager.TreadsManager.SelectEffect(i);
                 Console.WriteLine(TankManager.TreadsManager.ActiveEffect.Information.Name);
+
             }
             else
             {
+                result = new EffectData(new EffectInfo());
                 Console.WriteLine("Treads: Setting effect to {0} FAILED!", index);
             }
+
+            return result;
         }
 
         public void SetColor(string color)
