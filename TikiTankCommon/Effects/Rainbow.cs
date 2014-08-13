@@ -12,26 +12,42 @@ namespace TikiTankCommon.Effects
         {
             this.Argument = "8";
             _counter = 0;
+            startTime = DateTime.Now;
         }
 
         public void Activate(Color[] pixels) { }
 
         public void Deactivate(Color[] pixels) { }
 
-        public int Update(Color[] pixels)
+        public bool WouldUpdate()
+        {
+            TimeSpan delta = DateTime.Now - startTime;
+            if (delta.TotalMilliseconds > _delay)
+            {
+                startTime = DateTime.Now;
+                return true;
+            }
+
+            return false;
+        }
+
+        public void FrameUpdate(Color[] pixels)
         {            
             for (int i = 0; i < pixels.Length; i++)
             {
                 pixels[(pixels.Length-1) - i] = ColorHelper.Wheel(((i * 384 / 30) + _counter) % 384);
             }
-            //LedStrip.Show(); // write all the pixels out
 
             //cycles of all 384 colors in the wheel
             _counter = (_counter < 384) ? _counter + 10 : 0;
-
-            return _delay;
         }
 
+        public void Tick()
+        {
+
+        }
+
+        public bool IsSensorDriven { get; set; }
         public string Argument
         {
             get
@@ -49,15 +65,12 @@ namespace TikiTankCommon.Effects
             }
         }
 
-        public Color Color
-        {
-            get;
-            set;
-        }
+        public Color Color { get; set; }
         
         private int _delay;
         private int _arg;
         private int _counter;
+        private DateTime startTime;
 
     }
 }

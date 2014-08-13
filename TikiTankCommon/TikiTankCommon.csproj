@@ -43,7 +43,6 @@
     <Compile Include="Effects\CameraFlashes.cs" />
     <Compile Include="Effects\DMXGlow.cs" />
     <Compile Include="Effects\DMXRainbow.cs" />
-    <Compile Include="Effects\Blink.cs" />
     <Compile Include="Effects\RainbowTread.cs" />
     <Compile Include="StripHelper.cs" />
     <Compile Include="EffectContainer.cs" />
@@ -53,7 +52,6 @@
     <Compile Include="Effects\Rainbow.cs" />
     <Compile Include="Effects\SimpleTread.cs" />
     <Compile Include="IEffect.cs" />
-    <Compile Include="Effects\SinWave.cs" />
     <Compile Include="Effects\SolidColor.cs" />
     <Compile Include="IDisplayDevice.cs" />
     <Compile Include="LEDStrip.cs" />

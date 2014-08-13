@@ -10,54 +10,49 @@ namespace TikiTankCommon.Effects
     {
         public DMXRainbow() 
         {
-            this.Argument = "8";
             _counter = 0;
+            startTime = DateTime.Now;
         }
 
         public void Activate(Color[] pixels) { }
 
         public void Deactivate(Color[] pixels) { }
 
-        public int Update(Color[] pixels)
+        public bool WouldUpdate()
+        {
+            TimeSpan delta = DateTime.Now - startTime;
+            if (delta.TotalMilliseconds > 50)
+            {
+                startTime = DateTime.Now;
+                return true;
+            }
+
+            return false;
+        }
+
+        public void FrameUpdate(Color[] pixels)
         {            
             for (int i = 0; i < pixels.Length; i++)
             {
                 pixels[(pixels.Length-1) - i] = ColorHelper.Wheel(((i * 384 / 30) + _counter) % 384);
             }
-            //LedStrip.Show(); // write all the pixels out
 
             //cycles of all 384 colors in the wheel
             _counter = (_counter < 384) ? _counter + 1 : 0;
-
-            return _delay;
         }
 
-        public string Argument
+        public void Tick()
         {
-            get
-            {
-                return _arg.ToString();
-            }
-            set
-            {
-                int i;
-                if (int.TryParse(value, out i))
-                {
-                    _arg = Math.Abs(i);
-                    _delay = 400 / _arg;
-                }
-            }
+
         }
 
-        public Color Color
-        {
-            get;
-            set;
-        }
-        
-        private int _delay;
-        private int _arg;
+        public bool IsSensorDriven { get; set; }
+
+        public string Argument { get; set;}
+
+        public Color Color {get; set; }
+
         private int _counter;
-
+        private DateTime startTime;
     }
 }

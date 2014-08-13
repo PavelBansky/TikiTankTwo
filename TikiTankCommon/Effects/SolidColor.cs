@@ -11,25 +11,37 @@ namespace TikiTankCommon.Effects
         public SolidColor()
         {
             this.Color = Color.Red;
+            startTime = DateTime.Now;
         }
 
         public void Activate(Color[] pixels) { }
 
         public void Deactivate(Color[] pixels) { }
 
-        public int Update(Color[] pixels)
+        public bool WouldUpdate()
         {
-            StripHelper.FillColor(pixels, 0, pixels.Length, _color);
-            //LedStrip.Show();
-            // Refresh every second
-            return 2000;
+            TimeSpan delta = DateTime.Now - startTime;
+            if (delta.TotalMilliseconds > 2000)
+            {
+                startTime = DateTime.Now;
+                return true;
+            }
+
+            return false;
         }
 
-        public string Argument
+        public void FrameUpdate(Color[] pixels)
         {
-            get;
-            set;
+            StripHelper.FillColor(pixels, 0, pixels.Length, _color);
         }
+
+        public void Tick()
+        {
+
+        }
+
+        public bool IsSensorDriven { get; set; }
+        public string Argument { get; set; }
 
         public Color Color
         {
@@ -44,5 +56,6 @@ namespace TikiTankCommon.Effects
         }
 
         private Color _color;
+        private DateTime startTime;
     }
 }

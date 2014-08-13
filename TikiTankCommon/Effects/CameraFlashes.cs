@@ -13,11 +13,13 @@ namespace TikiTankCommon.Effects
             this.Argument = "100"; // 100 flashes per second
             last = DateTime.Now;
             rng = new Random();
+            frame = 0;
         }
 
         public void Activate(Color[] pixels)
         {
-            
+            if (memory == null || memory.Length != pixels.Length)
+                memory = new Color[pixels.Length];            
         }
 
         public void Deactivate(Color[] pixels)
@@ -25,12 +27,21 @@ namespace TikiTankCommon.Effects
            
         }
 
-        public int Update(Color[] pixels)
+        public bool WouldUpdate()
         {
+            return true;
+        }
 
-            // keep a copy of the correct output state
-            if (memory == null || memory.Length != pixels.Length)
-                memory = new Color[pixels.Length];
+        public void FrameUpdate(Color[] pixels)
+        {
+            if (frame++ % 2 != 0)
+            {
+                Array.Copy(memory, pixels, pixels.Length);
+                StripHelper.FillColor(pixels, 0, pixels.Length, Color.Black);
+                return;
+            }
+
+            Array.Copy(pixels, memory, pixels.Length);
    
 		    // first decay previous frame lights
 		    for( int i = 0; i < pixels.Length; i++ )
@@ -68,9 +79,14 @@ namespace TikiTankCommon.Effects
 		    }
 
 		    Array.Copy( memory, pixels, pixels.Length );
-
-            return 0;
         }
+
+        public void Tick()
+        {
+
+        }
+
+        public bool IsSensorDriven { get; set; }
 
         /// <summary>
         /// Number of flashes per second
@@ -92,13 +108,10 @@ namespace TikiTankCommon.Effects
             }
         }
 
-        public Color Color
-        {
-            get;
-            set;
-        }
+        public Color Color { get; set; }
         private int _arg;
         private int Delay;
+        private uint frame;
 	    private Color[] memory;
 	    private Random rng;
 	    private DateTime last;

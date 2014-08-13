@@ -27,7 +27,12 @@ namespace TikiTankCommon.Effects
            
         }
 
-        public int Update(Color[] pixels)
+        public bool WouldUpdate()
+        {
+            return true;
+        }
+
+        public void FrameUpdate(Color[] pixels)
         {
             for (int i = 0; i < pixels.Length; i++)
             {
@@ -38,10 +43,15 @@ namespace TikiTankCommon.Effects
                     );
 
                 pixels[i] = current;
-            }
-            
-            return 0;
+            }            
         }
+
+        public void Tick()
+        {
+
+        }
+
+        public bool IsSensorDriven { get; set; }
 
         public string Argument
         {

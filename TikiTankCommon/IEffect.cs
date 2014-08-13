@@ -16,10 +16,16 @@ namespace TikiTankCommon
         /// Perform one step of the effect
         /// </summary>
         /// <returns>Time for which is next step expected</returns>
-        int Update(System.Drawing.Color[] pixels);
+        void FrameUpdate(System.Drawing.Color[] pixels);
+
+        bool WouldUpdate();
+
+        void Tick();
+
+        bool IsSensorDriven { get; set; }
         /// <summary>
         /// Gets or Sets the effect parameter
-        /// </summary>
+        /// </summary>        
         string Argument { get; set; }
         /// <summary>
         /// Gets or Sets the effect color

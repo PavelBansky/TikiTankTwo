@@ -66,8 +66,6 @@ namespace TikiTankServer.Managers
             return result;
         }
 
-
-
         public void SetSensorDrive(bool status)
         {
             _effectList[_activeIndex].IsSensorDriven = status;
@@ -139,40 +137,33 @@ namespace TikiTankServer.Managers
         {
             Console.WriteLine("Starting thread");
 
-            int delay = 0;
-            startTime = DateTime.Now;
-            TimeSpan delta;
+            int tickDelay = 0;
+            tickStartTime = DateTime.Now;
+            DateTime refreshStartTime = DateTime.Now;
+            TimeSpan tickDelta, refreshDelta;
 
             while (_isRunning)
             {
-                delta = DateTime.Now - startTime;
+                tickDelta = DateTime.Now - tickStartTime;
+                refreshDelta = DateTime.Now - refreshStartTime;
 
                 // If we are sensor driven
                 if (ActiveEffect.IsSensorDriven)
                 {                    
                     // And we are running and it's time to tick
-                    if (State == TankState.Running && Speed > 0 && delta.TotalMilliseconds >= delay)
+                    if (State == TankState.Running && Speed > 0 && tickDelta.TotalMilliseconds >= tickDelay)
                     {
                         ActiveEffectStep();                         
-                        delay = Speed;
-                    }
-                    // If we are sensor based on idle and it's time to tick
-                    else if (State == TankState.Idle && delta.TotalMilliseconds >= delay)
-                    {
-                        delay = IdleEffectStep();                            
-                    }
-                }
-                // If we are not sensor driven
-                else
-                {                    
-                    // And it's time to tick
-                    if (delta.TotalMilliseconds >= delay)
-                    {
-                        // do the step
-                        delay = ActiveEffectStep();                        
+                        tickDelay = Speed;
                     }
                 }
 
+                // Update the Frame every 50 miliseconds
+                if (refreshDelta.TotalMilliseconds >= 50)
+                {
+                    refreshStartTime = DateTime.Now;
+                    EffectUpdate();
+                }
 
             }
 
@@ -180,28 +171,24 @@ namespace TikiTankServer.Managers
         }
 
         // Thread-safe step
-        private int ActiveEffectStep()
+        private void ActiveEffectStep()
         {
-            int delay;
             lock (this)
             {
-                delay = ActiveEffect.Update();
-                startTime = DateTime.Now;
-            }
-
-            return delay;
+                ActiveEffect.Tick();
+                tickStartTime = DateTime.Now;
+            }            
         }
-
-        private int IdleEffectStep()
+        
+        private void EffectUpdate()
         {
-            int delay;
             lock (this)
             {
-                delay = IdleEffect.Update();
-                startTime = DateTime.Now;
+                if (ActiveEffect.IsSensorDriven && State == TankState.Idle)
+                    IdleEffect.Update();
+                else
+                    ActiveEffect.Update();
             }
-
-            return delay;
         }
         
         public TankState State 
@@ -237,7 +224,7 @@ namespace TikiTankServer.Managers
         public int Speed { get; set; }
 
 
-        private DateTime startTime;
+        private DateTime tickStartTime;
         private TankState _state;
         private bool _isRunning = false;
         private Thread _thread;

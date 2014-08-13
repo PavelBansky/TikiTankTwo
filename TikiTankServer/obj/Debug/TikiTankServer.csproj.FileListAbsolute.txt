@@ -52,6 +52,7 @@ D:\GitHub\TikiTankTwo\OldVerison\TikiTankTwo\TikiTankServer\bin\Debug\Nancy.Host
 D:\GitHub\TikiTankTwo\OldVerison\TikiTankTwo\TikiTankServer\obj\Debug\TikiTankServer.csprojResolveAssemblyReference.cache
 D:\GitHub\TikiTankTwo\OldVerison\TikiTankTwo\TikiTankServer\obj\Debug\TikiTankServer.exe
 D:\GitHub\TikiTankTwo\OldVerison\TikiTankTwo\TikiTankServer\obj\Debug\TikiTankServer.pdb
+D:\GitHub\TikiTankTwo\TikiTankServer\bin\Debug\Nancy.dll
 D:\GitHub\TikiTankTwo\TikiTankServer\bin\Debug\Content\colorwheel.js
 D:\GitHub\TikiTankTwo\TikiTankServer\bin\Debug\Content\panels.png
 D:\GitHub\TikiTankTwo\TikiTankServer\bin\Debug\Content\tank.css
@@ -62,7 +63,6 @@ D:\GitHub\TikiTankTwo\TikiTankServer\bin\Debug\Views\index.sshtml
 D:\GitHub\TikiTankTwo\TikiTankServer\bin\Debug\TikiTankServer.exe.config
 D:\GitHub\TikiTankTwo\TikiTankServer\bin\Debug\TikiTankServer.exe
 D:\GitHub\TikiTankTwo\TikiTankServer\bin\Debug\TikiTankServer.pdb
-D:\GitHub\TikiTankTwo\TikiTankServer\bin\Debug\Nancy.dll
 D:\GitHub\TikiTankTwo\TikiTankServer\bin\Debug\Nancy.Hosting.Self.dll
 D:\GitHub\TikiTankTwo\TikiTankServer\bin\Debug\TikiTankCommon.dll
 D:\GitHub\TikiTankTwo\TikiTankServer\bin\Debug\TikiTankHardware.dll

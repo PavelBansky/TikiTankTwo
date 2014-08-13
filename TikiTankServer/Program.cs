@@ -23,7 +23,7 @@ namespace TikiTankServer
             NancyHost host = new NancyHost(new Uri("http://localhost:8080"));
             
     
-            TankManager.TreadsManager.AddEffect(new EffectContainer(new SimpleTread(), treadsLED, 
+            TankManager.TreadsManager.AddEffect(new EffectContainer(new SimpleTread(true), treadsLED, 
                                                     new EffectInfo() { 
                                                         Name = "Simple Treads", 
                                                         Description = "Good old tread effect",
@@ -51,13 +51,6 @@ namespace TikiTankServer
                                                         Name = "Camera Flashes",
                                                         Description = "Camera flashes",
                                                         ArgumentDescription = "Flashes per second"
-                                                    }));
-
-            TankManager.TreadsManager.AddEffect(new EffectContainer(new SinWave(), treadsLED,
-                                                    new EffectInfo() { 
-                                                        Name = "Sin Wave",
-                                                        Description = "Runing sinus wave",
-                                                        ArgumentDescription = "Speed"
                                                     }));
 
             TankManager.TreadsManager.AddEffect(new EffectContainer(new Glow(), treadsLED,
@@ -93,13 +86,6 @@ namespace TikiTankServer
                                                         Name = "Camera Flashes",
                                                         Description = "Camera flashes",
                                                         ArgumentDescription = "Flashes per second"
-                                                    }));
-
-            TankManager.BarrelManager.AddEffect(new EffectContainer(new SinWave(), barrelLED, 
-                                                    new EffectInfo() { 
-                                                        Name = "Sin Wave",
-                                                        Description = "Runing sinus wave",
-                                                        ArgumentDescription = "Speed"
                                                     }));
 
             TankManager.BarrelManager.AddEffect(new EffectContainer(new Glow(), barrelLED,

@@ -27,12 +27,19 @@ namespace TikiTankCommon
             LedStrip.Show();
         }
 
-        public int Update()
+        public void Update()
         {
-            int result = Effect.Update(LedStrip.Pixels);
-            LedStrip.Show();
+            if (Effect.WouldUpdate())
+            {
+                Effect.FrameUpdate(LedStrip.Pixels);
+            }
 
-            return result;
+            LedStrip.Show();
+        }
+
+        public void Tick()
+        {
+            Effect.Tick();
         }
 
         IEffect Effect;
@@ -49,7 +56,11 @@ namespace TikiTankCommon
             set { Effect.Color = value; }
         }
 
-        public bool IsSensorDriven { get; set; }
+        public bool IsSensorDriven 
+        {
+            get { return Effect.IsSensorDriven; }
+            set { Effect.IsSensorDriven = value;  }
+        }
         public EffectInfo Information { get; set; }
         
     }

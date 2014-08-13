@@ -24,7 +24,12 @@ namespace TikiTankCommon.Effects
            
         }
 
-        public int Update(Color[] pixels)
+        public bool WouldUpdate()
+        {
+            return true;
+        }
+
+        public void FrameUpdate(Color[] pixels)
         {            
             Color current = Color.FromArgb(
                 Color.R - rng.Next(0, Color.R / 16 + 1),
@@ -33,15 +38,16 @@ namespace TikiTankCommon.Effects
                 );
             for (int i = 0; i < pixels.Length; i++)
                 pixels[i] = current;
-
-            return 0;
         }
 
-        public string Argument
+        public void Tick()
         {
-            get;
-            set;
+
         }
+
+        public bool IsSensorDriven { get; set; }
+
+        public string Argument { get; set; }
 
         public Color Color
         {

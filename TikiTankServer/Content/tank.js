@@ -62,9 +62,11 @@
     // get barrel effects
     $.getJSON("/api/barrel/effects", function (data, status) {
         $("#barrelEffectsList").html(displayEffectsList(data, "barrel"));
-    });
+    });    
 
     getActiveEffects();
+
+
 
 });
 

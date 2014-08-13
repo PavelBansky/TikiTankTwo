@@ -12,23 +12,41 @@ namespace TikiTankCommon.Effects
         {
             this.Color = Color.Black;
             _arg = 0;
+            startTime = DateTime.Now;
         }
 
         public void Activate(Color[] pixels) 
         {
             strip = new Color[pixels.Length];
-            Array.Copy(pixels, 0, strip, 0, pixels.Length);
-           // StripHelper.FillColor(strip, 0, strip.Length, Color.Black);            
+            Array.Copy(pixels, 0, strip, 0, pixels.Length);           
         }
 
         public void Deactivate(Color[] pixels) { }
 
-        public int Update(Color[] pixels)
+        public bool WouldUpdate()
         {
-            Array.Copy(strip, 0, pixels, 0, strip.Length);
-            return 2000;
+            TimeSpan delta = DateTime.Now - startTime;
+            if (delta.TotalMilliseconds > 2000)
+            {
+                startTime = DateTime.Now;
+                return true;
+            }
+
+            return false;
         }
 
+        public void FrameUpdate(Color[] pixels)
+        {
+            Array.Copy(strip, 0, pixels, 0, strip.Length);
+            //return 2000;
+        }
+
+        public void Tick()
+        {
+
+        }
+
+        public bool IsSensorDriven { get; set; }
         public string Argument
         {
             get
@@ -63,5 +81,6 @@ namespace TikiTankCommon.Effects
         private Color[] strip = new Color[1];
 
         private int _arg;
+        private DateTime startTime;
     }
 }

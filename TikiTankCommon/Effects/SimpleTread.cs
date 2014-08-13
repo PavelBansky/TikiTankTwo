@@ -6,7 +6,7 @@ using System.Text;
 
 
 namespace TikiTankCommon.Effects
-{
+{    
     public class SimpleTread : IEffect
     {
         enum Direction
@@ -16,58 +16,77 @@ namespace TikiTankCommon.Effects
             Backward            
         }
 
-        public SimpleTread()
+        public SimpleTread(bool rainbowColors)
         {         
             this.Argument ="0";
             this.Color = Color.FromArgb(255, 255, 255);
+            this.rainbowEnabled = rainbowColors;
+            this.startTime = DateTime.Now;                                
+        }
+
+        public bool WouldUpdate()
+        {
+            return true;
         }
 
         public void Activate(Color[] pixels)
         {            
-            for (int j = 0; j < pixels.Length; j += 15)
-            {   
-                // Fill five pixel with color
-                for (int redi = 0; redi < 5; redi++)
-                {
-                    pixels[j + redi] =  this.Color;
-                }
-                for (int gri = 0; gri < 10; gri++)
-                {
-                    pixels[j + gri + 5] = Color.Black;
-                }
-            }
+            startIndex = 0;
+            memory = new Color[15];
         }
 
         public void Deactivate(Color[] pixels) { }
 
-        public int Update(Color[] pixels)
+        public void FrameUpdate(Color[] pixels)
         {
-            if (_activationNeeded)
+            if (!IsSensorDriven)
             {
-                Activate(pixels);
-                _activationNeeded = false;
+                TimeSpan delta = DateTime.Now - startTime;
+                if (delta.TotalMilliseconds > _delay)
+                {
+                    startTime = DateTime.Now;
+                    Tick();
+                }
             }
 
-            if (_direction == Direction.Forward)
-                StripHelper.RotateRight(pixels);
-            else if (_direction == Direction.Backward)
-                StripHelper.RotateLeft(pixels);
+            pixelColor = (rainbowEnabled) ? ColorHelper.Wheel(((counter++ * 384 / 90)) % 384) : this.Color;
+            if (counter >= pixels.Length)
+                counter = 0;
 
-            return _delay;
+
+            for (int j = startIndex; j < pixels.Length-startIndex; j += 15)
+            {
+                int count = ((pixels.Length - j) < 5) ? (pixels.Length - j) : 5;
+                Console.WriteLine("count color: {0}", count);;
+                StripHelper.FillColor(pixels, j, count, pixelColor);
+                count = ((pixels.Length - j) < 10) ? (pixels.Length - j) : 10;
+                Console.WriteLine("count black: {0}", count);
+                StripHelper.FillColor(pixels, j + 5, count, Color.Black);
+            }
+
+            StripHelper.FillColor(pixels, 0, startIndex, Color.Black);
+
+            StripHelper.FillColor(memory, 0, 5, pixelColor);
+            StripHelper.FillColor(memory, 5, 10, Color.Black);
+
+            if (startIndex > 10)
+                Array.Copy(memory, 0, pixels, 0, startIndex-10);
+
         }
 
-        public Color Color
+        public void Tick()
         {
-            get
-            {
-                return _color;
-            }
-            set
-            {
-                _color = value;
-                _activationNeeded = true;
-            }
+            if (_direction == Direction.Stop)
+                return;
+
+            startIndex += 1;
+            if (startIndex >= 20)
+                startIndex = 0;
         }
+
+        public bool IsSensorDriven { get; set; }
+
+        public Color Color { get; set; }
 
         public string Argument
         {
@@ -90,15 +109,20 @@ namespace TikiTankCommon.Effects
                         _direction = Direction.Stop;
 
                     if (Math.Abs(i) > 0)
-                        _delay = 400 / Math.Abs(i);                    
+                        _delay = 400 / Math.Abs(i);
                 }
             }
         }
 
-        private bool _activationNeeded;
-        private Color _color;        
+        private int counter;
+        private Color pixelColor;
+        private bool rainbowEnabled;
+        private DateTime startTime;
+        private int startIndex;      
         private int _delay;
         private int _arg;
         private Direction _direction;
+        private Color[] memory;            
     }
+     
 }

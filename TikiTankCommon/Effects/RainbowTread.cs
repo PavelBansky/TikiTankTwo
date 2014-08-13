@@ -19,6 +19,7 @@ namespace TikiTankCommon.Effects
         {         
             this.Argument ="0";
             this.Color = Color.FromArgb(255, 255, 255);
+            startTime = DateTime.Now;
         }
 
         public void Activate(Color[] pixels)
@@ -29,44 +30,47 @@ namespace TikiTankCommon.Effects
             }
 
             for (int j = 0; j < pixels.Length; j += 15)
-            {   
-                for (int gri = 0; gri < 10; gri++)
-                {
-                    pixels[j + gri + 5] = Color.Black;
-                }
+            {
+                StripHelper.FillColor(pixels, j + 5, 10, Color.Black);
             }
+
+            memory = new Color[pixels.Length];
+            Array.Copy(pixels, memory, pixels.Length);
         }
 
         public void Deactivate(Color[] pixels) { }
 
-        public int Update(Color[] pixels)
+        public bool WouldUpdate()
         {
-            if (_activationNeeded)
+            return true;
+        }
+
+        public void FrameUpdate(Color[] pixels)
+        {
+            if (!IsSensorDriven)
             {
-                Activate(pixels);
-                _activationNeeded = false;
+                TimeSpan delta = DateTime.Now - startTime;
+                if (delta.TotalMilliseconds > _delay)
+                {
+                    startTime = DateTime.Now;
+                    Tick();
+                }
             }
 
+            Array.Copy(memory, pixels, pixels.Length);
+        }
+
+        public void Tick()
+        {
             if (_direction == Direction.Forward)
-                StripHelper.RotateRight(pixels);
+                StripHelper.RotateRight(memory);
             else if (_direction == Direction.Backward)
-                StripHelper.RotateLeft(pixels);
-
-            return _delay;
+                StripHelper.RotateLeft(memory);
         }
 
-        public Color Color
-        {
-            get
-            {
-                return _color;
-            }
-            set
-            {
-                _color = value;
-                _activationNeeded = true;
-            }
-        }
+        public bool IsSensorDriven { get; set; }
+
+        public Color Color { get; set; }
 
         public string Argument
         {
@@ -94,10 +98,10 @@ namespace TikiTankCommon.Effects
             }
         }
 
-        private bool _activationNeeded;
-        private Color _color;        
         private int _delay;
         private int _arg;
         private Direction _direction;
+        private Color[] memory;
+        private DateTime startTime;
     }
 }
