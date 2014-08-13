@@ -42,6 +42,46 @@ namespace TikiTankServer.Managers
             return result;
         }
 
+        public EffectData GetActiveEffectData()
+        {
+            EffectData result = new EffectData(new EffectInfo());
+            lock (this)
+            {
+                result = GetEffectData(_activeIndex);
+            }
+
+            return result;
+        }
+
+        public List<EffectData> GetEffectsList()
+        {
+            List<EffectData> result = new List<EffectData>();
+            for (int i = 0; i < _effectList.Count; i++)
+            {
+                EffectData info = new EffectData(_effectList[i].Information);
+                info.Id = i;
+                result.Add(info);
+            }
+
+            return result;
+        }
+
+
+
+        public void SetSensorDrive(bool status)
+        {
+            _effectList[_activeIndex].IsSensorDriven = status;
+            _effectList[_activeIndex].Activate();
+        }
+
+        public void SelectIdleEffect(int index)
+        {
+            if (index < _effectList.Count)
+            {                
+                _idleIndex = index;             
+            }
+        }
+
         /// <summary>
         /// Gets status data about affect of a given index.
         /// This call is thread UN-SAFE!!
@@ -53,7 +93,7 @@ namespace TikiTankServer.Managers
             EffectData result = new EffectData(new EffectInfo());
 
             if (index >= 0 && index < _effectList.Count)
-            { 
+            {
                 result = new EffectData(_effectList[index].Information);
                 result.Id = index;
                 result.Color = ColorHelper.ColorToString(_effectList[index].Color);
@@ -61,14 +101,6 @@ namespace TikiTankServer.Managers
             }
 
             return result;
-        }
-
-        public void SelectIdleEffect(int index)
-        {
-            if (index < _effectList.Count)
-            {                
-                _idleIndex = index;             
-            }
         }
 
         private void ActivateRunningEffect()
@@ -88,19 +120,6 @@ namespace TikiTankServer.Managers
                 _effectList[_activeIndex].Deactivate();
                 _effectList[_idleIndex].Activate();
             }
-        }
-
-        public List<EffectData> GetEffectsInformation()
-        {
-            List<EffectData> result = new List<EffectData>();
-            for(int i=0; i<_effectList.Count; i++)
-            {
-                EffectData info = new EffectData(_effectList[i].Information);
-                info.Id = i;
-                result.Add(info);
-            }
-
-            return result;
         }
 
         public void Start()
@@ -153,6 +172,8 @@ namespace TikiTankServer.Managers
                         delay = ActiveEffectStep();                        
                     }
                 }
+
+
             }
 
             Console.WriteLine("Exiting thread");

@@ -11,7 +11,7 @@ namespace TikiTankServer.Services
         public List<EffectData> GetEffectsInformation()
         {
             Console.WriteLine("Treads: Getting list of effects");
-            return TankManager.TreadsManager.GetEffectsInformation();
+            return TankManager.TreadsManager.GetEffectsList();
         }
 
         public EffectData SetEffect(string index)
@@ -33,6 +33,12 @@ namespace TikiTankServer.Services
             }
 
             return result;
+        }
+
+        public EffectData GetEffect()
+        {
+            Console.WriteLine("Treads: Getting data for active effect");
+            return TankManager.TreadsManager.GetActiveEffectData();
         }
 
         public void SetColor(string color)
@@ -64,9 +70,7 @@ namespace TikiTankServer.Services
             Console.WriteLine("Treads: Setting sensor drive to {0} ({1})", result, sensorDrive);
             lock (this)
             {
-                TankManager.TreadsManager.ActiveEffect.IsSensorDriven = result;
-                // I don't like to call this here, but I have to for now
-                TankManager.TreadsManager.ActiveEffect.Activate();
+                TankManager.TreadsManager.SetSensorDrive(result);
             }
         }
     }

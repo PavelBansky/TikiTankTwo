@@ -13,7 +13,12 @@ namespace TikiTankServer.Services
         public List<EffectData> GetEffectsInformation()
         {
             Console.WriteLine("Barrel: Getting list of effects");
-            return TankManager.BarrelManager.GetEffectsInformation();
+            return TankManager.BarrelManager.GetEffectsList();
+        }
+        public EffectData GetEffect()
+        {
+            Console.WriteLine("Barrel: Getting data for active effect");
+            return TankManager.BarrelManager.GetActiveEffectData();
         }
 
         public EffectData SetEffect(string index)
@@ -48,27 +53,6 @@ namespace TikiTankServer.Services
             Console.WriteLine("Barrel: Setting argument to {0}", argument);
             TankManager.BarrelManager.ActiveEffect.Argument =argument;
         }
-
-        public void SetSensorDrive(string sensorDrive)
-        {
-            bool result = false;
-            string arg = sensorDrive.ToUpper();
-            if (arg == true.ToString().ToUpper() || arg == "1")
-            {
-                result = true;
-            }
-            else
-            {
-                result = false;
-            }
-
-            Console.WriteLine("Treads: Setting sensor drive to {0} ({1})", result, sensorDrive);
-            lock (this)
-            {
-                TankManager.BarrelManager.ActiveEffect.IsSensorDriven = result;
-                // I don't like to call this here, but I have to for now
-                TankManager.BarrelManager.ActiveEffect.Activate();
-            }
-        }        
+       
     }    
 }

@@ -49,7 +49,7 @@
     });
 
 
-    // Get sides effects
+    // Get panels effects
     $.getJSON("/api/panels/effects", function (data, status) {
         $("#panelsEffectsList").html(displayEffectsList(data, "panels"));
     });
@@ -63,6 +63,9 @@
     $.getJSON("/api/barrel/effects", function (data, status) {
         $("#barrelEffectsList").html(displayEffectsList(data, "barrel"));
     });
+
+    getActiveEffects();
+
 });
 
 function displayEffectsList(effects, api) {
@@ -78,8 +81,38 @@ function displayEffectsList(effects, api) {
     return html;
 }
 
+function displayActiveEffectData(data, api)
+{
+    if (data.argumentDescription == null)
+        data.argumentDescription = "n/a"
+
+    $("#" + api + "ArgumentDescription").html(data.argumentDescription);
+    $("#" + api + "ArgumentValue").val(data.argument);
+    $("#" + api + "ActiveEffect").text(data.name);
+}
+
+
+function getActiveEffects()
+{
+    $.getJSON("/api/panels/effect", function (data, status) {
+        displayActiveEffectData(data, "panels");
+    });
+
+    $.getJSON("/api/treads/effect", function (data, status) {
+        displayActiveEffectData(data, "treads");
+    });
+
+    $.getJSON("/api/barrel/effect", function (data, status) {
+        displayActiveEffectData(data, "barrel");
+    });
+}
+
 function selectEffect(id, api) {
-    $.post("/api/" + api + "/effect/" + id);
+    $.post("/api/" + api + "/effect/" + id,
+        function (data, status) {
+            displayActiveEffectData(data, api);
+            console.log(datan);        
+    });
 }
 
 function setEffectParameters(api, color, arg) {

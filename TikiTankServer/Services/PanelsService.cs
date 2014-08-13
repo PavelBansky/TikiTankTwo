@@ -13,9 +13,14 @@ namespace TikiTankServer.Services
         public List<EffectData> GetEffectsInformation()
         {
             Console.WriteLine("Panels: Getting list of effects");
-            return TankManager.SidesManager.GetEffectsInformation();
+            return TankManager.PanelsManager.GetEffectsList();
         }
 
+        public EffectData GetEffect()
+        {
+            Console.WriteLine("Panels: Getting data for active effect");
+            return TankManager.PanelsManager.GetActiveEffectData();
+        }
         public EffectData SetEffect(string index)
         {
             int i;
@@ -24,8 +29,8 @@ namespace TikiTankServer.Services
             Console.WriteLine("Panels: Setting effect to {0}", index);
             if (int.TryParse(index, out i))
             {
-                result = TankManager.SidesManager.SelectEffect(i);
-                Console.WriteLine(TankManager.SidesManager.ActiveEffect.Information.Name);
+                result = TankManager.PanelsManager.SelectEffect(i);
+                Console.WriteLine(TankManager.PanelsManager.ActiveEffect.Information.Name);
             }
             else
             {
@@ -40,35 +45,13 @@ namespace TikiTankServer.Services
         {
             Console.WriteLine("Panels: Setting color to {0}", color);
             Color clr = ColorHelper.StringToColor(color);
-            TankManager.SidesManager.ActiveEffect.Color =clr;
+            TankManager.PanelsManager.ActiveEffect.Color =clr;
         }
 
         public void SetArgument(string argument)
         {
             Console.WriteLine("Panels: Setting argument to {0}", argument);
-            TankManager.SidesManager.ActiveEffect.Argument = argument;
-        }
-
-        public void SetSensorDrive(string sensorDrive)
-        {
-            bool result = false;
-            string arg = sensorDrive.ToUpper();
-            if (arg == true.ToString().ToUpper() || arg == "1")
-            {
-                result = true;
-            }
-            else
-            {
-                result = false;
-            }
-
-            Console.WriteLine("Panels: Setting sensor drive to {0} ({1})", result, sensorDrive);
-            lock (this)
-            {
-                TankManager.SidesManager.ActiveEffect.IsSensorDriven = result;
-                // I don't like to call this here, but I have to for now
-                TankManager.SidesManager.ActiveEffect.Activate();
-            }
-        }                    
+            TankManager.PanelsManager.ActiveEffect.Argument = argument;
+        }                  
     }
 }

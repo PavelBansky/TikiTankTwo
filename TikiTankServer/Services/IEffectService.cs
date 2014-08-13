@@ -7,8 +7,10 @@ namespace TikiTankServer.Services
     {
         List<EffectData> GetEffectsInformation();
         EffectData SetEffect(string index);
+
+        EffectData GetEffect();
+        
         void SetColor(string color);
-        void SetArgument(string argument);
-        void SetSensorDrive(string sensorDrive);
+        void SetArgument(string argument);        
     }
 }

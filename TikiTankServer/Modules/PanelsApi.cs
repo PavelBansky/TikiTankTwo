@@ -14,7 +14,8 @@ namespace TikiTankServer.Modules
         {
             Get["/effect"] = _ =>
             {
-                return HttpStatusCode.OK;
+                EffectData data = panelsService.GetEffect();
+                return Response.AsJson<EffectData>(data).WithStatusCode(HttpStatusCode.OK);
             };
 
             Get["/effects"] = _ =>
@@ -25,8 +26,10 @@ namespace TikiTankServer.Modules
             // Set effect for treads
             Post["/effect/{effect}"] = parameters =>
             {
-                panelsService.SetEffect(parameters.effect);
-                return HttpStatusCode.OK;
+                EffectData data = panelsService.SetEffect(parameters.effect);
+                Response.AsJson<EffectData>(data);
+
+                return Response.AsJson<EffectData>(data).WithStatusCode(HttpStatusCode.OK);
             };
 
             // Set color for given effect

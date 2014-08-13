@@ -10,14 +10,14 @@ namespace TikiTankCommon.Effects
     {
         public CameraFlashes()
         {
-            this.Argument = "8"; // 8 flashes per second
+            this.Argument = "100"; // 100 flashes per second
             last = DateTime.Now;
             rng = new Random();
         }
 
         public void Activate(Color[] pixels)
         {
-            StripHelper.FillColor(pixels, 0, pixels.Length, Color.Black);
+            
         }
 
         public void Deactivate(Color[] pixels)
@@ -27,10 +27,11 @@ namespace TikiTankCommon.Effects
 
         public int Update(Color[] pixels)
         {
-		    // keep a copy of the correct output state
-		    if( memory == null || memory.Length != pixels.Length )
-			    memory = new Color[pixels.Length];
 
+            // keep a copy of the correct output state
+            if (memory == null || memory.Length != pixels.Length)
+                memory = new Color[pixels.Length];
+   
 		    // first decay previous frame lights
 		    for( int i = 0; i < pixels.Length; i++ )
 		    {

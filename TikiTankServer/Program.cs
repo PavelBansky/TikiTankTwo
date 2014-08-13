@@ -16,7 +16,7 @@ namespace TikiTankServer
 
             DMXControl dmxControl = new DMXControl(10);
             LEDStrip treadsLED = new LEDStrip(new LPD8806((5 * 32) * 3, "/dev/spidev1.0"));
-            LEDStrip barrelLED = new LEDStrip(new LPD8806((5 * 32) * 3, "/dev/spidev2.0")); //77
+            LEDStrip barrelLED = new LEDStrip(new LPD8806(77, "/dev/spidev2.0"));
             LEDStrip dmxLED = new LEDStrip(dmxControl);
             
             TankManager.Sensor = new SpeedSensor("/dev/ttyO1");
@@ -119,7 +119,7 @@ namespace TikiTankServer
             Console.Write("Barrel Manager: ");
             TankManager.BarrelManager.Start();
 
-            TankManager.SidesManager.AddEffect(new EffectContainer(new DMXRainbow(), dmxLED,
+            TankManager.PanelsManager.AddEffect(new EffectContainer(new DMXRainbow(), dmxLED,
                                                     new EffectInfo()
                                                     {
                                                         Name = "Rainbow",
@@ -127,14 +127,14 @@ namespace TikiTankServer
                                                         ArgumentDescription = "Speed"
                                                     }));
 
-            TankManager.SidesManager.AddEffect(new EffectContainer(new DMXSolidColor(), dmxLED,
+            TankManager.PanelsManager.AddEffect(new EffectContainer(new DMXSolidColor(), dmxLED,
                                                     new EffectInfo() { 
                                                         Name = "Solid color",
                                                         Description = "Solid color for sides",
                                                         ArgumentDescription = "Channel selector"
                                                     }));
 
-            TankManager.SidesManager.AddEffect(new EffectContainer(new DMXGlow(), dmxLED,
+            TankManager.PanelsManager.AddEffect(new EffectContainer(new DMXGlow(), dmxLED,
                                                     new EffectInfo()
                                                     {
                                                         Name = "Glow",
@@ -142,21 +142,21 @@ namespace TikiTankServer
                                                     }));
 
 
-            TankManager.SidesManager.SelectEffect(0);
+            TankManager.PanelsManager.SelectEffect(0);
             Console.Write("Sides Manager: ");
-            TankManager.SidesManager.Start();
+            TankManager.PanelsManager.Start();
 
-
-            //TankManager.Sensor.Start();
+            TankManager.Sensor.Start();
 
             Console.WriteLine("Starting Nancy self host");
             host.Start();
 
             Console.WriteLine("Awaiting commands");
-            string command = string.Empty;
-            while(command.Trim() != "e")
+            ConsoleKeyInfo key = new ConsoleKeyInfo();
+
+            while(key.Key != ConsoleKey.Escape)
             {
-                command=Console.ReadLine();
+                key = Console.ReadKey(true);
             }
 
             TankManager.Sensor.Stop();
@@ -166,7 +166,7 @@ namespace TikiTankServer
             Console.Write("Barrel Manager: ");
             TankManager.BarrelManager.Stop();
             Console.Write("Sides Manager: ");
-            TankManager.SidesManager.Stop();
+            TankManager.PanelsManager.Stop();
             Console.WriteLine("Stopping Nancy");
             host.Stop();  // stop hosting
             Console.WriteLine("Closing uDMX");

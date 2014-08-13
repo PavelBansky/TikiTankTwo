@@ -7,6 +7,6 @@ namespace TikiTankServer.Services
 {
     public interface ITreadsService : IEffectService
     {
-
+        void SetSensorDrive(string sensorDrive);
     }
 }

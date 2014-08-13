@@ -79,11 +79,11 @@
                         </div>
                         <div id="effectsRight">
                             <div id="effectDisplay">
-                                <div id="treadslArgumentName">input:</div>
-                                <input id="treadsActiveEffectArgument" type="text" name="argInput">
+                                <div id="treadsArgumentDescription">input:</div>
+                                <input id="treadsArgumentValue" type="text" name="argInput">
                             </div>
                             <div id="effectControlWrapper">
-                                <div class="effectControlButton" onclick="setEffectArgument('treads', treadsActiveEffectArgument.value)">
+                                <div class="effectControlButton" onclick="setEffectArgument('treads', treadsArgumentValue.value)">
                                     SET VALUE
                                 </div>
                                 <div class="effectControlButton" onclick="setEffectColor('treads', eval(cw.color()))">
@@ -114,11 +114,11 @@
                         </div>
                         <div id="effectsRight">
                             <div id="effectDisplay">
-                                input:
-                                <input id="barrelActiveEffectArgument" type="text" name="argInput">
+                                <div id="barrelArgumentDescription">input:</div>
+                                <input id="barrelArgumentValue" type="text" name="argInput">
                             </div>
                             <div id="effectControlWrapper">
-                                <div class="effectControlButton" onclick="setEffectArgument('barrel', barrelActiveEffectArgument.value)">
+                                <div class="effectControlButton" onclick="setEffectArgument('barrel', barrelArgumentValue.value)">
                                     SET VALUE
                                 </div>
                                 <div class="effectControlButton" onclick="setEffectColor('barrel', eval(cw.color()))">

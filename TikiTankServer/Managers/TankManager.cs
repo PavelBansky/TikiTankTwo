@@ -18,7 +18,7 @@ namespace TikiTankServer
         {
             TreadsManager = new EffectManager();
             BarrelManager = new EffectManager();
-            SidesManager = new EffectManager();
+            PanelsManager = new EffectManager();
 
             State = TankState.Running;
 
@@ -46,7 +46,7 @@ namespace TikiTankServer
         /// <param name="changedSpeed"></param>
         static void _sensor_OnSpeedChanged(byte oldSpeed, byte changedSpeed)
         {
-            TreadsManager.Speed = BarrelManager.Speed = SidesManager.Speed = changedSpeed;
+            TreadsManager.Speed = BarrelManager.Speed = PanelsManager.Speed = changedSpeed;
 
             Console.WriteLine("Tank State: Speed changed from {0} to {1}", oldSpeed, changedSpeed);
 
@@ -80,7 +80,7 @@ namespace TikiTankServer
             get { return _state;  }
             set
             {
-                _state = TreadsManager.State = BarrelManager.State = SidesManager.State = value;
+                _state = TreadsManager.State = BarrelManager.State = PanelsManager.State = value;
             }
         }
 
@@ -88,6 +88,6 @@ namespace TikiTankServer
 
         public static EffectManager TreadsManager { get; set; }
         public static EffectManager BarrelManager { get; set; }
-        public static EffectManager SidesManager { get; set; }
+        public static EffectManager PanelsManager { get; set; }
     }
 }
