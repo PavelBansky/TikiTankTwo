@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ColorHelper.cs" />
+    <Compile Include="Effects\BlinkingPoint.cs" />
     <Compile Include="Effects\CameraFlashes.cs" />
     <Compile Include="Effects\DMXGlow.cs" />
     <Compile Include="Effects\DMXRainbow.cs" />

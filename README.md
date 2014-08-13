@@ -19,9 +19,12 @@ Every effect implements simple *IEffect* interface, with following signature.
     {
         void Activate(System.Drawing.Color[] pixels);
         void Deactivate(System.Drawing.Color[] pixels);
-        int Update(System.Drawing.Color[] pixels);
-        
-		string Argument { get; set; }
+        void FrameUpdate(System.Drawing.Color[] pixels);
+        bool WouldUpdate();
+        void Tick();
+
+        bool IsSensorDriven { get; set; }
+        string Argument { get; set; }
         System.Drawing.Color Color { get; set; }
 	}
 
@@ -33,9 +36,22 @@ Method is called when the effect is activated for showing. Array of colors *pixe
 
 Method is called when the effect is being deactivated. Array of colors *pixels[]* contains current content of the display device (last frame). Make changes to this array in order to create a last frame. You can use this method to free the additional resources that effect was using.
 
-### *int Update(System.Drawing.Color[] pixels)* ###
+### *int FrameUpdate(System.Drawing.Color[] pixels)* ###
 
-This is the main method for the effect which is called by the *frame scheduler*. Array of colors *pixels[]* contains current content of the display device (last frame). Modify this array to create a new frame to be displayed. Method ***returns an integer value*** which represent delay in which you are expecting the *Update* method to be called again by the scheduler. If the Tank is in *"Speed Sensor Mode"* this value is ignored and the *Update()* method is called based on the speed of the vehicle. 
+This is the main method for the effect which is called by the *frame scheduler*. Array of colors *pixels[]* contains current content of the display device (last frame). Modify this array to create a new frame to be displayed. 
+
+### *bool WouldUpdate()* ###
+
+Method is called regularly by *frame scheduler* to determine whether the effect needs frame update or not. If the method returns true then ***FrameUpdate()*** is called.  
+
+### *void Tick()* ###
+
+Method is called based on the *Vehicle Speed Sensor* output. When the vehicle is not moving the method is not called. 
+
+
+### bool *IsSensorDriven* ###
+
+Property is *True* when user requested this effect to be driven by the Vehicle Speed Sensor. When this property is set and vehicle is moving, method *Tick()* is called based on the vehicle speed. 
 
 ### *string Argument* ###
 
@@ -47,50 +63,70 @@ Property contain user changeable color parameter for the effect.
 
 ## Sample Effect ##
 
-This is simple effect that blinks the whole strip of LEDs
+This is simple effect that blinks one pixel. Position of the blinking pixel is changing based on vehicle speed.
 
-    public class Blink : IEffect
+    class BlinkingPoint : IEffect
     {
-        public Blink()
+        public BlinkingPoint()
         {
-            Color = Color.Red;
-            darkFrame = false;
+            this.Color = System.Drawing.Color.Red;             
         }
 
         public void Activate(System.Drawing.Color[] pixels)
         {
-            // No need for first frame
+            startTime = DateTime.Now;     
+            length = pixels.Length;
+            position = 0;
+            pointVisible = true;
         }
 
         public void Deactivate(System.Drawing.Color[] pixels)
         {
-            // No need for last frame
+
         }
 
-        public int Update(System.Drawing.Color[] pixels)
+        public void FrameUpdate(System.Drawing.Color[] pixels)
         {
-            // Use current user selected color
-            Color activeColor = Color;
+            // Clean the strip
+            for (int i = 0; i < length; i++)
+                pixels[i] = System.Drawing.Color.Black;
 
-            // Unless we are in the frame that needs to be black
-            if (darkFrame)
-                activeColor = Color.Black;
+            // Show the point
+            if (pointVisible)
+                pixels[position] = this.Color;
 
-            // Fill the strip with color
-            for (int i = 0; i < pixels.Length; i++ )
+            pointVisible = !pointVisible;
+        }
+
+        public bool WouldUpdate()
+        {
+            // Determine if it's time to update based (every 100 millisecond)
+            TimeSpan delta = DateTime.Now - startTime;
+            if (delta.TotalMilliseconds > 100)
             {
-                pixels[i] = activeColor;
+                startTime = DateTime.Now;
+                return true;
             }
 
-            // Switch for the next frame
-            darkFrame = !darkFrame;
-
-            // Request to be called again in 500 milliseconds
-            return 500;
+            return false;
         }
 
+        public void Tick()
+        {
+            // Move the point on tick
+            position++;
+            if (position >= length)
+                position = 0;
+        }
+
+        public bool IsSensorDriven { get; set; }
+
         public string Argument { get; set; }
+
         public System.Drawing.Color Color { get; set; }
 
-        bool darkFrame;
+        private int position;
+        private int length;
+        private bool pointVisible;
+        private DateTime startTime;
     }	
