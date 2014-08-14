@@ -4,16 +4,24 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using TikiTankCommon;
+using TikiTankHardware;
 
 namespace TikiTankServer.Managers
 {
     public class EffectManager
     {
         private const int THREAD_JOIN_WAIT = 2000;
-        public EffectManager()
+        public EffectManager(SpeedSensor speedSensor)
         {
             _effectList = new List<EffectContainer>();
-            Speed = 0;            
+            sensor = speedSensor;
+            sensor.OnSpeedChanged += sensor_OnSpeedChanged;
+        }
+
+        void sensor_OnSpeedChanged()
+        {
+            if (ActiveEffect != null && ActiveEffect.IsSensorDriven)
+                ActiveEffectStep();
         }
 
         public void AddEffect(EffectContainer effect)
@@ -137,34 +145,20 @@ namespace TikiTankServer.Managers
         {
             Console.WriteLine("Starting thread");
 
-            int tickDelay = 0;
             tickStartTime = DateTime.Now;
             DateTime refreshStartTime = DateTime.Now;
-            TimeSpan tickDelta, refreshDelta;
+
+            var sw = new System.Diagnostics.Stopwatch();
+
+            sw.Start();
 
             while (_isRunning)
             {
-                tickDelta = DateTime.Now - tickStartTime;
-                refreshDelta = DateTime.Now - refreshStartTime;
+                sw.Restart();
 
-                // If we are sensor driven
-                if (ActiveEffect.IsSensorDriven)
-                {                    
-                    // And we are running and it's time to tick
-                    if (State == TankState.Running && Speed > 0 && tickDelta.TotalMilliseconds >= tickDelay)
-                    {
-                        ActiveEffectStep();                         
-                        tickDelay = Speed;
-                    }
-                }
+                EffectUpdate();
 
-                // Update the Frame every 50 miliseconds
-                if (refreshDelta.TotalMilliseconds >= 50)
-                {
-                    refreshStartTime = DateTime.Now;
-                    EffectUpdate();
-                }
-
+                Thread.Sleep((int)Math.Max(50 - sw.ElapsedMilliseconds, 0));
             }
 
             Console.WriteLine("Exiting thread");
@@ -221,9 +215,7 @@ namespace TikiTankServer.Managers
             get { return _effectList[_activeIndex]; }
         }
 
-        public int Speed { get; set; }
-
-
+        private SpeedSensor sensor;
         private DateTime tickStartTime;
         private TankState _state;
         private bool _isRunning = false;

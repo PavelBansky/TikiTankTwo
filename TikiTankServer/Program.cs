@@ -20,6 +20,10 @@ namespace TikiTankServer
             LEDStrip dmxLED = new LEDStrip(dmxControl);
             
             TankManager.Sensor = new SpeedSensor("/dev/ttyO1");
+            TankManager.TreadsManager = new Managers.EffectManager(TankManager.Sensor);
+            TankManager.BarrelManager = new Managers.EffectManager(TankManager.Sensor);
+            TankManager.PanelsManager = new Managers.EffectManager(TankManager.Sensor);
+
             NancyHost host = new NancyHost(new Uri("http://localhost:8080"));
             
     

@@ -13,7 +13,6 @@ namespace TikiTankCommon.Effects
             this.Argument = "100"; // 100 flashes per second
             last = DateTime.Now;
             rng = new Random();
-            frame = 0;
         }
 
         public void Activate(Color[] pixels)
@@ -33,16 +32,7 @@ namespace TikiTankCommon.Effects
         }
 
         public void FrameUpdate(Color[] pixels)
-        {
-            if (frame++ % 2 != 0)
-            {
-                Array.Copy(memory, pixels, pixels.Length);
-                StripHelper.FillColor(pixels, 0, pixels.Length, Color.Black);
-                return;
-            }
-
-            Array.Copy(pixels, memory, pixels.Length);
-   
+        {   
 		    // first decay previous frame lights
 		    for( int i = 0; i < pixels.Length; i++ )
 		    {
@@ -111,7 +101,7 @@ namespace TikiTankCommon.Effects
         public Color Color { get; set; }
         private int _arg;
         private int Delay;
-        private uint frame;
+
 	    private Color[] memory;
 	    private Random rng;
 	    private DateTime last;

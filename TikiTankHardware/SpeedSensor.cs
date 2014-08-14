@@ -11,8 +11,7 @@ namespace TikiTankHardware
     {
         public SpeedSensor(string portName)
         {
-            _port = new SerialPort(portName, 9600);            
-            _speed = 0;
+            _port = new SerialPort(portName, 9600);  
         }
 
         public void Start()
@@ -35,7 +34,7 @@ namespace TikiTankHardware
             _port.Open();
 
             byte[] buffer = new byte[256];
-            byte rawSpeed;
+            int ticksNumber;
 
             while (_isRunning)
             {                
@@ -43,35 +42,24 @@ namespace TikiTankHardware
                 if (_port.BytesToRead > 0)
                 {
                     // read and discard the rest of the buffer
-                    rawSpeed = (byte)_port.ReadByte();
-                    _port.DiscardInBuffer();                 
-                                       
-                    // if speed changed, act
-                    if (rawSpeed != _speed)
-                    {                        
-                        if (OnSpeedChanged != null)
-                            OnSpeedChanged(_speed, rawSpeed);
+                    ticksNumber = _port.ReadByte();
 
-                        lock (this)
+                    if (OnSpeedChanged != null)
+                    {                       
+                        for (; ticksNumber > 0; ticksNumber--)
                         {
-                            _speed = rawSpeed;
+                            OnSpeedChanged();
                         }
                     }
                 }
             }
-
+    
             _port.Close();
         }
 
-        public delegate void SpeedChanged(byte oldSpeed, byte changedSpeed);
+        public delegate void SpeedChanged();
         public event SpeedChanged OnSpeedChanged;
 
-        public byte Speed
-        {
-            get { return _speed; }
-        }
-
-        byte _speed;
         SerialPort _port;
         Thread _thread;
         bool _isRunning;

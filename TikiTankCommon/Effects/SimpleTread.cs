@@ -56,14 +56,14 @@ namespace TikiTankCommon.Effects
 
             for (int j = startIndex; j < pixels.Length-startIndex; j += 15)
             {
-                int count = ((pixels.Length - j) < 5) ? (pixels.Length - j) : 5;
-                Console.WriteLine("count color: {0}", count);;
+                int count = ((pixels.Length - j) < 5) ? (pixels.Length - j) : 5;         
                 StripHelper.FillColor(pixels, j, count, pixelColor);
-                count = ((pixels.Length - j) < 10) ? (pixels.Length - j) : 10;
-                Console.WriteLine("count black: {0}", count);
+
+                count = ((pixels.Length - (j+5)) < 10) ? (pixels.Length - (j+5)) : 10;
+                if (count <= 0) break;
                 StripHelper.FillColor(pixels, j + 5, count, Color.Black);
             }
-
+            
             StripHelper.FillColor(pixels, 0, startIndex, Color.Black);
 
             StripHelper.FillColor(memory, 0, 5, pixelColor);
@@ -80,7 +80,7 @@ namespace TikiTankCommon.Effects
                 return;
 
             startIndex += 1;
-            if (startIndex >= 20)
+            if (startIndex >= 15)
                 startIndex = 0;
         }
 

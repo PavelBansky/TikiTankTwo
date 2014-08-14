@@ -16,10 +16,6 @@ namespace TikiTankServer
     {       
         static TankManager()
         {
-            TreadsManager = new EffectManager();
-            BarrelManager = new EffectManager();
-            PanelsManager = new EffectManager();
-
             State = TankState.Running;
 
             idleTimer = new Timer(60000);
@@ -44,23 +40,9 @@ namespace TikiTankServer
         /// </summary>
         /// <param name="oldSpeed"></param>
         /// <param name="changedSpeed"></param>
-        static void _sensor_OnSpeedChanged(byte oldSpeed, byte changedSpeed)
+        static void _sensor_OnSpeedChanged()
         {
-            TreadsManager.Speed = BarrelManager.Speed = PanelsManager.Speed = changedSpeed;
 
-            Console.WriteLine("Tank State: Speed changed from {0} to {1}", oldSpeed, changedSpeed);
-
-            // If are moving keep the idleTimer off
-            if (changedSpeed > 0)
-            {
-                idleTimer.Enabled = false;
-                State = TankState.Running;
-            }
-            // otherwise start the idle timer
-            else
-            {                
-                idleTimer.Enabled = true;
-            }
         }
 
         private static SpeedSensor _sensor;
@@ -80,7 +62,8 @@ namespace TikiTankServer
             get { return _state;  }
             set
             {
-                _state = TreadsManager.State = BarrelManager.State = PanelsManager.State = value;
+                _state = value;
+                //_state = TreadsManager.State = BarrelManager.State = PanelsManager.State = value;
             }
         }
 
