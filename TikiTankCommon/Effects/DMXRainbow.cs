@@ -34,7 +34,7 @@ namespace TikiTankCommon.Effects
         {            
             for (int i = 0; i < pixels.Length; i++)
             {
-                pixels[(pixels.Length-1) - i] = ColorHelper.Wheel(((i * 384 / 30) + _counter) % 384);
+                pixels[(pixels.Length-1) - i] = ColorHelper.Wheel(((i * 384) + _counter) % 384);
             }
 
             //cycles of all 384 colors in the wheel

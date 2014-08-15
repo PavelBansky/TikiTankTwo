@@ -20,8 +20,9 @@ namespace TikiTankServer.Managers
 
         void sensor_OnSpeedChanged()
         {
-            if (ActiveEffect != null && ActiveEffect.IsSensorDriven)
+            if (ActiveEffect != null && ActiveEffect.IsSensorDriven)            
                 ActiveEffectStep();
+            
         }
 
         public void AddEffect(EffectContainer effect)
@@ -158,7 +159,7 @@ namespace TikiTankServer.Managers
 
                 EffectUpdate();
 
-                Thread.Sleep((int)Math.Max(50 - sw.ElapsedMilliseconds, 0));
+                Thread.Sleep((int)Math.Max(15 - sw.ElapsedMilliseconds, 0));
             }
 
             Console.WriteLine("Exiting thread");

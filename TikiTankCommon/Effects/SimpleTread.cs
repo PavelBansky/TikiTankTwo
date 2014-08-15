@@ -9,24 +9,19 @@ namespace TikiTankCommon.Effects
 {    
     public class SimpleTread : IEffect
     {
-        enum Direction
-        {            
-            Stop,
-            Forward,
-            Backward            
-        }
-
         public SimpleTread(bool rainbowColors)
         {         
             this.Argument ="0";
-            this.Color = Color.FromArgb(255, 255, 255);
+            this.Color = Color.White;
             this.rainbowEnabled = rainbowColors;
-            this.startTime = DateTime.Now;                                
-        }
+            this.last = DateTime.Now;
+            this.counter = 0;
+            this.rainbowIncrease = true;
 
-        public bool WouldUpdate()
-        {
-            return true;
+            this.MetersPerTick = 4.0 / 39.0; // 4"
+
+            this.metersTraveled = 0.0;
+            this.metersShown = 0.0;
         }
 
         public void Activate(Color[] pixels)
@@ -37,51 +32,70 @@ namespace TikiTankCommon.Effects
 
         public void Deactivate(Color[] pixels) { }
 
-        public void FrameUpdate(Color[] pixels)
+        public bool WouldUpdate()
         {
-            if (!IsSensorDriven)
+            // implement static speed control, turn to 0 to rely on interrupts
+            if (!IsSensorDriven && Period > 0)
             {
-                TimeSpan delta = DateTime.Now - startTime;
-                if (delta.TotalMilliseconds > _delay)
+                if ((DateTime.Now - last).TotalMilliseconds > Period)
                 {
-                    startTime = DateTime.Now;
+                    last = DateTime.Now;
                     Tick();
                 }
             }
 
-            pixelColor = (rainbowEnabled) ? ColorHelper.Wheel(((counter++ * 384 / 90)) % 384) : this.Color;
-            if (counter >= pixels.Length)
-                counter = 0;
+            if (metersShown > metersTraveled)
+                return false;
 
+            return true;
+        }
 
-            for (int j = startIndex; j < pixels.Length-startIndex; j += 15)
+        public void FrameUpdate(Color[] pixels)
+        {
+            // move the treads about 5% of the way toward the goal each frame
+            // while this does lag a bit, it is so simple that it's attractive
+            // and it speeds up exponentially rather than continuing to lag
+            metersShown = (metersShown * 15 + metersTraveled) / 16;
+
+            double pixelSize = 1.0 / 32; // 32 pixels per meter
+            int offset = (int)(metersShown / pixelSize) % pixels.Length;
+
+            startIndex += offset;
+            if (startIndex >= 15)
+                startIndex = 0;
+
+            for (int i = 0; i < pixels.Length; i++)
             {
-                int count = ((pixels.Length - j) < 5) ? (pixels.Length - j) : 5;         
-                StripHelper.FillColor(pixels, j, count, pixelColor);
+                int n = (i + offset) % pixels.Length;
 
-                count = ((pixels.Length - (j+5)) < 10) ? (pixels.Length - (j+5)) : 10;
-                if (count <= 0) break;
-                StripHelper.FillColor(pixels, j + 5, count, Color.Black);
-            }
-            
-            StripHelper.FillColor(pixels, 0, startIndex, Color.Black);
+                switch (i % 16)
+                {
+                    default:
+                        pixels[n] = Color.Black;
+                        break;
 
-            StripHelper.FillColor(memory, 0, 5, pixelColor);
-            StripHelper.FillColor(memory, 5, 10, Color.Black);
+                    case 14: continue;
+                    case 13: continue;
+                    case 12: continue;
+                    case 11: continue;
+                    case 10: continue;
+                    case 9:
+                        pixels[n] = this.Color;
+                        break;
 
-            if (startIndex > 10)
-                Array.Copy(memory, 0, pixels, 0, startIndex-10);
-
+                    case 15: continue;
+                    case 8:
+                        pixels[n] = Color.FromArgb(
+                        Color.R / 2, Color.G / 2, Color.B / 2);
+                        break;
+                }
+            }           
         }
 
         public void Tick()
         {
-            if (_direction == Direction.Stop)
-                return;
-
-            startIndex += 1;
-            if (startIndex >= 15)
-                startIndex = 0;
+            // 4 inches per tick, in meters
+            metersTraveled += MetersPerTick;
         }
 
         public bool IsSensorDriven { get; set; }
@@ -92,37 +106,30 @@ namespace TikiTankCommon.Effects
         {
             get
             {
-                return _arg.ToString();
+                return Period.ToString();
             }
             set 
             {
                 int i;
                 if (int.TryParse(value, out i))
                 {
-                    _arg = i;
-
-                    if (i < 0)
-                        _direction = Direction.Backward;
-                    else if (i > 0)
-                        _direction = Direction.Forward;
-                    else if (i == 0)
-                        _direction = Direction.Stop;
-
-                    if (Math.Abs(i) > 0)
-                        _delay = 400 / Math.Abs(i);
+                    Period = i;
                 }
             }
         }
 
+        private bool rainbowIncrease;
         private int counter;
         private Color pixelColor;
         private bool rainbowEnabled;
-        private DateTime startTime;
+        private DateTime last;
         private int startIndex;      
-        private int _delay;
-        private int _arg;
-        private Direction _direction;
-        private Color[] memory;            
+        private int Period;
+        private Color[] memory;
+        private double metersTraveled;
+        private double metersShown;
+        private double MetersPerTick;
+
     }
      
 }

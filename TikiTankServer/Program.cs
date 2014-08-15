@@ -29,17 +29,17 @@ namespace TikiTankServer
     
             TankManager.TreadsManager.AddEffect(new EffectContainer(new SimpleTread(true), treadsLED, 
                                                     new EffectInfo() { 
-                                                        Name = "Simple Treads", 
-                                                        Description = "Good old tread effect",
-                                                        ArgumentDescription = "Speed and direction [+/-]" 
+                                                        Name = "Rainbow Treads", 
+                                                        Description = "Rainbow tread effect",
+                                                        ArgumentDescription = "Tick period" 
                                                     }));
 
-            TankManager.TreadsManager.AddEffect(new EffectContainer(new RainbowTread(), treadsLED,
+            TankManager.TreadsManager.AddEffect(new EffectContainer(new SimpleTread(true), treadsLED,
                                                     new EffectInfo()
                                                     {
-                                                        Name = "Rainbow Treads",
-                                                        Description = "Rainbow tread effect",
-                                                        ArgumentDescription = "Speed and direction [+/-]"
+                                                        Name = "Simple Treads",
+                                                        Description = "Solid color treads",
+                                                        ArgumentDescription = "Tick period"
                                                     }));
 
             TankManager.TreadsManager.AddEffect(new EffectContainer(new Rainbow(), treadsLED,

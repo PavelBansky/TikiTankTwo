@@ -43,11 +43,12 @@ namespace TikiTankHardware
                 {
                     // read and discard the rest of the buffer
                     ticksNumber = _port.ReadByte();
+                    Console.WriteLine("Tick: count {0}", ticksNumber);
 
                     if (OnSpeedChanged != null)
-                    {                       
+                    {                            
                         for (; ticksNumber > 0; ticksNumber--)
-                        {
+                        {                            
                             OnSpeedChanged();
                         }
                     }
