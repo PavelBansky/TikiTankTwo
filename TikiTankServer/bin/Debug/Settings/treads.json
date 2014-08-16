@@ -1,0 +1,79 @@
+﻿[
+ {
+ "Information":  {
+					"Name":"Simple Treads",
+					"ArgumentDescription":"n/a"
+				 },
+ "Effect":	{
+					"Class":"SimpleTread",
+					"IsSensorDriven":true,
+					"Color":"White",
+					"Argument":"0"
+				}
+ },
+
+ {
+ "Information":	{
+					"Name":"Rainbow Treads",
+					"Description":"Rainbow tread effect",
+					"ArgumentDescription":"Speed and direction [+/-]"
+				},
+ "Effect":		{	
+					"Class":"RainbowTread",
+					"IsSensorDriven":false,
+					"Argument":"0"
+				}
+ },
+
+  {
+ "Information":	{
+					"Name":"Rainbow",
+					"Description":"Running rainbow",
+					"ArgumentDescription":"Speed"
+				},
+ "Effect":		{
+					"Class":"Rainbow",
+					"IsSensorDriven":false,
+					"Color":"White",
+					"Argument":"8"
+				}
+ },
+
+ {
+ "Information":	{
+					"Name":"Camera Flashes",
+					"Description":"Camera Flased",
+					"ArgumentDescription":"Flashes per second"
+				},
+ "Effect":		{
+					"Class":"CameraFlashes",
+					"IsSensorDriven":false,
+					"Color":"White",
+					"Argument":"8"
+				}
+ },
+
+{
+ "Information":	{
+					"Name":"Glow",
+					"Description":"Glowing effect",
+				},
+ "Effect":		{
+					"Class":"Glow",
+					"IsSensorDriven":false,
+					"Color":"Red"
+				}
+ },
+
+ {
+ "Information":	{
+					"Name":"Solid Color",
+					"Description":"Solid Color"
+				},
+ "Effect":		{
+					"Class":"SolidColor",
+					"IsSensorDriven":false
+				}
+ }
+
+ ]

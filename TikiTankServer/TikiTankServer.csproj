@@ -67,13 +67,15 @@
     <Compile Include="Managers\TankManager.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Settings\treads.json" />
     <None Include="App.config" />
     <None Include="packages.config" />
     <Content Include="Settings\barrel.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Settings\panels.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Settings\treads.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="Views\index.sshtml">

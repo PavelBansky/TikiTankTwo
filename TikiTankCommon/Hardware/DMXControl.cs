@@ -28,15 +28,27 @@ namespace TikiTankHardware
             if (!_dmxReady)
                 return;
 
-            for(int i=0; i < pixels.Length; i++)
-            {
-                short channel = (short)(i + (i * 2));
-                _dmx.SetSingleChannel(channel, pixels[i].R);
-                _dmx.SetSingleChannel((short)(channel + 1), pixels[i].G);
-                _dmx.SetSingleChannel((short)(channel + 2), pixels[i].B);
-            }
+            SetPixelColor(5, pixels[0]);
+            SetPixelColor(3, pixels[1]);
+            SetPixelColor(4, pixels[2]);
+            SetPixelColor(9, pixels[3]);
+            SetPixelColor(8, pixels[4]);
+            SetPixelColor(6, pixels[5]);
+            SetPixelColor(7, pixels[6]);
+            SetPixelColor(2, pixels[7]);
+            SetPixelColor(1, pixels[8]);
+            SetPixelColor(0, pixels[9]);
+
         }
         
+        private void SetPixelColor(short pixel, Color color)
+        {
+            pixel *= 3;
+            _dmx.SetSingleChannel(pixel, color.R);
+            _dmx.SetSingleChannel((short)(pixel+1), color.G);
+            _dmx.SetSingleChannel((short)(pixel+2), color.B);
+        }
+
         public void Dispose()
         {
             _dmx.Dispose();

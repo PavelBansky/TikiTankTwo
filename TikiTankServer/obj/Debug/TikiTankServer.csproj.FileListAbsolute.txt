@@ -76,3 +76,4 @@ D:\GitHub\TikiTankTwo\TikiTankServer\bin\Debug\Newtonsoft.Json.dll
 D:\GitHub\TikiTankTwo\TikiTankServer\bin\Debug\Newtonsoft.Json.xml
 D:\GitHub\TikiTankTwo\TikiTankServer\bin\Debug\Settings\barrel.json
 D:\GitHub\TikiTankTwo\TikiTankServer\bin\Debug\Settings\panels.json
+D:\GitHub\TikiTankTwo\TikiTankServer\bin\Debug\Settings\treads.json

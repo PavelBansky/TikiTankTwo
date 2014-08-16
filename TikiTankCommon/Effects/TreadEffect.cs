@@ -31,6 +31,7 @@ public class TreadEffect : IEffect
 	{
 		// 4 inches per tick, in meters
 		metersTraveled += MetersPerTick;
+        Console.WriteLine("MetersPerTick {0},  metersTraveled {1}", MetersPerTick, metersTraveled);
 	}
 
 	public bool WouldUpdate()
@@ -53,8 +54,11 @@ public class TreadEffect : IEffect
 		double pixelSize = 1.0 / 32; // 32 pixels per meter
         // # of pixels "moved" forward modulo # of pixels in display --> how many pixels to rotate design
         // OLD: int offset = (int)(metersShown / pixelSize) % pixels.Length;
-        int offset = (int)(metersShown / pixelSize) % pixels.Length;
-        double overage = (metersShown / pixelSize) / pixels.Length;
+        int offset = (int)(metersShown / pixelSize);
+        Console.WriteLine("offset: {0}", offset);
+        double overage = (metersShown / pixelSize) - offset;
+        Console.WriteLine("overage: {0}", overage);
+        int actualOffset = offset % pixelSize;
         double underage = 1 - overage;
 
 		for( int i = 0; i < pixels.Length; i++ ){
@@ -78,7 +82,7 @@ public class TreadEffect : IEffect
 					break;
                 // paint the edge pixels half-brightness
                 // removing for now to replace with percentage for half-positions
-				case 15: continue;
+				case 15:
                     pixels[n] = Color.FromArgb(
                     color.R * overage, color.G * overage, color.B * overage);
                 case 8:

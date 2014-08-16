@@ -13,7 +13,7 @@ namespace TikiTankCommon.Effects
             this.counter = 0;
             this.rainbowIncrease = true;
 
-            this.MetersPerTick = 4.0 / 39.0; // 4"
+            this.MetersPerTick = 10 / 39.0; // 4"
 
             this.metersTraveled = 0.0;
             this.metersShown = 0.0;
@@ -50,14 +50,10 @@ namespace TikiTankCommon.Effects
             // move the treads about 5% of the way toward the goal each frame
             // while this does lag a bit, it is so simple that it's attractive
             // and it speeds up exponentially rather than continuing to lag
-            metersShown = (metersShown * 15 + metersTraveled) / 16;
+            metersShown = (metersShown * 30 + metersTraveled) / 31;
 
             double pixelSize = 1.0 / 32; // 32 pixels per meter
             int offset = (int)(metersShown / pixelSize) % pixels.Length;
-
-            startIndex += offset;
-            if (startIndex >= 15)
-                startIndex = 0;
 
             for (int i = 0; i < pixels.Length; i++)
             {

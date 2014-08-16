@@ -135,7 +135,7 @@ function setEffectColor(api, color) {
          color: clr,
      },
      function (data, status) {
-         displayActiveEffectData(data, api);
+         //displayActiveEffectData(data, api);
      });
 }
 
@@ -145,7 +145,7 @@ function setEffectArgument(api, arg) {
          argument: arg
      },
      function (data, status) {
-         displayActiveEffectData(data, api);
+         //displayActiveEffectData(data, api);
      });
 }
 
