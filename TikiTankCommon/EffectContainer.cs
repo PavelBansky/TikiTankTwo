@@ -1,17 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
+﻿using System.Drawing;
 
 namespace TikiTankCommon
 {
     public class EffectContainer
     {
+        public EffectContainer()
+        {
+
+        }
+
         public EffectContainer(IEffect effect, LEDStrip strip, EffectInfo info)
         {
             this.Information = info;
             this.Effect = effect;
+            this.LedStrip = strip;
+        }
+
+        public void AssignStrip(LEDStrip strip)
+        {
             this.LedStrip = strip;
         }
 
@@ -42,8 +48,9 @@ namespace TikiTankCommon
             Effect.Tick();
         }
 
-        IEffect Effect;
-        LEDStrip LedStrip;
+        public IEffect Effect { get; set; }
+
+        private LEDStrip LedStrip;
 
         public string Argument 
         {

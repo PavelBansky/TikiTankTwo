@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
+﻿using System.Drawing;
 
 namespace TikiTankCommon
 {
@@ -49,6 +45,5 @@ namespace TikiTankCommon
 
             Pixels[Pixels.Length - 1] = Color.Black;
         }
-
     }
 }

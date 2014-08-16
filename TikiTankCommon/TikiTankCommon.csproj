@@ -34,17 +34,24 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="LibUsbDotNet">
+      <HintPath>..\packages\LibUsbDotNet\LibUsbDotNet.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ColorHelper.cs" />
-    <Compile Include="Effects\BlinkingPoint.cs" />
     <Compile Include="Effects\CameraFlashes.cs" />
     <Compile Include="Effects\DMXGlow.cs" />
     <Compile Include="Effects\DMXRainbow.cs" />
     <Compile Include="Effects\RainbowTread.cs" />
+    <Compile Include="Hardware\BeagleBoneBlack.cs" />
+    <Compile Include="Hardware\DMXControl.cs" />
+    <Compile Include="Hardware\LPD8806.cs" />
+    <Compile Include="Hardware\SpeedSensor.cs" />
+    <Compile Include="Hardware\uDMX.cs" />
     <Compile Include="StripHelper.cs" />
     <Compile Include="EffectContainer.cs" />
     <Compile Include="EffectInfo.cs" />
@@ -54,7 +61,7 @@
     <Compile Include="Effects\SimpleTread.cs" />
     <Compile Include="IEffect.cs" />
     <Compile Include="Effects\SolidColor.cs" />
-    <Compile Include="IDisplayDevice.cs" />
+    <Compile Include="Hardware\IDisplayDevice.cs" />
     <Compile Include="LEDStrip.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TikiTankServer", "TikiTankS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TikiTankCommon", "TikiTankCommon\TikiTankCommon.csproj", "{6229E6DC-7995-48FB-A648-85BB99ED26DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TikiTankHardware", "TikiTankHardware\TikiTankHardware.csproj", "{34196B77-0D40-4768-9ABF-13ED1A73CB87}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{6229E6DC-7995-48FB-A648-85BB99ED26DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6229E6DC-7995-48FB-A648-85BB99ED26DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6229E6DC-7995-48FB-A648-85BB99ED26DE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{34196B77-0D40-4768-9ABF-13ED1A73CB87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{34196B77-0D40-4768-9ABF-13ED1A73CB87}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{34196B77-0D40-4768-9ABF-13ED1A73CB87}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{34196B77-0D40-4768-9ABF-13ED1A73CB87}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

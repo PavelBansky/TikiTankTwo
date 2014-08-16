@@ -1,10 +1,12 @@
-﻿using System;
-using System.Threading.Tasks;
-using Nancy.Hosting.Self;
-using TikiTankCommon.Effects;
+﻿using Nancy.Hosting.Self;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.IO;
 using TikiTankCommon;
+using TikiTankCommon.Effects;
 using TikiTankHardware;
-using System.Threading;
+using TikiTankServer.Managers;
 
 namespace TikiTankServer
 {
@@ -14,153 +16,29 @@ namespace TikiTankServer
           {
             BeagleBoneBlack.SetupOverlays();
 
-            DMXControl dmxControl = new DMXControl(10);
-            LEDStrip treadsLED = new LEDStrip(new LPD8806((5 * 32) * 3, "/dev/spidev1.0"));
-            LEDStrip barrelLED = new LEDStrip(new LPD8806(77, "/dev/spidev2.0"));
-            LEDStrip dmxLED = new LEDStrip(dmxControl);
-            
+            TankManager.DmxControl = new DMXControl(10);
+            TankManager.DmxLED = new LEDStrip(TankManager.DmxControl);   
+            TankManager.TreadsLED = new LEDStrip(new LPD8806((5 * 32) * 3, "/dev/spidev1.0"));
+            TankManager.BarrelLED = new LEDStrip(new LPD8806(77, "/dev/spidev2.0"));                     
             TankManager.Sensor = new SpeedSensor("/dev/ttyO1");
-            TankManager.TreadsManager = new Managers.EffectManager(TankManager.Sensor);
-            TankManager.BarrelManager = new Managers.EffectManager(TankManager.Sensor);
-            TankManager.PanelsManager = new Managers.EffectManager(TankManager.Sensor);
 
-            NancyHost host = new NancyHost(new Uri("http://localhost:8080"));
-            
-    
-            TankManager.TreadsManager.AddEffect(new EffectContainer(new SimpleTread(true), treadsLED, 
-                                                    new EffectInfo() { 
-                                                        Name = "Rainbow Treads", 
-                                                        Description = "Rainbow tread effect",
-                                                        ArgumentDescription = "Tick period" 
-                                                    }));
-
-            TankManager.TreadsManager.AddEffect(new EffectContainer(new SimpleTread(true), treadsLED,
-                                                    new EffectInfo()
-                                                    {
-                                                        Name = "Simple Treads",
-                                                        Description = "Solid color treads",
-                                                        ArgumentDescription = "Tick period"
-                                                    }));
-
-            TankManager.TreadsManager.AddEffect(new EffectContainer(new Rainbow(), treadsLED,
-                                                    new EffectInfo() { 
-                                                        Name = "Rainbow",
-                                                        Description = "Running rainbow",
-                                                        ArgumentDescription = "Speed"
-                                                    }));
-
-            TankManager.TreadsManager.AddEffect(new EffectContainer(new CameraFlashes(), treadsLED,
-                                                    new EffectInfo()
-                                                    {
-                                                        Name = "Camera Flashes",
-                                                        Description = "Camera flashes",
-                                                        ArgumentDescription = "Flashes per second"
-                                                    }));
-
-            TankManager.TreadsManager.AddEffect(new EffectContainer(new Glow(), treadsLED,
-                                                    new EffectInfo()
-                                                    {
-                                                        Name = "Glow",
-                                                        Description = "Glowing"
-                                                    }));
-
-            TankManager.TreadsManager.AddEffect(new EffectContainer(new SolidColor(), treadsLED,
-                                                    new EffectInfo()
-                                                    {
-                                                        Name = "Solid color",
-                                                        Description = "One color strip"
-                                                    }));
-
-            TankManager.TreadsManager.SelectEffect(0);
-            TankManager.TreadsManager.SelectIdleEffect(1);
-            Console.Write("Tread Manager: ");
-            TankManager.TreadsManager.Start();
-
-            
-            TankManager.BarrelManager.AddEffect(new EffectContainer(new Rainbow(), barrelLED,
-                                                    new EffectInfo() { 
-                                                        Name = "Rainbow",
-                                                        Description = "Running rainbow",
-                                                        ArgumentDescription = "Speed"
-                                                    }));
-
-            TankManager.BarrelManager.AddEffect(new EffectContainer(new CameraFlashes(), barrelLED,
-                                                    new EffectInfo()
-                                                    {
-                                                        Name = "Camera Flashes",
-                                                        Description = "Camera flashes",
-                                                        ArgumentDescription = "Flashes per second"
-                                                    }));
-
-            TankManager.BarrelManager.AddEffect(new EffectContainer(new Glow(), barrelLED,
-                                                    new EffectInfo() {
-                                                        Name = "Glow",
-                                                        Description = "Glowing"
-                                                    }));
-
-            TankManager.BarrelManager.AddEffect(new EffectContainer(new SolidColor(), barrelLED,
-                                                    new EffectInfo() { 
-                                                        Name = "Solid color",
-                                                        Description = "One color strip"
-                                                    }));
-
-
-            TankManager.BarrelManager.SelectEffect(0);
-            Console.Write("Barrel Manager: ");
-            TankManager.BarrelManager.Start();
-
-            TankManager.PanelsManager.AddEffect(new EffectContainer(new DMXRainbow(), dmxLED,
-                                                    new EffectInfo()
-                                                    {
-                                                        Name = "Rainbow",
-                                                        Description = "Clasic rainbow",
-                                                        ArgumentDescription = "Speed"
-                                                    }));
-
-            TankManager.PanelsManager.AddEffect(new EffectContainer(new DMXSolidColor(), dmxLED,
-                                                    new EffectInfo() { 
-                                                        Name = "Solid color",
-                                                        Description = "Solid color for sides",
-                                                        ArgumentDescription = "Channel selector"
-                                                    }));
-
-            TankManager.PanelsManager.AddEffect(new EffectContainer(new DMXGlow(), dmxLED,
-                                                    new EffectInfo()
-                                                    {
-                                                        Name = "Glow",
-                                                        Description = "Glowing"
-                                                    }));
-
-
-            TankManager.PanelsManager.SelectEffect(0);
-            Console.Write("Sides Manager: ");
-            TankManager.PanelsManager.Start();
-
-            TankManager.Sensor.Start();
+            TankManager.StartTheTank();
 
             Console.WriteLine("Starting Nancy self host");
+            NancyHost host = new NancyHost(new Uri("http://localhost:8080"));            
             host.Start();
 
             Console.WriteLine("Awaiting commands");
             ConsoleKeyInfo key = new ConsoleKeyInfo();
-
             while(key.Key != ConsoleKey.Escape)
             {
                 key = Console.ReadKey(true);
             }
 
-            TankManager.Sensor.Stop();
-
-            Console.Write("Tread Manager: ");
-            TankManager.TreadsManager.Stop();
-            Console.Write("Barrel Manager: ");
-            TankManager.BarrelManager.Stop();
-            Console.Write("Sides Manager: ");
-            TankManager.PanelsManager.Stop();
             Console.WriteLine("Stopping Nancy");
-            host.Stop();  // stop hosting
-            Console.WriteLine("Closing uDMX");
-            dmxControl.Dispose();                      
+            host.Stop();  // stop hosting                     
+
+            TankManager.StopTheTank();
         }
     }
 }

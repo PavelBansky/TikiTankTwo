@@ -1,6 +1,5 @@
-using System.Runtime.Serialization;
-using System.Drawing;
 using System;
+using System.Drawing;
 
 namespace TikiTankCommon.Effects
 {

@@ -1,19 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-
 
 namespace TikiTankCommon.Effects
 {    
     public class SimpleTread : IEffect
     {
-        public SimpleTread(bool rainbowColors)
+        public SimpleTread()
         {         
             this.Argument ="0";
-            this.Color = Color.White;
-            this.rainbowEnabled = rainbowColors;
+            this.Color = Color.White;            
             this.last = DateTime.Now;
             this.counter = 0;
             this.rainbowIncrease = true;

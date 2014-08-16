@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 
 namespace TikiTankCommon.Effects
 {
@@ -59,8 +56,11 @@ namespace TikiTankCommon.Effects
                 int i;
                 if (int.TryParse(value, out i))
                 {
-                    _arg = Math.Abs(i);
-                    _delay = 400 / _arg;
+                    if (i > 0)
+                    {
+                        _arg = Math.Abs(i);
+                        _delay = 400 / _arg;
+                    }
                 }
             }
         }

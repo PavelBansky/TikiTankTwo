@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-
+﻿using System.Drawing;
+using TikiTankHardware;
 
 namespace TikiTankCommon
 {
@@ -23,8 +19,8 @@ namespace TikiTankCommon
             Device.Show(Pixels);
         }
 
-        public IDisplayDevice Device;    
+        public IDisplayDevice Device { get; set; }
 
-        public Color[] Pixels;
+        public Color[] Pixels { get; set; }
     }    
 }
