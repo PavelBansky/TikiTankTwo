@@ -20,24 +20,12 @@
 				},
  "Effect":		{	
 					"Class":"RainbowTread",
-					"IsSensorDriven":false,
+					"IsSensorDriven":true,
 					"Argument":"0"
 				}
  },
 
-  {
- "Information":	{
-					"Name":"Rainbow",
-					"Description":"Running rainbow",
-					"ArgumentDescription":"Speed"
-				},
- "Effect":		{
-					"Class":"Rainbow",
-					"IsSensorDriven":false,
-					"Color":"White",
-					"Argument":"8"
-				}
- },
+
 
  {
  "Information":	{

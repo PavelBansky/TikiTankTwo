@@ -63,11 +63,10 @@ void interruptHandler()
   else if (now - lastInterrupt > 10)
   {
      cycle = !cycle;
-     if (cycle)
-     {
-       led = !led;
-       digitalWrite(ledPin, led);
-     }
+     //if (cycle)
+     //{
+       digitalWrite(ledPin, cycle);
+     //}
     ++ticksCounted;
   }
     
