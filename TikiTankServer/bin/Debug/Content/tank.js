@@ -65,9 +65,6 @@
     });    
 
     getActiveEffects();
-
-
-
 });
 
 function displayEffectsList(effects, api) {
@@ -138,7 +135,7 @@ function setEffectColor(api, color) {
          color: clr,
      },
      function (data, status) {
-         // alert("Data: " + data + "\nStatus: " + status);
+         displayActiveEffectData(data, api);
      });
 }
 
@@ -148,7 +145,7 @@ function setEffectArgument(api, arg) {
          argument: arg
      },
      function (data, status) {
-         // alert("Data: " + data + "\nStatus: " + status);
+         displayActiveEffectData(data, api);
      });
 }
 
@@ -158,6 +155,6 @@ function setEffectSensorDrive(api, arg) {
          sensordriven: arg
      },
      function (data, status) {
-         // alert("Data: " + data + "\nStatus: " + status);
+         displayActiveEffectData(data, api);
      });
 }

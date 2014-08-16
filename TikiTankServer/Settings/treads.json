@@ -6,7 +6,7 @@
 				 },
  "Effect":	{
 					"Class":"SimpleTread",
-					"IsSensorDriven":false,
+					"IsSensorDriven":true,
 					"Color":"White",
 					"Argument":"0"
 				}

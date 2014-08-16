@@ -13,7 +13,7 @@ namespace TikiTankServer
     class Program
     {
         static void Main(string[] args)
-          {
+        {
             BeagleBoneBlack.SetupOverlays();
 
             TankManager.DmxControl = new DMXControl(10);

@@ -18,8 +18,9 @@ const int timeout = 1300;
 const int sleepTime = 1;
 
 volatile int ticksCounted = 0;
-volatile int tickEdge = 0;
-volatile int state = 1;
+volatile int pinThree = 0;
+volatile int led = 0;
+volatile int cycle = 0;
 volatile unsigned long lastInterrupt = 0;
 int ticksWritten = 0;
 
@@ -48,25 +49,28 @@ void loop()
           ticksWritten += delta;
         }
             
-        delay(sleepTime); // 20 miliseconds;
+        delay(sleepTime);
  }
 
 void interruptHandler()
 {
   unsigned long now = millis();
-  if ((now - lastInterrupt) >= 10)
-  {
-    tickEdge = !tickEdge;
-    //ticksCounted += tickEdge;
   
-    if (tickEdge)
-    {
-      state = !state;
-      digitalWrite(ledPin, state);
-    
-      ++ticksCounted;
-    }
+  if (pinThree)
+  {
+    lastInterrupt = now;
   }
-     lastInterrupt = now;   
+  else if (now - lastInterrupt > 10)
+  {
+     cycle = !cycle;
+     if (cycle)
+     {
+       led = !led;
+       digitalWrite(ledPin, led);
+     }
+    ++ticksCounted;
+  }
+    
+  pinThree = !pinThree;  
 }
 
