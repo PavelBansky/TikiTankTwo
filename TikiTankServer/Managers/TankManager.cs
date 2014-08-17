@@ -103,7 +103,7 @@ namespace TikiTankServer
             set
             {
                 _state = value;
-                //_state = TreadsManager.State = BarrelManager.State = PanelsManager.State = value;
+                _state = TreadsManager.State = BarrelManager.State = PanelsManager.State = value;
             }
         }
 

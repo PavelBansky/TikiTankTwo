@@ -12,7 +12,6 @@ namespace TikiTankCommon.Effects
             this.last = DateTime.Now;
             this.counter = 0;
             this.rainbowIncrease = true;
-
             this.MetersPerTick = 10 / 39.0; // 4"
 
             this.metersTraveled = 0.0;
@@ -20,7 +19,8 @@ namespace TikiTankCommon.Effects
         }
 
         public void Activate(Color[] pixels)
-        {            
+        {
+            StripHelper.FillColor(pixels, 0, pixels.Length, Color.Black);
             startIndex = 0;
             memory = new Color[15];
         }
@@ -53,8 +53,13 @@ namespace TikiTankCommon.Effects
             metersShown = (metersShown * 30 + metersTraveled) / 31;
 
             double pixelSize = 1.0 / 32; // 32 pixels per meter
-            int offset = (int)(metersShown / pixelSize) % pixels.Length;
+            // # of pixels "moved" forward modulo # of pixels in display --> how many pixels to rotate design
+            int pixelsMoved = (int)(metersShown / pixelSize);
+            double overage = Math.Pow(((metersShown / pixelSize) - pixelsMoved), 2);
+            double overage2 = Math.Pow(overage, 2);
 
+           // Console.WriteLine("leading (overage): {0}, {1}", overage, overage2);
+            int offset = pixelsMoved % pixels.Length;
             for (int i = 0; i < pixels.Length; i++)
             {
                 int n = (i + offset) % pixels.Length;
@@ -64,20 +69,25 @@ namespace TikiTankCommon.Effects
                     default:
                         pixels[n] = Color.Black;
                         break;
+                    case 15:
+                        pixels[n] = Color.FromArgb(
+                            (int)(this.Color.R * overage2), (int)(this.Color.G * overage2), (int)(this.Color.B * overage2));
+                        break;
 
                     case 14: continue;
                     case 13: continue;
                     case 12: continue;
                     case 11: continue;
-                    case 10: continue;
-                    case 9:
+                    case 10:
                         pixels[n] = this.Color;
                         break;
-
-                    case 15: continue;
+                    case 9:
+                        pixels[n] = Color.FromArgb(
+                            (int)(this.Color.R * overage), (int)(this.Color.G * overage), (int)(this.Color.B * overage));
+                        break;
                     case 8:
                         pixels[n] = Color.FromArgb(
-                        Color.R / 2, Color.G / 2, Color.B / 2);
+                            (int)(this.Color.R * overage2), (int)(this.Color.G * overage2), (int)(this.Color.B * overage2));
                         break;
                 }
             }           
@@ -124,3 +134,5 @@ namespace TikiTankCommon.Effects
     }
      
 }
+
+

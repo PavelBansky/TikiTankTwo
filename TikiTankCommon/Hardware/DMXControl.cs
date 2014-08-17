@@ -26,7 +26,7 @@ namespace TikiTankHardware
         public void Show(Color[] pixels)
         {
             if (!_dmxReady)
-                return;
+                return;            
 
             SetPixelColor(5, pixels[0]);
             SetPixelColor(3, pixels[1]);
@@ -38,15 +38,15 @@ namespace TikiTankHardware
             SetPixelColor(2, pixels[7]);
             SetPixelColor(1, pixels[8]);
             SetPixelColor(0, pixels[9]);
-
         }
         
         private void SetPixelColor(short pixel, Color color)
         {
             pixel *= 3;
-            _dmx.SetSingleChannel(pixel, color.R);
-            _dmx.SetSingleChannel((short)(pixel+1), color.G);
-            _dmx.SetSingleChannel((short)(pixel+2), color.B);
+            int brth = 100 / _brightness; ;
+            _dmx.SetSingleChannel(pixel, (byte)(color.R / brth));
+            _dmx.SetSingleChannel((short)(pixel+1), (byte)(color.G / brth));
+            _dmx.SetSingleChannel((short)(pixel+2), (byte)(color.B / brth));
         }
 
         public void Dispose()
@@ -60,6 +60,19 @@ namespace TikiTankHardware
             private set;
         }
 
+        public int Brightness
+        {
+            get { return _brightness; }
+            set 
+            {
+                if (value > 0 && value <= 100)
+                {
+                    _brightness = value;
+                }
+            }
+        }
+
+        private int _brightness;
         private uDMX _dmx;
         private bool _dmxReady;
     }

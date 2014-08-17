@@ -1,18 +1,6 @@
 ﻿[
 
-  {
- "Information":	{
-					"Name":"Rainbow",
-					"Description":"Running rainbow",
-					"ArgumentDescription":"Speed"
-				},
- "Effect":		{
-					"Class":"Rainbow",
-					"IsSensorDriven":false,
-					"Color":"White",
-					"Argument":"8"
-				}
- },
+
 
  {
  "Information":	{

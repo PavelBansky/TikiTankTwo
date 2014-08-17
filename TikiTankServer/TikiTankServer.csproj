@@ -59,12 +59,15 @@
     <Compile Include="Managers\EffectManager.cs" />
     <Compile Include="Managers\SettingsLoader.cs" />
     <Compile Include="Modules\EffectApi.cs" />
+    <Compile Include="Modules\SettingsApi.cs" />
     <Compile Include="Modules\Web.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\EffectService.cs" />
     <Compile Include="Services\IEffectService.cs" />
     <Compile Include="Managers\TankManager.cs" />
+    <Compile Include="Services\ISettingsService.cs" />
+    <Compile Include="Services\SettingsService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

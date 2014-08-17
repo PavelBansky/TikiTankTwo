@@ -52,12 +52,11 @@ public class TreadEffect : IEffect
 		metersShown = (metersShown * 15 + metersTraveled)/16;
 
 		double pixelSize = 1.0 / 32; // 32 pixels per meter
-        // # of pixels "moved" forward modulo # of pixels in display --> how many pixels to rotate design
         // OLD: int offset = (int)(metersShown / pixelSize) % pixels.Length;
         int offset = (int)(metersShown / pixelSize);
-        Console.WriteLine("offset: {0}", offset);
+        //Console.WriteLine("offset: {0}", offset);
         double overage = (metersShown / pixelSize) - offset;
-        Console.WriteLine("overage: {0}", overage);
+        //Console.WriteLine("overage: {0}", overage);
         int actualOffset = offset % pixelSize;
         double underage = 1 - overage;
 
