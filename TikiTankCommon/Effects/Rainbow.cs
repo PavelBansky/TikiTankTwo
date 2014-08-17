@@ -83,7 +83,6 @@ namespace TikiTankCommon.Effects
         
         private int _delay;
         private int _arg;
-        private int _counter;
         private DateTime startTime;
         private int offset;
 

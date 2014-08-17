@@ -9,9 +9,7 @@ namespace TikiTankCommon.Effects
         {         
             this.Argument ="0";
             this.Color = Color.White;            
-            this.last = DateTime.Now;
-            this.counter = 0;
-            this.rainbowIncrease = true;
+            this.last = DateTime.Now;                        
             this.MetersPerTick = 10 / 39.0; // 4"
 
             this.metersTraveled = 0.0;
@@ -20,8 +18,7 @@ namespace TikiTankCommon.Effects
 
         public void Activate(Color[] pixels)
         {
-            StripHelper.FillColor(pixels, 0, pixels.Length, Color.Black);
-            startIndex = 0;
+            StripHelper.FillColor(pixels, 0, pixels.Length, Color.Black);            
             memory = new Color[15];
         }
 
@@ -118,13 +115,8 @@ namespace TikiTankCommon.Effects
                 }
             }
         }
-
-        private bool rainbowIncrease;
-        private int counter;
-        private Color pixelColor;
-        private bool rainbowEnabled;
-        private DateTime last;
-        private int startIndex;      
+                
+        private DateTime last;            
         private int Period;
         private Color[] memory;
         private double metersTraveled;

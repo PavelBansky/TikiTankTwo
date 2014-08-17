@@ -1,50 +1,28 @@
 ﻿using Nancy;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using TikiTankServer.Services;
 
 namespace TikiTankServer.Modules
 {
     public class SettingsApi : NancyModule
     {
-        public SettingsApi() : base("/settings")
+        public SettingsApi(ISettingsService settingsService) : base("/settings")
         {
-            Get["/"] = parameters =>
+            Get["/"] = _ =>
             {
-                EffectData data = effectService.GetEffect(parameters.api);
-                return Response.AsJson<EffectData>(data).WithStatusCode(HttpStatusCode.OK);
-            };
-
-            Get["/{api}/effects"] = parameters =>
-            {
-                EffectData[] data = effectService.GetEffectsInformation(parameters.api).ToArray();
-                return Response.AsJson(data);
-            };
-
-            // Set effect for treads
-            Post["/{api}/effect/{effect}"] = parameters =>
-            {
-                EffectData data = effectService.SetEffect(parameters.api, parameters.effect);
-                Response.AsJson<EffectData>(data);
-
-                return Response.AsJson<EffectData>(data).WithStatusCode(HttpStatusCode.OK);
+                //EffectData data = sett.GetEffect(parameters.api);
+                //return Response.AsJson<EffectData>(data).WithStatusCode(HttpStatusCode.OK);
+                return HttpStatusCode.OK;
             };
 
             // Set color, argument, sensorDrievr for given effect
-            Post["/{api}/effect"] = parameters =>
+            Post["/"] = _ =>
             {
-                if (Request.Form.argument.HasValue)
-                    effectService.SetArgument(parameters.api, (string)Request.Form.argument);
+                if (Request.Form.dmxbrightness.HasValue)
+                    settingsService.SetDMXBrightness((string)Request.Form.dmxbrightness);
 
-                if (Request.Form.color.HasValue)
-                    effectService.SetColor(parameters.api, (string)Request.Form.color);
-
-                if (Request.Form.sensordriven.HasValue)
-                    effectService.SetSensorDrive(parameters.api, (string)Request.Form.sensordriven);
 
                 return HttpStatusCode.OK;
-            };        
+            };
         }
     }
 }

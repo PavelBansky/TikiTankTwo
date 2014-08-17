@@ -50,6 +50,8 @@ namespace TikiTankServer
             TankManager.PanelsManager.Start();
 
             Sensor.Start();
+
+            idleTimer.Enabled = true;
         }
 
         public static void StopTheTank()
@@ -74,14 +76,22 @@ namespace TikiTankServer
         /// <param name="e"></param>
         static void idleTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            Console.WriteLine("Tank State: Idle");
-            idleTimer.Enabled = false;
-            State = TankState.Idle;
+            if ((DateTime.Now - lastTick).TotalMinutes > 1)
+            {
+                Console.WriteLine("Tank State: Idle");
+                State = TankState.Idle;
+            }
         }
 
         static void _sensor_OnTick()
         {
-            //
+            if (State == TankState.Idle)
+            {
+                Console.WriteLine("Tank State: Running");
+                State = TankState.Running;
+            }
+
+            lastTick = DateTime.Now;
         }
 
         private static SpeedSensor _sensor;
@@ -103,9 +113,11 @@ namespace TikiTankServer
             set
             {
                 _state = value;
-                _state = TreadsManager.State = BarrelManager.State = PanelsManager.State = value;
+                //_state = TreadsManager.State = BarrelManager.State = PanelsManager.State = value;
             }
         }
+
+        private static DateTime lastTick;
 
         private static Timer idleTimer = new Timer();
 
