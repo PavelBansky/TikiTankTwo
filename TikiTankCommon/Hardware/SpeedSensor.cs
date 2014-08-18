@@ -1,64 +1,62 @@
 ﻿using System;
+using System.IO;
 using System.IO.Ports;
 using System.Threading;
 
 namespace TikiTankHardware
 {
-    public class SpeedSensor
-    {
-        public SpeedSensor(string portName)
-        {
-            _port = new SerialPort(portName, 9600);  
-        }
+	public class SpeedSensor
+	{
+		byte[] recvBuffer = new byte[1];
+		Stream stream;
+		SerialPort port;
 
-        public void Start()
-        {
-            Console.WriteLine("Sensor: Starting Speed Sensor");
-            _isRunning = true;
-            _thread = new Thread(DoWork);
-            _thread.Start();
-        }
+		public SpeedSensor(string portName)
+		{
+			port = new SerialPort(portName, 9600);
+		}
 
-        public void Stop()
-        {
-            Console.WriteLine("Sensor: Stoping Speed Sensor");
-            _isRunning = false;
-            _thread.Join(2000);            
-        }
+		public void Start()
+		{
+			Console.WriteLine("Sensor: Starting Speed Sensor");
 
-        public void DoWork()
-        {
-            _port.Open();
+			port.Open();
+			stream = port.BaseStream;
 
-            byte[] buffer = new byte[256];
-            int ticksNumber;
+			// C# serial port class is dangerous, only the BaseStream is safe
+			// http://www.sparxeng.com/blog/software/must-use-net-system-io-ports-serialport
+			stream.BeginRead(recvBuffer, 0, recvBuffer.Length, OnRecv, null);
+		}
 
-            while (_isRunning)
-            {                
-                // If there is something to read, read it
-                if (_port.BytesToRead > 0)
-                {
-                    // read and discard the rest of the buffer
-                    ticksNumber = _port.ReadByte();
+		private void OnRecv(IAsyncResult ar)
+		{
+			try
+			{
+				var len = stream.EndRead(ar);
 
-                    if (OnTick != null)
-                    {                            
-                        for (; ticksNumber > 0; ticksNumber--)
-                        {                            
-                            OnTick();
-                        }
-                    }
-                }
-            }
-    
-            _port.Close();
-        }
+				for (var i = 0; i < len; ++i)
+					for (var j = 0; j < recvBuffer[i]; ++j)
+						OnTick();
 
-        public delegate void TickDelegate();
-        public event TickDelegate OnTick;
+				stream.BeginRead(recvBuffer, 0, recvBuffer.Length, OnRecv, null);
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine("Sensor: {0}", ex.Message);
+			}
+		}
 
-        SerialPort _port;
-        Thread _thread;
-        bool _isRunning;
-    }
+		public void Stop()
+		{
+			if (stream != null)
+			{
+				stream.Close();
+				stream = null;
+			}
+		}
+
+		public delegate void TickDelegate();
+		public event TickDelegate OnTick;
+
+	}
 }
