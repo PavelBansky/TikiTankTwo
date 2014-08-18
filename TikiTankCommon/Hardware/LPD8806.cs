@@ -44,9 +44,9 @@ namespace TikiTankHardware
 
             for(int i=0; i<pixels.Length; i++)
             {
-                _fstream.WriteByte((byte)(pixels[i].G | 0x80));
-                _fstream.WriteByte((byte)(pixels[i].R | 0x80));
-                _fstream.WriteByte((byte)(pixels[i].B | 0x80));
+                _fstream.WriteByte(Gama[pixels[i].G]);
+                _fstream.WriteByte(Gama[pixels[i].R]);
+                _fstream.WriteByte(Gama[pixels[i].B]);
             }
 
             _fstream.Write(_latchBytes, 0, _latchBytes.Length);
