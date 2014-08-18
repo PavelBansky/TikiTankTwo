@@ -1,3 +1,12 @@
+# bin/obj folders
+/*/[Bb]in/
+/*/[Oo]bj/
+
+# User-specific files
+*.user
+*.cache
+*.unsuccessfulbuild
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
