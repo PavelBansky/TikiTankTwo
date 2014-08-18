@@ -27,6 +27,12 @@ namespace TikiTankHardware
             Array.Clear(_latchBytes, 0, _latchBytes.Length);
             Console.WriteLine("LPD8806: Latch length: {0}", _latchBytes.Length);
 
+            // Create buffer used to show all pixels
+            _showBytes = new byte[(3 * Length) + _latchBytes.Length];
+
+            // Put the latch at the end of the show buffer
+            Buffer.BlockCopy(_latchBytes, 0, _showBytes, 3 * Length, _latchBytes.Length);
+
             InitSPI();
         }
 
@@ -44,12 +50,13 @@ namespace TikiTankHardware
 
             for(int i=0; i<pixels.Length; i++)
             {
-                _fstream.WriteByte((byte)(pixels[i].G | 0x80));
-                _fstream.WriteByte((byte)(pixels[i].R | 0x80));
-                _fstream.WriteByte((byte)(pixels[i].B | 0x80));
+                // Move to GRB with gamma taken into account
+                _showBytes[3 * i + 0] = Gama[pixels[i].G];
+                _showBytes[3 * i + 1] = Gama[pixels[i].R];
+                _showBytes[3 * i + 2] = Gama[pixels[i].B];
             }
 
-            _fstream.Write(_latchBytes, 0, _latchBytes.Length);
+            _fstream.Write(_showBytes, 0, _showBytes.Length);
             _fstream.Flush();
         }
 
@@ -66,6 +73,7 @@ namespace TikiTankHardware
 
         byte[] Gama;
         private byte[] _latchBytes;
+        private byte[] _showBytes;
         private FileStream _fstream;
     }
 }
