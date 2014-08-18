@@ -25,7 +25,7 @@ namespace TikiTankServer
             TankManager.StartTheTank();
 
             Console.WriteLine("Starting Nancy self host");
-            NancyHost host = new NancyHost(new Uri("http://localhost:8080"));            
+            NancyHost host = new NancyHost(new Bootstrapper(), new Uri("http://localhost:8080"));
             host.Start();
 
             Console.WriteLine("Awaiting commands");
