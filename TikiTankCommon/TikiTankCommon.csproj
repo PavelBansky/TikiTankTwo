@@ -42,12 +42,25 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseTreadEffect.cs" />
+    <Compile Include="ColorExtend.cs" />
     <Compile Include="ColorHelper.cs" />
+    <Compile Include="Effects\AntsTread.cs" />
     <Compile Include="Effects\CameraFlashes.cs" />
     <Compile Include="Effects\DMXGlow.cs" />
     <Compile Include="Effects\DMXRainbow.cs" />
-    <Compile Include="Effects\SimpleTread.cs" />
+    <Compile Include="Effects\FullRainbowTread.cs" />
+    <Compile Include="Effects\Gradient.cs" />
+    <Compile Include="Effects\KitBarrel.cs" />
+    <Compile Include="Effects\MultiLineBarrel.cs" />
+    <Compile Include="Effects\RandomCameras.cs" />
+    <Compile Include="Effects\ShootingStar.cs" />
     <Compile Include="Effects\RainbowTread.cs" />
+    <Compile Include="Effects\AntialiasTread.cs" />
+    <Compile Include="Effects\SimpleTread.cs" />
+    <Compile Include="Effects\SparkleFlashes.cs" />
+    <Compile Include="Effects\SpotTread.cs" />
+    <Compile Include="Effects\TwinkleTwinkle.cs" />
     <Compile Include="Hardware\BeagleBoneBlack.cs" />
     <Compile Include="Hardware\DMXControl.cs" />
     <Compile Include="Hardware\LPD8806.cs" />

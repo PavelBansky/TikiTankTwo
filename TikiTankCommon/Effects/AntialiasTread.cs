@@ -2,14 +2,14 @@
 using System.Drawing;
 
 namespace TikiTankCommon.Effects
-{
-    public class SimpleTread : IEffect
+{    
+    public class AntialiasTread : IEffect
     {
-        public SimpleTread()
-        {
-            this.Argument = "0";
-            this.Color = Color.Red;
-            this.last = DateTime.Now;
+        public AntialiasTread()
+        {         
+            this.Argument ="0";
+            this.Color = Color.White;            
+            this.last = DateTime.Now;                        
             this.MetersPerTick = 10 / 39.0; // 4"
 
             this.metersTraveled = 0.0;
@@ -58,7 +58,7 @@ namespace TikiTankCommon.Effects
             double traveled = metersShown; // actual offset
             while (traveled > maxMeters)
                 traveled -= maxMeters; // now fits within display
-            double trueOffset = traveled / (pixelSize);
+            double trueOffset = traveled / ( pixelSize); 
             int offset = (int)(Math.Floor(trueOffset)); // offset used as pixel index
             double remainder = trueOffset - offset; // remainder used to calculate partially shaded regions
             // double overage = Math.Pow(((metersShown / pixelSize) - pixelsMoved), 4);
@@ -67,23 +67,27 @@ namespace TikiTankCommon.Effects
             {
                 int n = (i + offset) % pixels.Length;
 
-                switch (i % 15)
+                switch (i % 16)
                 {
                     default:
                         pixels[n] = Color.Black;
                         break;
                     case 14:
-                        pixels[n] = this.Color;//Color.FromArgb(
-                         //   (int)(this.Color.R * Math.Pow(remainder, 4)), (int)(this.Color.G * Math.Pow(remainder, 4)), (int)(this.Color.B * Math.Pow(remainder, 4)));
-                        continue;
-                    case 13: pixels[n] = this.Color; continue;
-                    case 12: pixels[n] = this.Color; continue;
-                    case 11: pixels[n] = this.Color;  continue;
+                        pixels[n] = Color.FromArgb(
+                            (int)(this.Color.R * Math.Pow(remainder, 4)), (int)(this.Color.G * Math.Pow(remainder, 4)), (int)(this.Color.B * Math.Pow(remainder,4)));
+                        break;
+                    case 13: continue;
+                    case 12: continue;
+                    case 11: continue;
                     case 10:
                         pixels[n] = this.Color;
-                        continue;
+                        break;
+                    case 9:
+                        pixels[n] = Color.FromArgb(
+                            (int)(this.Color.R * (1 - remainder)), (int)(this.Color.G * (1 - remainder)), (int)(this.Color.B * (1 - remainder)));
+                        break;
                 }
-            }
+            }           
         }
 
         public void Tick()
@@ -111,8 +115,8 @@ namespace TikiTankCommon.Effects
                 }
             }
         }
-
-        private DateTime last;
+                
+        private DateTime last;            
         private int Period;
         //private Color[] memory;
         private double metersTraveled;
@@ -120,7 +124,7 @@ namespace TikiTankCommon.Effects
         private double MetersPerTick;
 
     }
-
+     
 }
 
 

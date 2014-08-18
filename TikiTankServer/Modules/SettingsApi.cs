@@ -20,6 +20,11 @@ namespace TikiTankServer.Modules
                 if (Request.Form.dmxbrightness.HasValue)
                     settingsService.SetDMXBrightness((string)Request.Form.dmxbrightness);
 
+                if (Request.Form.manualtick.HasValue)
+                    settingsService.SetManualTick((string)Request.Form.manualtick);
+
+                if (Request.Form.idleinterval.HasValue)
+                    settingsService.SetDMXBrightness((string)Request.Form.idleinterval);
 
                 return HttpStatusCode.OK;
             };

@@ -13,6 +13,6 @@ D:\GitHub\TikiTankTwo\OldVerison\TikiTankTwo\TikiTankCommon\obj\Debug\TikiTankCo
 D:\GitHub\TikiTankTwo\OldVerison\TikiTankTwo\TikiTankCommon\obj\Debug\TikiTankCommon.pdb
 D:\GitHub\TikiTankTwo\TikiTankCommon\bin\Debug\TikiTankCommon.dll
 D:\GitHub\TikiTankTwo\TikiTankCommon\bin\Debug\TikiTankCommon.pdb
+D:\GitHub\TikiTankTwo\TikiTankCommon\bin\Debug\LibUsbDotNet.dll
 D:\GitHub\TikiTankTwo\TikiTankCommon\obj\Debug\TikiTankCommon.dll
 D:\GitHub\TikiTankTwo\TikiTankCommon\obj\Debug\TikiTankCommon.pdb
-D:\GitHub\TikiTankTwo\TikiTankCommon\bin\Debug\LibUsbDotNet.dll

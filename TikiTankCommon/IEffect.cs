@@ -2,6 +2,18 @@
 
 namespace TikiTankCommon
 {
+    public interface IBarrelEffect : IEffect
+    {
+    }
+
+    public interface IPanelEffect : IEffect
+    {
+    }
+
+    public interface ITreadEffect : IEffect
+    {
+    }
+
     public interface IEffect
     {
         /// <summary>

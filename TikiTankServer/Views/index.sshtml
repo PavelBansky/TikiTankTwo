@@ -31,20 +31,20 @@
                             <img src="@Path['~/content/panels.png']" width="256" height="356" usemap="#panelsmap" />
 
                             <map name="panelsmap">
-                                <area shape="rect" alt="grill" href="javascript:setEffectParameters('panels', eval(cw.color()), 5)" coords="18, 10, 239, 59" />
-                                
-                                <area shape="poly" alt="cabin_F" href="javascript:setEffectParameters('panels', eval(cw.color()), 3)" coords="19, 65, 239, 65, 189, 114, 68, 114, 19, 65" />                               
-                                <area shape="poly" alt="cabin_L" href="javascript:setEffectParameters('panels', eval(cw.color()), 8)" coords="9, 65, 9, 244, 58, 244, 58, 114, 9, 65" />
-                                <area shape="poly" alt="cabin_R" href="javascript:setEffectParameters('panels', eval(cw.color()), 0)" coords="249, 65, 249, 244, 199, 244, 199, 115, 249, 65" />
+                                <area shape="rect" alt="grill" href="javascript:setEffectParameters('panels', eval(cw.color).hex, 0)" coords="18, 10, 239, 59" />
 
-                                <area shape="poly" alt="turret_F" href="javascript:setEffectParameters('panels', eval(cw.color()), 4)" coords="79, 124, 178,124, 128, 199, 79, 124" />
-                                <area shape="poly" alt="turret_L" href="javascript:setEffectParameters('panels', eval(cw.color()), 9)" coords="69, 125, 69, 249, 119, 200, 69, 125" />
-                                <area shape="poly" alt="turret_R" href="javascript:setEffectParameters('panels', eval(cw.color()), 1)" coords="187, 125, 187, 250, 138, 199, 187, 125" />
-                                
-                                <area shape="rect" alt="side_L" href="javascript:setEffectParameters('panels', eval(cw.color()), 6)" coords="9, 249, 58, 344" />
-                                <area shape="rect" alt="side_R" href="javascript:setEffectParameters('panels', eval(cw.color()), 2)" coords="199, 250, 249, 343" />
-                                <area shape="rect" alt="bridge" href="javascript:setEffectParameters('panels', eval(cw.color()), 7)" coords="69, 294, 188, 343" />
-                            </map> 
+                                <area shape="poly" alt="cabin_F" href="javascript:setEffectParameters('panels', cw.color().hex, 1)" coords="19, 65, 239, 65, 189, 114, 68, 114, 19, 65" />
+                                <area shape="poly" alt="cabin_L" href="javascript:setEffectParameters('panels', cw.color().hex, 4)" coords="9, 65, 9, 244, 58, 244, 58, 114, 9, 65" />
+                                <area shape="poly" alt="cabin_R" href="javascript:setEffectParameters('panels', cw.color().hex, 9)" coords="249, 65, 249, 244, 199, 244, 199, 115, 249, 65" />
+
+                                <area shape="poly" alt="turret_F" href="javascript:setEffectParameters('panels', cw.color().hex, 2)" coords="79, 124, 178,124, 128, 199, 79, 124" />
+                                <area shape="poly" alt="turret_L" href="javascript:setEffectParameters('panels', cw.color().hex, 3)" coords="69, 125, 69, 249, 119, 200, 69, 125" />
+                                <area shape="poly" alt="turret_R" href="javascript:setEffectParameters('panels', cw.color().hex, 8)" coords="187, 125, 187, 250, 138, 199, 187, 125" />
+
+                                <area shape="rect" alt="side_L" href="javascript:setEffectParameters('panels', cw.color().hex, 5)" coords="9, 249, 58, 344" />
+                                <area shape="rect" alt="side_R" href="javascript:setEffectParameters('panels', cw.color().hex, 7)" coords="199, 250, 249, 343" />
+                                <area shape="rect" alt="bridge" href="javascript:setEffectParameters('panels', cw.color().hex, 6)" coords="69, 294, 188, 343" />
+                            </map>
 
                         </div>
                         <div id="effectsRight_bodyMap">
@@ -87,17 +87,17 @@
                                 <div class="effectControlButton" onclick="setEffectArgument('treads', treadsArgumentValue.value)">
                                     SET VALUE
                                 </div>
-                                <div class="effectControlButton" onclick="setEffectColor('treads', eval(cw.color()))">
+                                <div class="effectControlButton" onclick="setEffectColor('treads', cw.color().hex)">
                                     SET COLOR
                                 </div>
-                                <div class="effectControlButton" onclick="setEffectSensorDrive('treads', true)">
+                                <div id="treadsAutoButton" class="effectControlButton" onclick="setEffectSensorDrive('treads', true)">
                                     AUTOMATIC
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-              
+
                 <div id="barrelTab">
                     <div id="effectsWrapper">
                         <div id="effectsLeft">
@@ -122,7 +122,7 @@
                                 <div class="effectControlButton" onclick="setEffectArgument('barrel', barrelArgumentValue.value)">
                                     SET VALUE
                                 </div>
-                                <div class="effectControlButton" onclick="setEffectColor('barrel', eval(cw.color()))">
+                                <div class="effectControlButton" onclick="setEffectColor('barrel', cw.color().hex)">
                                     SET COLOR
                                 </div>
                             </div>
@@ -130,20 +130,65 @@
                     </div>
                 </div>
 
-                <div id="sttingsTab">
-                            <div id="effectDisplay">
-                                <div>DMX Brightness:</div>
-                                <input id="settingsDmxBrightness" type="text">
-                            </div>
-
-                            <div id="effectControlWrapper">
-                                <div class="effectControlButton" onclick="setDmxBrightness(settingsDmxBrightness.value)">
-                                    SET VALUE
+                <div id="settingsTab">
+                    <div id="settingsWrapper">
+                        <div class="setRowContainer">
+                            <div class="settingLabel">Brightness:</div>
+                            <div id="brightInputWrap">
+                                <div class="settingDisplay">
+                                    <input id="settingsDmxBrightness" type="text" name="">
+                                </div>
+                                <div class="settingControlWrapper">
+                                    <div class="settingControlButton" onclick="setDmxBrightness(settingsDmxBrightness.value)">
+                                        SET VALUE
+                                    </div>
                                 </div>
                             </div>
+                            <div class="brightButton" onclick="setDmxBrightness('10')">
+                                10%
+                            </div>
+                            <div class="brightButton" onclick="setDmxBrightness('25')">
+                                25%
+                            </div>
+                            <div class="brightButton" onclick="setDmxBrightness('50')">
+                                50%
+                            </div>
+                            <div class="brightButton" onclick="setDmxBrightness('100')">
+                                100%
+                            </div>
+                        </div>
+                        <div class="settingHR"><hr/></div>
+                        <div class="setRowContainer">
+                            <div class="settingLabel">Manual tick interval:</div>
+                            <div id="brightInputWrap">
+                                <div class="settingDisplay">
+                                    <input id="settingsManualTick" type="text" name="">
+                                </div>
+                                <div class="settingControlWrapper">
+                                    <div class="settingControlButton" onclick="setManualTick(settingsManualTick.value)">
+                                        SET VALUE
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="settingHR"><hr/></div>
+                        <div class="setRowContainer">
+                            <div class="settingLabel">Screensaver effect interval:</div>
+                            <div id="brightInputWrap">
+                                <div class="settingDisplay">
+                                    <input id="settingsScreenSaverInterval" type="text" name="">
+                                </div>
+                                <div class="settingControlWrapper">
+                                    <div class="settingControlButton" onclick="setScreenSaverInterval(settingsScreenSaverInterval.value)">
+                                        SET VALUE
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
+            </div>			
+         </div>
 
         <div id="rightContainer">
             <div id="colorGrid">

@@ -6,28 +6,110 @@
 				 },
  "Effect":	{
 					"Class":"SimpleTread",
-					"IsSensorDriven":true,
+					"IsSensorDriven":false,
+					"Color":"White",
+					"Argument":"0"
+				}
+ },
+ {
+ "Information":  {
+					"Name":"Antialias Treads",
+					"ArgumentDescription":"n/a"
+				 },
+ "Effect":	{
+					"Class":"AntialiasTread",
+					"IsSensorDriven":false,
 					"Color":"White",
 					"Argument":"0"
 				}
  },
 
  {
- "Information":	{
+ "Information":  {
 					"Name":"Rainbow Treads",
-					"Description":"Rainbow tread effect",
-					"ArgumentDescription":"Speed and direction [+/-]"
-				},
- "Effect":		{	
+					"ArgumentDescription":"n/a"
+				 },
+ "Effect":	{
 					"Class":"RainbowTread",
-					"IsSensorDriven":true,
+					"IsSensorDriven":false,
 					"Argument":"0"
 				}
  },
 
-
+  {
+ "Information":	{
+					"Name":"Full Rainbow Tread",
+					"Description":"Treads are full rainbow that moves"
+				},
+ "Effect":		{
+					"Class":"FullRainbowTread",
+					"IsSensorDriven":false
+				}
+ },
 
  {
+ "Information":	{
+					"Name":"Ants Tread",
+					"Description":"Random color tread"
+				},
+ "Effect":		{
+					"Class":"AntsTread",
+					"IsSensorDriven":false
+				}
+ },
+
+  {
+ "Information":	{
+					"Name":"SpotTread",
+					"Description":"Random color tread"
+				},
+ "Effect":		{
+					"Class":"SpotTread",
+					"IsSensorDriven":false
+				}
+ },
+
+ {
+ "Information":	{
+					"Name":"Sparkle Flashes",
+					"Description":"Sparkly camera flashes",
+				},
+ "Effect":		{
+					"Class":"SparkleFlashes",
+					"IsSensorDriven":false,
+					"Color":"Red"
+				}
+ },
+
+   {
+ "Information":	{
+					"Name":"Twinkle Twinkle",
+					"Description":"Twinkly star lights",
+					"ArgumentDescription":"Flashes per second"
+				},
+ "Effect":		{
+					"Class":"TwinkleTwinkle",
+					"IsSensorDriven":false,
+					"Color":"White",
+					"Argument":"8"
+				}
+ },
+
+    {
+ "Information":	{
+					"Name":"Random Cameras",
+					"Description":"Twinkly star lights",
+					"ArgumentDescription":"Flashes per second"
+				},
+ "Effect":		{
+					"Class":"RandomCameras",
+					"IsSensorDriven":false,
+					"Color":"White",
+					"Argument":"8"
+				}
+ },
+
+  {
  "Information":	{
 					"Name":"Camera Flashes",
 					"Description":"Camera Flased",
@@ -38,18 +120,6 @@
 					"IsSensorDriven":false,
 					"Color":"White",
 					"Argument":"8"
-				}
- },
-
-{
- "Information":	{
-					"Name":"Glow",
-					"Description":"Glowing effect",
-				},
- "Effect":		{
-					"Class":"Glow",
-					"IsSensorDriven":false,
-					"Color":"Red"
 				}
  },
 

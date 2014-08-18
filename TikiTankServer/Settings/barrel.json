@@ -1,5 +1,59 @@
 ﻿[
+ {
+ "Information":	{
+					"Name":"Kit Barrel",
+					"Description":"Kit Barrel"
+				},
+ "Effect":		{
+					"Class":"KitBarrel",
+				}
+ },
 
+  {
+ "Information":	{
+					"Name":"Multiline Barrel",
+					"Description":"Multiline Barrel"
+				},
+ "Effect":		{
+					"Class":"MultiLineBarrel",
+				}
+ },
+
+   {
+ "Information":	{
+					"Name":"Shooting Start",
+					"Description":"Multiline Barrel"
+				},
+ "Effect":		{
+					"Class":"ShootingStar",
+				}
+ },
+
+  {
+ "Information":	{
+					"Name":"Sparkle Flashes",
+					"Description":"Sparkly camera flashes",
+				},
+ "Effect":		{
+					"Class":"SparkleFlashes",
+					"IsSensorDriven":false,
+					"Color":"Red"
+				}
+ },
+
+   {
+ "Information":	{
+					"Name":"Twinkle Twinkle",
+					"Description":"Twinkly star lights",
+					"ArgumentDescription":"Flashes per second"
+				},
+ "Effect":		{
+					"Class":"TwinkleTwinkle",
+					"IsSensorDriven":false,
+					"Color":"White",
+					"Argument":"8"
+				}
+ },
 
 
  {

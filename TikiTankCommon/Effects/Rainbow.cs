@@ -44,7 +44,7 @@ namespace TikiTankCommon.Effects
                 int greenWave = (int)(Math.Sin(15 * position + (10 + pixels.Length / 3) / Math.PI));
                 // rotate 2/3 of the way around the circle
                 int blueWave = (int)(Math.Sin(15 * position + (2 * pixels.Length / 3) / Math.PI));
-                Console.WriteLine("r: {0}, g: {0}, b: {0}");
+                //Console.WriteLine("r: {0}, g: {0}, b: {0}");
                 // apply sines to colors
                 pixels[position] = Color.FromArgb((int)(redWave * 255), (int)(greenWave * 255), (int)(blueWave * 255));
             }

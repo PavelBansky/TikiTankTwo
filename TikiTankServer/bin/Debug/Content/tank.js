@@ -88,21 +88,34 @@ function displayActiveEffectData(data, api)
     $("#" + api + "ArgumentDescription").html(data.argumentDescription);
     $("#" + api + "ArgumentValue").val(data.argument);
     $("#" + api + "ActiveEffect").text(data.name);
+    
+    if (api == "treads")       
+    {
+        if (data.isSensorDriven)
+            $("#treadsAutoButton").text = "SET MANUAL";
+        else
+            $("#treadsAutoButton").text = "SET AUTOMATIC";
+    }
 }
 
 
 function getActiveEffects()
 {
+    console.log("Getting active effects");
+
     $.getJSON("/api/panels/effect", function (data, status) {
         displayActiveEffectData(data, "panels");
+        console.log(data);
     });
 
     $.getJSON("/api/treads/effect", function (data, status) {
         displayActiveEffectData(data, "treads");
+        console.log(data);
     });
 
     $.getJSON("/api/barrel/effect", function (data, status) {
         displayActiveEffectData(data, "barrel");
+        console.log(data);
     });
 }
 
@@ -110,7 +123,7 @@ function selectEffect(id, api) {
     $.post("/api/" + api + "/effect/" + id,
         function (data, status) {
             displayActiveEffectData(data, api);
-            console.log(datan);        
+            console.log(data);        
     });
 }
 
@@ -159,10 +172,30 @@ function setEffectSensorDrive(api, arg) {
      });
 }
 
-function setEffectSensorDrive(arg) {
+function setDmxBrightness(arg) {
     $.post("/settings",
      {
          dmxbrightness: arg
+     },
+     function (data, status) {
+         //displayActiveEffectData(data, api);
+     });
+}
+
+function setManualTick(arg) {
+    $.post("/settings",
+     {
+         manualtick: arg
+     },
+     function (data, status) {
+         //displayActiveEffectData(data, api);
+     });
+}
+
+function setScreenSaverInterval(arg) {
+    $.post("/settings",
+     {
+         idleinterval: arg
      },
      function (data, status) {
          //displayActiveEffectData(data, api);

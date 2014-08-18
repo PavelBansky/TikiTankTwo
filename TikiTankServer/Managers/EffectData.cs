@@ -13,5 +13,6 @@ namespace TikiTankServer.Managers
         public int Id { get; set; }
         public string Color;
         public string Argument;
+        public bool IsSensorDriven;
     }
 }

@@ -21,6 +21,8 @@ namespace TikiTankHardware
                 Console.WriteLine("uDMX NOT FOUND, it's going to be sad :-(");
                 _dmxReady = false;
             }
+
+            Brightness = 50;
         }
 
         public void Show(Color[] pixels)

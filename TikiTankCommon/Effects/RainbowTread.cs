@@ -2,67 +2,108 @@
 using System.Drawing;
 
 namespace TikiTankCommon.Effects
-{
+{    
     public class RainbowTread : IEffect
     {
-        enum Direction
-        {            
-            Stop,
-            Forward,
-            Backward            
-        }
-
         public RainbowTread()
         {         
             this.Argument ="0";
-            this.Color = Color.FromArgb(255, 255, 255);
-            startTime = DateTime.Now;
+            this.Color = Color.White;            
+            this.last = DateTime.Now;                        
+            this.MetersPerTick = 10 / 39.0; // 4"
+
+            this.metersTraveled = 0.0;
+            this.metersShown = 0.0;
         }
 
         public void Activate(Color[] pixels)
-        {            
+        {
             for (int i = 0; i < pixels.Length; i++)
             {
-                pixels[(pixels.Length - 1) - i] = ColorHelper.Wheel(((i * 384 / pixels.Length) ) % 384);
+                pixels[(pixels.Length - 1) - i] = ColorHelper.Wheel(((i * 384 / pixels.Length)) % 384);
             }
 
-            for (int j = 0; j < pixels.Length; j += 15)
-            {
-                StripHelper.FillColor(pixels, j + 5, 10, Color.Black);
-            }
-
-            memory = new Color[pixels.Length];
-            Array.Copy(pixels, memory, pixels.Length);
         }
 
         public void Deactivate(Color[] pixels) { }
 
         public bool WouldUpdate()
         {
+            // implement static speed control, turn to 0 to rely on interrupts
+            if (!IsSensorDriven && Period > 0)
+            {
+                if ((DateTime.Now - last).TotalMilliseconds > Period)
+                {
+                    last = DateTime.Now;
+                    Tick();
+                }
+            }
+
+            if (metersShown > metersTraveled)
+                return false;
+
             return true;
         }
 
         public void FrameUpdate(Color[] pixels)
         {
-            if (!IsSensorDriven)
+
+            // move the treads about 5% of the way toward the goal each frame
+            // while this does lag a bit, it is so simple that it's attractive
+            // and it speeds up exponentially rather than continuing to lag
+            metersShown = (metersShown * 30 + metersTraveled) / 31;
+            double pixelSize = 1.0 / 32; // 32 pixels per meter
+            double maxMeters = pixelSize * pixels.Length; // size of display (meters that can be shown)
+            double traveled = metersShown; // actual offset
+            while (traveled > maxMeters)
+                traveled -= maxMeters; // now fits within display
+            double trueOffset = traveled / ( pixelSize); 
+            int offset = (int)(Math.Floor(trueOffset)); // offset used as pixel index
+            double remainder = trueOffset - offset; // remainder used to calculate partially shaded regions
+            // double overage = Math.Pow(((metersShown / pixelSize) - pixelsMoved), 4);
+            //Console.WriteLine("offset: {0}", remainder);
+
+           // for (int i = 0; i < pixels.Length; i++)
+           // {
+           //     pixels[(pixels.Length - 1) - i] = ColorHelper.Wheel(((i * 384 / pixels.Length)) % 384);
+           // }
+
+            for (int i = 0; i < pixels.Length; i++)
             {
-                TimeSpan delta = DateTime.Now - startTime;
-                if (delta.TotalMilliseconds > _delay)
-                {
-                    startTime = DateTime.Now;
-                    Tick();
-                }
+                if (i >= 384)
+                    pixels[(pixels.Length - 1) - i] = ColorHelper.Wheel(383);
+                else
+                    pixels[(pixels.Length - 1) - i] = ColorHelper.Wheel(i);
             }
 
-            Array.Copy(memory, pixels, pixels.Length);
+            for (int i = 0; i < pixels.Length; i++)
+            {
+                int n = (i + offset) % pixels.Length;
+
+                switch (i % 15)
+                {
+                    default:
+                        pixels[n] = Color.Black;
+                        break;
+                    case 14:
+                        pixels[n] = Color.FromArgb(
+                            (int)(pixels[n].R * Math.Pow(remainder, 4)), (int)(pixels[n].G * Math.Pow(remainder, 4)), (int)(pixels[n].B * Math.Pow(remainder, 4)));
+                        break;
+                    case 13: continue;
+                    case 12: continue;
+                    case 11: continue;
+                    case 10:
+                        pixels[n] = Color.FromArgb(
+                            (int)(pixels[n].R * (1 - remainder)), (int)(pixels[n].G * (1 - remainder)), (int)(pixels[n].B * (1 - remainder)));
+                        break;
+                }
+            }           
         }
 
         public void Tick()
         {
-            if (_direction == Direction.Forward)
-                StripHelper.RotateRight(memory);
-            else if (_direction == Direction.Backward)
-                StripHelper.RotateLeft(memory);
+            // 4 inches per tick, in meters
+            metersTraveled += MetersPerTick;
         }
 
         public bool IsSensorDriven { get; set; }
@@ -73,32 +114,27 @@ namespace TikiTankCommon.Effects
         {
             get
             {
-                return _arg.ToString();
+                return Period.ToString();
             }
             set 
             {
                 int i;
                 if (int.TryParse(value, out i))
                 {
-                    _arg = i;
-
-                    if (i < 0)
-                        _direction = Direction.Backward;
-                    else if (i > 0)
-                        _direction = Direction.Forward;
-                    else if (i == 0)
-                        _direction = Direction.Stop;
-
-                    if (Math.Abs(i) > 0)
-                        _delay = 400 / Math.Abs(i);                    
+                    Period = i;
                 }
             }
         }
+                
+        private DateTime last;            
+        private int Period;
+        //private Color[] memory;
+        private double metersTraveled;
+        private double metersShown;
+        private double MetersPerTick;
 
-        private int _delay;
-        private int _arg;
-        private Direction _direction;
-        private Color[] memory;
-        private DateTime startTime;
     }
+     
 }
+
+

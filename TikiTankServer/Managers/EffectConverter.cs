@@ -18,6 +18,10 @@ namespace TikiTankServer.Managers
         {
             switch (jsonObject["Class"].ToString())
             {
+                case "AntialiasTread":
+                    return new AntialiasTread();
+                case "AntsTread":
+                    return new AntsTread();
                 case "CameraFlashes":
                     return new CameraFlashes();
                 case "DMXGlow":
@@ -26,16 +30,34 @@ namespace TikiTankServer.Managers
                     return new DMXRainbow();
                 case "DMXSolidColor":
                     return new DMXSolidColor();
+                case "FullRainbowTread":
+                    return new FullRainbowTread();
                 case "Glow":
                     return new Glow();
+                case "Gradient":
+                    return new Gradient();
+                case "KitBarrel":
+                    return new KitBarrel();
+                case "MultiLineBarrel":
+                    return new MultiLineBarrel();
                 case "Rainbow":
                     return new Rainbow();
                 case "RainbowTread":
                     return new RainbowTread();
+                case "RandomCameras":
+                    return new RandomCameras();
                 case "SimpleTread":
                     return new SimpleTread();
                 case "SolidColor":
                     return new SolidColor();
+                case "ShootingStar":
+                    return new ShootingStar();
+                case "SpotTread":
+                    return new SpotTread();
+                case "SparkleFlashes":
+                    return new SparkleFlashes();
+                case "TwinkleTwinkle":
+                    return new TwinkleTwinkle();
             }
 
             throw new ApplicationException(String.Format("The effect type {0} is not supported!", objectType));

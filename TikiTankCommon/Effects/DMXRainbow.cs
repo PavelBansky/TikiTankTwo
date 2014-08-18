@@ -9,6 +9,7 @@ namespace TikiTankCommon.Effects
         {
             _counter = 0;
             startTime = DateTime.Now;
+            _increase = true;
         }
 
         public void Activate(Color[] pixels) { }
@@ -28,14 +29,21 @@ namespace TikiTankCommon.Effects
         }
 
         public void FrameUpdate(Color[] pixels)
-        {            
+        {
             for (int i = 0; i < pixels.Length; i++)
             {
-                pixels[(pixels.Length-1) - i] = ColorHelper.Wheel(((i * 384 / 30) + _counter) % 384);
-            }
-
+                pixels[i] = ColorHelper.Wheel(_counter);
+            }            
             //cycles of all 384 colors in the wheel
-            _counter = (_counter < 384) ? _counter + 1 : 0;
+            //_counter = (_counter < 384) ? _counter + 1 : 0;
+
+            if (_counter > 382)
+                _increase = false;
+            else if (_counter < 1)
+                _increase = true;
+
+            //cycles of all 384 colors in the wheel            
+            _counter = (_increase) ? _counter + 1 : _counter - 1;
         }
 
         public void Tick()
@@ -51,5 +59,6 @@ namespace TikiTankCommon.Effects
 
         private int _counter;
         private DateTime startTime;
+        private bool _increase;
     }
 }

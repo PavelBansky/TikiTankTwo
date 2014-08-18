@@ -8,7 +8,7 @@ namespace TikiTankServer.Modules
     {
         public EffectApi(IEffectService effectService) : base("/api")
         {
-            Get["/"] = parameters =>
+            Get["/{api}/effect"] = parameters =>
             {
                 EffectData data = effectService.GetEffect(parameters.api);
                 return Response.AsJson<EffectData>(data).WithStatusCode(HttpStatusCode.OK);

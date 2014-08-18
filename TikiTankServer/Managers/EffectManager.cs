@@ -10,24 +10,32 @@ namespace TikiTankServer.Managers
     {
         private const int THREAD_JOIN_WAIT = 2000;
                 
-        public EffectManager(SpeedSensor speedSensor)
+        public EffectManager(SpeedSensor speedSensor, System.Timers.Timer extTimer)
         {
             _effectList = new List<EffectContainer>();
             sensor = speedSensor;
             sensor.OnTick += sensor_OnTick;
+
+            externalTimer = extTimer;
+            externalTimer.Elapsed += externalTimer_Elapsed;
         }
 
-        public void AddEffect(EffectContainer cont)
+        void externalTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            _effectList.Add(cont);
+            if (ActiveEffect != null)
+                ActiveEffectStep();
         }
-
-        
+          
         void sensor_OnTick()
         {
             if (ActiveEffect != null && ActiveEffect.IsSensorDriven)
                 ActiveEffectStep();
         }
+
+        public void AddEffect(EffectContainer cont)
+        {
+            _effectList.Add(cont);
+        }        
 
         public EffectData SelectEffect(int index)
         {
@@ -161,6 +169,7 @@ namespace TikiTankServer.Managers
                 result.Id = index;
                 result.Color = ColorHelper.ColorToString(_effectList[index].Color);
                 result.Argument = (_effectList[index].Argument != null) ? _effectList[index].Argument : string.Empty;
+                result.IsSensorDriven = _effectList[index].IsSensorDriven;
             }
 
             return result;
@@ -233,6 +242,6 @@ namespace TikiTankServer.Managers
         private bool _isRunning = false;
         private Thread _thread;
         private int _activeIndex, _idleIndex;
-        
+        private System.Timers.Timer externalTimer;
     }
 }

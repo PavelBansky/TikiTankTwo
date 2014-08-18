@@ -7,6 +7,10 @@ namespace TikiTankServer.Services
 {
     public interface ISettingsService
     {
-        void SetDMXBrightness(string brightness);        
+        void SetDMXBrightness(string brightness);
+
+        void SetManualTick(string manualtick);
+
+        void SetScreenSaverInterval(string interval);
     }
 }

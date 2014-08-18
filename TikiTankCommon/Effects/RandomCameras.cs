@@ -1,55 +1,36 @@
 using System.Runtime.Serialization;
-using System.Runtime.Serialization.Json;
 using System.Drawing;
 using System;
 
-namespace TikiTank
+namespace TikiTankCommon.Effects
 {
 public class RandomCameras : IEffect
 {
 	public RandomCameras()
 	{
-		DelayRate = 125; // 8 flash per sec
-		FlashRate = 125;
+		DecayRate = 1;
+        Argument = "8"; // 8 flash per sec
 		lastFlash = DateTime.Now;
 		lastDecay = DateTime.Now;
 		rng = new Random();
 		memory = new Color[1];
-
-    	colors = new Color[] {
-    		Color.Aqua, Color.Azure, Color.Bisque, Color.BlueViolet, 
-    		Color.Chartreuse, Color.Coral, CornflowerBlue, Color.Crimson, 
-    		Color.Cyan, Color.DeepPink, Color.DeepSkyBlue, Color.FireBrick, 
-    		Color.ForestGreen, Color.Fuchsia, Color.Gold, Color.Gold, 
-    		Color.Gold, Color.Gold, Color.Green, Color.GreenYellow, 
-    		Color.HotPink, Color.IndianRed, Color.Indigo, Color.Lavender,
-    		Color.LemonChiffon, Color.LightBlue, Color.LightGreen, 
-    		Color.LightPink, Color.LightYellow, Color.Lime, Color.Magenta, 
-    		Color.Maroon, Color.MediumOrchid, Color.MediumSeaGreen, 
-    		Color.MediumVioletRed, Color.MintCream, Color.Orange,
-    		Color.OrangeRed, Color.PeachPuff, Color.Plum, Color.PowderBlue,
-    		Color.Red, Color.Salmon, Color.Silver, Color.Silver, Color.Silver, 
-    		Color.Silver, Color.Silver, Color.Silver, Color.Silver, Color.Silver,
-    		Color.SpringGreen, Color.Gold, Color.Fuschia, Color.Fuschia, 
-    		Color.Fuschia, Color.Teal, Color.Turquoise, Color.Violet, Color.Yellow,
-    		Color.YellowGreen, Color.White
-    	}
+        this.Color = Color.White;
 	}
 
 
-    void Activate(System.Drawing.Color[] pixels){
-    	lastFlash = DateTime.Now;
-    	lastDecay = DateTime.Now;
+    public void Activate(System.Drawing.Color[] pixels)
+    {
+
     }
 
-    void Deactivate(System.Drawing.Color[] pixels){}
+    public void Deactivate(System.Drawing.Color[] pixels){}
 
 	public bool WouldUpdate()
 	{
 		// stabilize the image by only drawing every other frame
 //		return DateTime.Now > lastDecay + TimeSpan.FromMilliseconds(DecayRate);
 		TimeSpan since = DateTime.Now - lastDecay;
-		return (since > delay);
+		return (since > TimeSpan.FromMilliseconds(DecayRate));
 	}
 
 	public void FrameUpdate(Color[] pixels)
@@ -66,7 +47,7 @@ public class RandomCameras : IEffect
 			Color r = i == memory.Length-1 ? memory[0] : memory[i+1];
 
 			// lossy blur
-			memory[i] = Color.FromArgb( 
+			nextframe[i] = Color.FromArgb( 
 				(l.R + m.R + r.R) / 4, 
 				(l.G + m.G + r.G) / 4, 
 				(l.B + m.B + r.B) / 4
@@ -74,34 +55,65 @@ public class RandomCameras : IEffect
 		}
 
 		// next add a new camera flash if it's been long enough
-		if( DateTime.Now > lastFlash + TimeSpan.FromMilliseconds(FlashRate) )
+		if( DateTime.Now > lastFlash + TimeSpan.FromMilliseconds(_flashRate) )
 		{
+            Color[] colors = new Color[] {
+    		    Color.Aqua, Color.Azure, Color.Bisque, Color.BlueViolet, 
+    		    Color.Chartreuse, Color.Coral, Color.CornflowerBlue, Color.Crimson, 
+    		    Color.Cyan, Color.DeepPink, Color.DeepSkyBlue, Color.Firebrick, 
+    		    Color.ForestGreen, Color.Fuchsia, Color.Gold, Color.Gold, 
+    		    Color.Gold, Color.Gold, Color.Green, Color.GreenYellow, 
+    		    Color.HotPink, Color.IndianRed, Color.Indigo, Color.Lavender,
+    		    Color.LemonChiffon, Color.LightBlue, Color.LightGreen, 
+    		    Color.LightPink, Color.LightYellow, Color.Lime, Color.Magenta, 
+    		    Color.Maroon, Color.MediumOrchid, Color.MediumSeaGreen, 
+    		    Color.MediumVioletRed, Color.MintCream, Color.Orange,
+    		    Color.OrangeRed, Color.PeachPuff, Color.Plum, Color.PowderBlue,
+    		    Color.Red, Color.Salmon, Color.Silver, Color.Silver, Color.Silver, 
+    		    Color.Silver, Color.Silver, Color.Silver, Color.Silver, Color.Silver,
+    		    Color.SpringGreen, Color.Gold, Color.Fuchsia, Color.Fuchsia, 
+    		    Color.Fuchsia, Color.Teal, Color.Turquoise, Color.Violet, Color.Yellow,
+    		    Color.YellowGreen, Color.White
+    	    };
+
 			int i = rng.Next(0, nextframe.Length);
 
 			// 3 pixels wide flash, more pixels last longer
-			nextframe[i] = colors[rng.Random(0,colors.Length)];
+            nextframe[i] = colors[rng.Next(colors.Length)];
 
 			lastFlash = DateTime.Now;
 		}
 
-		Array.Copy( memory, pixels, pixels.Length );
+		Array.Copy(nextframe, pixels, pixels.Length );
+        memory = nextframe;
 	}
 
-    void Tick(){}
-	bool IsSensorDriven { get; set; }
-	string Argument { get; set; }
-	System.Drawing.Color Color { get; set; }
+    public void Tick(){}
+	public bool IsSensorDriven { get; set; }
+	public string Argument 
+    {
+        get
+        {
+            return _arg.ToString();
+        }
+        set 
+        { 
+            int i;
+            if (int.TryParse(value, out i))
+            {
+                _arg = i;
+                _flashRate = 1000 / _arg;
+            }
+        } 
+    }
+	public System.Drawing.Color Color { get; set; }
 
-	[DataMember]
-	public string OutputDevice { get; set; }
-
-	[DataMember]
-	public int FlashRate { get; set; }
 	public int DecayRate { get; set; }
-	private Color[] memory;
+	
+    private Color[] memory;
 	private Random rng;
-	private DateTime last;
+    private DateTime lastDecay, lastFlash;
+    private int _flashRate, _arg;
+}
+}
 
-	private Color[] colors;
-}
-}
