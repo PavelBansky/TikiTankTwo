@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Threading;
 using TikiTankCommon;
 using TikiTankHardware;
@@ -8,6 +9,7 @@ namespace TikiTankServer.Managers
 {
     public class EffectManager
     {
+		private const int FRAME_DELAY_USEC = 15000;
         private const int THREAD_JOIN_WAIT = 2000;
                 
         public EffectManager(SpeedSensor speedSensor, System.Timers.Timer extTimer)
@@ -141,25 +143,34 @@ namespace TikiTankServer.Managers
             _thread.Join(THREAD_JOIN_WAIT);
         }
 
+        [DllImport("libc")]
+        private static extern void usleep(int time);
+
         private void DoWork()
         {
             Console.WriteLine("Starting thread");
 
             tickStartTime = DateTime.Now;
-            DateTime refreshStartTime = DateTime.Now;
 
             var sw = new System.Diagnostics.Stopwatch();
 
             sw.Start();
 
+            var next = sw.ElapsedTicks;
+            var ticksPerUsec = System.Diagnostics.Stopwatch.Frequency / 1000000;
+
             while (_isRunning)
             {
-                sw.Restart();
+                next += FRAME_DELAY_USEC;
 
                 EffectUpdateFrame();
 
-                Thread.Sleep((int)Math.Max(15 - sw.ElapsedMilliseconds, 0));
+                var wait = (int)Math.Max(0, next - (sw.ElapsedTicks / ticksPerUsec));
+
+                usleep(wait);
             }
+
+            sw.Stop();
 
             Console.WriteLine("Exiting thread");
         }
