@@ -120,7 +120,7 @@ namespace TikiTankServer.Managers
             
             if (index != _idleIndex)
             {
-                Console.WriteLine("Settings idle effect to {0}", _effectList[_idleIndex].Information.Name);
+                //Console.WriteLine("Settings idle effect to {0}", _effectList[_idleIndex].Information.Name);
                 SwitchIdleEffect(index);
             }
         }

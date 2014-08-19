@@ -2,33 +2,33 @@
  {
  "Information":	{
 					"Name":"Kit Barrel",
-					"Description":"Kit Barrel"
+					"Description":"Kit Barrel",
+					"IsScreenSaver":true
 				},
  "Effect":		{
-					"Class":"KitBarrel",
-					"IsScreenSaver":true
+					"Class":"KitBarrel",					
 				}
  },
 
   {
  "Information":	{
 					"Name":"Multiline Barrel",
-					"Description":"Multiline Barrel"
+					"Description":"Multiline Barrel",
+					"IsScreenSaver":true
 				},
  "Effect":		{
-					"Class":"MultiLineBarrel",
-					"IsScreenSaver":true
+					"Class":"MultiLineBarrel",					
 				}
  },
 
    {
  "Information":	{
 					"Name":"DD's Sperm",
-					"Description":"Multiline Barrel"
+					"Description":"Multiline Barrel",
+					"IsScreenSaver":true
 				},
  "Effect":		{
-					"Class":"ShootingStar",
-					"IsScreenSaver":true
+					"Class":"ShootingStar",					
 				}
  },
 
@@ -36,11 +36,10 @@
  "Information":	{
 					"Name":"Sparkle Flashes",
 					"Description":"Sparkly camera flashes",
+					"IsScreenSaver":true
 				},
  "Effect":		{
-					"Class":"SparkleFlashes",
-					"IsSensorDriven":false,
-					"IsScreenSaver":true					
+					"Class":"SparkleFlashes",															
 				}
  },
 
@@ -48,28 +47,25 @@
  "Information":	{
 					"Name":"Twinkle Twinkle",
 					"Description":"Twinkly star lights",
-					"ArgumentDescription":"Flashes per second"
+					"ArgumentDescription":"Twinkles per second",
+					"IsScreenSaver":true,
 				},
  "Effect":		{
-					"Class":"TwinkleTwinkle",
-					"IsSensorDriven":false,					
-					"IsScreenSaver":true,
+					"Class":"TwinkleTwinkle",										
 					"Color":"White",
 					"Argument":"8"
 				}
  },
-
-
+ 
  {
  "Information":	{
 					"Name":"Camera Flashes",
 					"Description":"Camera Flased",
-					"ArgumentDescription":"Flashes per second"
+					"ArgumentDescription":"Flashes per second",
+					"IsScreenSaver":true
 				},
  "Effect":		{
 					"Class":"CameraFlashes",
-					"IsSensorDriven":false,
-					"IsScreenSaver":true,
 					"Color":"White",
 					"Argument":"8"
 				}
@@ -78,11 +74,11 @@
  {
  "Information":	{
 					"Name":"Solid Color",
-					"Description":"Solid Color"
+					"Description":"Solid Color",
+					"IsScreenSaver":false
 				},
  "Effect":		{
-					"Class":"SolidColor",
-					"IsSensorDriven":false
+					"Class":"SolidColor",					
 				}
  }
 

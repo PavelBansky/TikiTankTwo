@@ -3,7 +3,8 @@
  {
  "Information":	{
 					"Name":"Rainbow",
-					"Description":"Classic rainbot",					
+					"Description":"Classic rainbow",	
+					"IsScreenSaver":true				
 				},
  "Effect":		{
 					"Class":"DMXRainbow",
@@ -13,21 +14,11 @@
 				}
  },
 
-{
- "Information":	{
-					"Name":"Glow",
-					"Description":"Glowing effect",
-				},
- "Effect":		{
-					"Class":"DMXGlow",
-					"IsSensorDriven":false,
-				}
- },
-
  {
  "Information":	{
 					"Name":"Solid Color",
-					"Description":"Solid Color"
+					"Description":"Solid Color",
+					"IsScreenSaver":false
 				},
  "Effect":		{
 					"Class":"DMXSolidColor",
