@@ -60,7 +60,7 @@ void interruptHandler()
   {
     lastInterrupt = now;
   }
-  else if (now - lastInterrupt > 10)
+  else if (now - lastInterrupt > 2)
   {
      cycle = !cycle;
      //if (cycle)
