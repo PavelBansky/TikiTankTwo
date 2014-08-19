@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading;
 using System.Timers;
 using TikiTankCommon;
 using TikiTankHardware;
@@ -17,16 +18,17 @@ namespace TikiTankServer
     {       
         static TankManager()
         {
-            idleTimer = new Timer(60000);
+            idleTimer = new System.Timers.Timer(60000);
             idleTimer.Enabled = false;
             idleTimer.Elapsed += idleTimer_Elapsed;
 
-            changeIdleTimer = new Timer(5000);
+            changeIdleTimer = new System.Timers.Timer(5*60000);
             changeIdleTimer.Enabled = false;
             changeIdleTimer.Elapsed += changeIdleTimer_Elapsed;
 
-            manualTickTimer = new Timer();
-            manualTickTimer.Enabled = false;                        
+            manualTickTimer = new System.Timers.Timer(150);            
+            manualTickTimer.Enabled = false;
+            
         }
         public static void StartTheTank()
         {
@@ -38,7 +40,8 @@ namespace TikiTankServer
             Console.WriteLine("Effects loaded {0}", TreadsManager.Effects.Count);
             TankManager.TreadsManager.SelectEffect(0);
             TankManager.TreadsManager.NextIdleEffect();            
-            TankManager.TreadsManager.Start();
+            TankManager.TreadsManager.Start(15000, ThreadPriority.Highest);
+            Thread.Sleep(5);
 
             Console.WriteLine("Barrel Manager: ");
             BarrelManager = new EffectManager(Sensor, manualTickTimer);
@@ -46,7 +49,8 @@ namespace TikiTankServer
             Console.WriteLine("Effects loaded {0}", BarrelManager.Effects.Count);
             TankManager.BarrelManager.SelectEffect(0);
             TankManager.BarrelManager.NextIdleEffect();
-            TankManager.BarrelManager.Start();
+            TankManager.BarrelManager.Start(15000, ThreadPriority.Normal);
+            Thread.Sleep(5);
 
             Console.WriteLine("Panel Manager: ");
             PanelsManager = new EffectManager(Sensor, manualTickTimer);
@@ -54,7 +58,7 @@ namespace TikiTankServer
             Console.WriteLine("Effects loaded {0}", PanelsManager.Effects.Count);
             TankManager.PanelsManager.SelectEffect(0);
             TankManager.PanelsManager.NextIdleEffect();
-            TankManager.PanelsManager.Start();
+            TankManager.PanelsManager.Start(200000, ThreadPriority.Lowest);
 
             Sensor.Start();
 
@@ -93,7 +97,7 @@ namespace TikiTankServer
         {
             if (interval > 0)
             {
-                changeIdleTimer.Interval = interval*1000;                
+                changeIdleTimer.Interval = interval*60000;                
             }           
         }
 
@@ -101,7 +105,7 @@ namespace TikiTankServer
         {
             SettingsData result = new SettingsData();
             result.DmxBrightness = DmxControl.Brightness;
-            result.IdleInterval = (changeIdleTimer.Interval / 1000);
+            result.IdleInterval = (changeIdleTimer.Interval / 60000);
             result.ManualTick = manualTickTimer.Interval;
 
             return result;
@@ -171,9 +175,9 @@ namespace TikiTankServer
 
         private static DateTime lastTick;
 
-        private static Timer idleTimer = new Timer();
-        private static Timer changeIdleTimer = new Timer();
-        private static Timer manualTickTimer;
+        private static System.Timers.Timer idleTimer; 
+        private static System.Timers.Timer changeIdleTimer; 
+        private static System.Timers.Timer manualTickTimer;        
 
         public static EffectManager TreadsManager { get; set; }
         public static EffectManager BarrelManager { get; set; }

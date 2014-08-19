@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
+using System.Text;
 
 namespace TikiTankCommon.Effects
 {
-	public class FullRainbowTread : IEffect
+    public class RollingRainbowTread : IEffect
     {
-        public FullRainbowTread()
+        public RollingRainbowTread()
         {         
             this.Argument ="0";
             this.Color = Color.White;            
@@ -58,7 +61,18 @@ namespace TikiTankCommon.Effects
             for (int i = 0; i < pixels.Length; i++)
             {
                 int n = (i + offset) % pixels.Length;
-                pixels[n] = memory[i];
+
+                switch (i % 15)
+                {
+                    default:
+                        pixels[n] = Color.Black;
+                        break;
+                    case 14: pixels[n] = memory[i]; continue;
+                    case 13: pixels[n] = memory[i];  continue;
+                    case 12: pixels[n] = memory[i]; continue;
+                    case 11: pixels[n] = memory[i]; continue;
+                    case 10: pixels[n] = memory[i];  continue;                        
+                }
             }
         }
 
@@ -96,4 +110,5 @@ namespace TikiTankCommon.Effects
         private double MetersPerTick;
 
     }
+     
 }

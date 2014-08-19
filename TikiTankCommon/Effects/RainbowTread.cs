@@ -70,33 +70,16 @@ namespace TikiTankCommon.Effects
 
             for (int i = 0; i < pixels.Length; i++)
             {
-                if (i >= 384)
-                    pixels[(pixels.Length - 1) - i] = ColorHelper.Wheel(383);
-                else
-                    pixels[(pixels.Length - 1) - i] = ColorHelper.Wheel(i);
+                int c = (int)((double)i / (double)pixels.Length * 383);
+                pixels[(pixels.Length - 1) - i] = ColorHelper.Wheel(c);
             }
 
             for (int i = 0; i < pixels.Length; i++)
             {
                 int n = (i + offset) % pixels.Length;
 
-                switch (i % 15)
-                {
-                    default:
-                        pixels[n] = Color.Black;
-                        break;
-                    case 14:
-                        pixels[n] = Color.FromArgb(
-                            (int)(pixels[n].R * Math.Pow(remainder, 4)), (int)(pixels[n].G * Math.Pow(remainder, 4)), (int)(pixels[n].B * Math.Pow(remainder, 4)));
-                        break;
-                    case 13: continue;
-                    case 12: continue;
-                    case 11: continue;
-                    case 10:
-                        pixels[n] = Color.FromArgb(
-                            (int)(pixels[n].R * (1 - remainder)), (int)(pixels[n].G * (1 - remainder)), (int)(pixels[n].B * (1 - remainder)));
-                        break;
-                }
+                if( i % 15 < 10 )
+                    pixels[n] = Color.Black;
             }           
         }
 

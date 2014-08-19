@@ -20,12 +20,10 @@ namespace TikiTankServer.Managers
             {
                 case "AntialiasTread":
                     return new AntialiasTread();
-                case "AntsTread":
-                    return new AntsTread();
                 case "CameraFlashes":
                     return new CameraFlashes();
-                case "DMXGlow":
-                    return new DMXGlow();
+                case "DMXBreather":
+                    return new DMXBreather();
                 case "DMXRainbow":
                     return new DMXRainbow();
                 case "DMXSolidColor":
@@ -34,8 +32,6 @@ namespace TikiTankServer.Managers
                     return new FullRainbowTread();
                 case "Glow":
                     return new Glow();
-                case "Gradient":
-                    return new Gradient();
                 case "KitBarrel":
                     return new KitBarrel();
                 case "MultiLineBarrel":
@@ -46,14 +42,14 @@ namespace TikiTankServer.Managers
                     return new RainbowTread();
                 case "RandomCameras":
                     return new RandomCameras();
+                case "RollingRainbow":
+                    return new RollingRainbowTread();
                 case "SimpleTread":
                     return new SimpleTread();
                 case "SolidColor":
                     return new SolidColor();
                 case "ShootingStar":
                     return new ShootingStar();
-                case "SpotTread":
-                    return new SpotTread();
                 case "SparkleFlashes":
                     return new SparkleFlashes();
                 case "TwinkleTwinkle":

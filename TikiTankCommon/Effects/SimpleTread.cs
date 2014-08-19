@@ -18,28 +18,12 @@ namespace TikiTankCommon.Effects
 
         public void Activate(Color[] pixels)
         {
-            for (int i = 0; i < pixels.Length; i++)
-            {
-                pixels[i] = this.Color;
-                //                pixels[(pixels.Length - 1) - i] = this.Color;
-            }
-
         }
 
         public void Deactivate(Color[] pixels) { }
 
         public bool WouldUpdate()
         {
-            // implement static speed control, turn to 0 to rely on interrupts
-            if (!IsSensorDriven && Period > 0)
-            {
-                if ((DateTime.Now - last).TotalMilliseconds > Period)
-                {
-                    last = DateTime.Now;
-                    Tick();
-                }
-            }
-
             if (metersShown > metersTraveled)
                 return false;
 

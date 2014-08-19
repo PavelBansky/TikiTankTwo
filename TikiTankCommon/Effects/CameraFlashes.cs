@@ -8,7 +8,7 @@ public class CameraFlashes : IEffect
 {
 	public CameraFlashes()
 	{
-		DecayRate = 1;
+		DecayRate = 50;
         Argument = "8"; // 8 flash per sec
 		lastFlash = DateTime.Now;
 		lastDecay = DateTime.Now;
@@ -20,53 +20,53 @@ public class CameraFlashes : IEffect
 
     public void Activate(System.Drawing.Color[] pixels)
     {
-
+        lastFlash = DateTime.Now;
+        lastDecay = DateTime.Now;
+        memory = new Color[pixels.Length];
     }
 
     public void Deactivate(System.Drawing.Color[] pixels){}
 
 	public bool WouldUpdate()
 	{
-		// stabilize the image by only drawing every other frame
-//		return DateTime.Now > lastDecay + TimeSpan.FromMilliseconds(DecayRate);
-		TimeSpan since = DateTime.Now - lastDecay;
-		return (since > TimeSpan.FromMilliseconds(DecayRate));
+        return DateTime.Now > lastFlash || DateTime.Now > lastDecay;
 	}
 
 	public void FrameUpdate(Color[] pixels)
 	{
-		// keep a copy of the correct output state
-		Color[] nextframe = new Color[pixels.Length];
-		lastDecay = DateTime.Now;
-
-		// first decay previous frame lights
-		for( int i = 0; i < Math.Min(memory.Length, pixels.Length); i++ )
-		{
-			Color l = i == 0 ? memory[memory.Length-1] : memory[i-1];
-			Color m = pixels[i];
-			Color r = i == memory.Length-1 ? memory[0] : memory[i+1];
-
-			// lossy blur
-			nextframe[i] = Color.FromArgb( 
-				(l.R + m.R + r.R) / 4, 
-				(l.G + m.G + r.G) / 4, 
-				(l.B + m.B + r.B) / 4
-				);
-		}
-
 		// next add a new camera flash if it's been long enough
-		if( DateTime.Now > lastFlash + TimeSpan.FromMilliseconds(_flashRate) )
-		{
-			int i = rng.Next(0, nextframe.Length);
+        while (DateTime.Now > lastDecay)
+        {
+            // first decay previous frame lights
+            for (int i = 0; i < Math.Min(memory.Length, pixels.Length); i++)
+            {
+                Color l = i == 0 ? memory[memory.Length - 1] : memory[i - 1];
+                Color m = memory[i];
+                Color r = i == memory.Length - 1 ? memory[0] : memory[i + 1];
 
-			// 3 pixels wide flash, more pixels last longer
-            nextframe[i] = Color; // Color.White;
+                // lossy blur
+                memory[i] = Color.FromArgb(
+                    (l.R + m.R + r.R) / 4,
+                    (l.G + m.G + r.G) / 4,
+                    (l.B + m.B + r.B) / 4
+                    );
+            }
 
-			lastFlash = DateTime.Now;
-		}
+            lastDecay += TimeSpan.FromMilliseconds(DecayRate);
+        }
 
-		Array.Copy(nextframe, pixels, pixels.Length );
-        memory = nextframe;
+        while (DateTime.Now > lastFlash)
+        {
+            // next add a new camera flash if it's been long enough
+            int i = rng.Next(0, memory.Length);
+
+            // 3 pixels wide flash, more pixels last longer
+            memory[i] = Color; // Color.White;
+
+            lastFlash += TimeSpan.FromMilliseconds(_flashRate);
+        }
+
+        Array.Copy(memory, pixels, pixels.Length);
 	}
 
     public void Tick(){}

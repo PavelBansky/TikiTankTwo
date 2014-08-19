@@ -52,6 +52,8 @@ namespace TikiTankServer.Managers
                     result = GetEffectData(index);
 
                     _effectList[_activeIndex].Activate();
+
+                    State = TankState.Running;
                 }
             }
 
@@ -119,20 +121,31 @@ namespace TikiTankServer.Managers
                     }
                 }
             }
-            
+
             if (index != _idleIndex)
             {
-                //Console.WriteLine("Settings idle effect to {0}", _effectList[_idleIndex].Information.Name);
-                SwitchIdleEffect(index);
+                // If this effect is still in idle do proper
+                // activation of the effect. Otherwise just move the index
+                if (State == TankState.Idle)
+                {
+                    SwitchIdleEffect(index);
+                }
+                else
+                {
+                    _idleIndex = index;
+                }
             }
         }
 
-        public void Start()
+        public void Start(int refreshrate, ThreadPriority priority)
         {
+            this.delayInterval = refreshrate;
+
             if (!_isRunning)
             {
                 _isRunning = true;
                 _thread = new Thread(DoWork);
+                _thread.Priority = priority;
                 _thread.Start();
             }
         }
@@ -156,15 +169,16 @@ namespace TikiTankServer.Managers
 
             sw.Start();
 
+
             var next = sw.ElapsedTicks;
             var ticksPerUsec = System.Diagnostics.Stopwatch.Frequency / 1000000;
 
             while (_isRunning)
             {
-                next += FRAME_DELAY_USEC;
+                next += delayInterval; // FRAME_DELAY_USEC;
 
                 EffectUpdateFrame();
-
+                
                 var wait = (int)Math.Max(0, next - (sw.ElapsedTicks / ticksPerUsec));
 
                 usleep(wait);
@@ -178,18 +192,18 @@ namespace TikiTankServer.Managers
         // Thread-safe step
         private void ActiveEffectTick()
         {
-            lock (this)
-            {
+            //lock (this)
+            //{
                 ActiveEffect.Tick();
                 tickStartTime = DateTime.Now;
-            }            
+            //}            
         }
         
         private void EffectUpdateFrame()
         {
             lock (this)
             {
-                if (ActiveEffect.IsSensorDriven && State == TankState.Idle)
+                if (State == TankState.Idle)
                     IdleEffect.Update();
                 else
                     ActiveEffect.Update();
@@ -244,7 +258,7 @@ namespace TikiTankServer.Managers
                 _effectList[_idleIndex].Deactivate();
                 _idleIndex = index;
                 _effectList[_idleIndex].Activate();
-            }
+            }            
         }
 
         public TankState State 
@@ -288,6 +302,8 @@ namespace TikiTankServer.Managers
                 return _effectList; 
             }
         }
+
+        private int delayInterval;
 
         private SpeedSensor sensor;
         private DateTime tickStartTime;

@@ -1,4 +1,29 @@
 ﻿[
+   {
+ "Information":	{
+					"Name":"DD's Sperm",
+					"Description":"Multiline Barrel",
+					"IsScreenSaver":true
+				},
+ "Effect":		{
+					"Class":"ShootingStar",		
+					"Color":"Red"			
+				}
+ },
+
+{
+ "Information":  {
+					"Name":"Classic Rainbow",
+					"ArgumentDescription":"n/a",
+					"IsScreenSaver":true
+				 },
+ "Effect":	{
+					"Class":"Rainbow",
+					"IsSensorDriven":false,		
+					"Argument":"8"
+				}
+ }, 
+ 
  {
  "Information":	{
 					"Name":"Kit Barrel",
@@ -21,17 +46,6 @@
 				}
  },
 
-   {
- "Information":	{
-					"Name":"DD's Sperm",
-					"Description":"Multiline Barrel",
-					"IsScreenSaver":true
-				},
- "Effect":		{
-					"Class":"ShootingStar",					
-				}
- },
-
   {
  "Information":	{
 					"Name":"Sparkle Flashes",
@@ -40,6 +54,20 @@
 				},
  "Effect":		{
 					"Class":"SparkleFlashes",															
+				}
+ },
+
+  {
+ "Information":	{
+					"Name":"Random Cameras",
+					"Description":"Random Cameras",
+					"ArgumentDescription":"Flashes per second",
+					"IsScreenSaver":true
+				},
+ "Effect":		{
+					"Class":"RandomCameras",
+					"Color":"White",
+					"Argument":"8"
 				}
  },
 
@@ -65,8 +93,7 @@
 					"IsScreenSaver":true
 				},
  "Effect":		{
-					"Class":"CameraFlashes",
-					"Color":"White",
+					"Class":"CameraFlashes",					
 					"Argument":"8"
 				}
  },

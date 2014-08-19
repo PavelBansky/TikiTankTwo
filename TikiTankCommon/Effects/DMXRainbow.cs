@@ -32,18 +32,19 @@ namespace TikiTankCommon.Effects
         {
             for (int i = 0; i < pixels.Length; i++)
             {
-                pixels[i] = ColorHelper.Wheel(_counter);
-            }            
+                pixels[(pixels.Length - 1) - i] = ColorHelper.Wheel(((i * 384) + _counter) % 384);
+            }
+
             //cycles of all 384 colors in the wheel
             //_counter = (_counter < 384) ? _counter + 1 : 0;
 
-            if (_counter > 382)
+            if (_counter > 383)
                 _increase = false;
             else if (_counter < 1)
                 _increase = true;
 
             //cycles of all 384 colors in the wheel            
-            _counter = (_increase) ? _counter + 1 : _counter - 1;
+            _counter = (_increase) ? _counter + 5 : _counter - 5;
         }
 
         public void Tick()

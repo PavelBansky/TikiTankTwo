@@ -20,8 +20,7 @@ namespace TikiTankCommon.Effects
         {
             for (int i = 0; i < pixels.Length; i++)
             {
-                pixels[i] = this.Color;
-                //                pixels[(pixels.Length - 1) - i] = this.Color;
+                pixels[i] = this.Color;                
             }
 
         }
@@ -30,16 +29,6 @@ namespace TikiTankCommon.Effects
 
         public bool WouldUpdate()
         {
-            // implement static speed control, turn to 0 to rely on interrupts
-            if (!IsSensorDriven && Period > 0)
-            {
-                if ((DateTime.Now - last).TotalMilliseconds > Period)
-                {
-                    last = DateTime.Now;
-                    Tick();
-                }
-            }
-
             if (metersShown > metersTraveled)
                 return false;
 
@@ -67,23 +56,20 @@ namespace TikiTankCommon.Effects
             {
                 int n = (i + offset) % pixels.Length;
 
-                switch (i % 16)
+                switch (i % 15)
                 {
                     default:
-                        pixels[n] = Color.Black;
+                        pixels[i] = Color.Black;
                         break;
                     case 14:
-                        pixels[n] = Color.FromArgb(
+                        pixels[i] = Color.FromArgb(
                             (int)(this.Color.R * Math.Pow(remainder, 4)), (int)(this.Color.G * Math.Pow(remainder, 4)), (int)(this.Color.B * Math.Pow(remainder,4)));
                         break;
                     case 13: continue;
                     case 12: continue;
                     case 11: continue;
                     case 10:
-                        pixels[n] = this.Color;
-                        break;
-                    case 9:
-                        pixels[n] = Color.FromArgb(
+                        pixels[i] = Color.FromArgb(
                             (int)(this.Color.R * (1 - remainder)), (int)(this.Color.G * (1 - remainder)), (int)(this.Color.B * (1 - remainder)));
                         break;
                 }

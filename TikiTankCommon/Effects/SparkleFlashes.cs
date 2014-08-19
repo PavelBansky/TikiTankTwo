@@ -40,8 +40,8 @@ public class SparkleFlashes : IEffect
 		// first decay previous frame lights
 		for( int i = 0; i < Math.Min(memory.Length, pixels.Length); i++ )
 		{
-            Color basePixel = new Color();
-            basePixel = ColorHelper.Wheel(((i * 384 / pixels.Length)) % 384);
+            int c = (int)((double)i / (double)pixels.Length * 383);
+            Color basePixel = ColorHelper.Wheel(c);
 
 			Color l = i == 0 ? memory[memory.Length-1] : memory[i-1];
 			Color m = pixels[i];
@@ -49,9 +49,9 @@ public class SparkleFlashes : IEffect
 
 			// lossy blur
 			nextframe[i] = Color.FromArgb( 
-				Math.Min(255, (l.R + m.R + r.R + rng.Next(50) + basePixel.R) / 5), 
-				Math.Min(255, (l.G + m.G + r.G + rng.Next(10) + basePixel.G)/ 5), 
-				Math.Min(255, (l.B + m.B + r.B + rng.Next(10) + basePixel.B)/ 5)
+				(l.R + m.R + r.R + basePixel.R) / 4, 
+				(l.G + m.G + r.G + basePixel.G) / 4, 
+				(l.B + m.B + r.B + basePixel.B) / 4
 				);
 		}
 

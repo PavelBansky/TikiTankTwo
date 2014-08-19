@@ -71,7 +71,7 @@ namespace TikiTankCommon
                     break;
             }
 
-            return Color.FromArgb((byte)r, (byte)g, (byte)b);
+            return Color.FromArgb(r * 2, g * 2, b * 2);
         }
     }
 }

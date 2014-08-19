@@ -179,7 +179,7 @@
                         </div>
                         <div class="settingHR"><hr/></div>
                         <div class="setRowContainer">
-                            <div class="settingLabel">Screensaver effect interval [s]:</div>
+                            <div class="settingLabel">Screensaver effect interval [mins]:</div>
                             <div id="brightInputWrap">
                                 <div class="settingDisplay">
                                     <input id="settingsScreenSaverInterval" type="text" name="">

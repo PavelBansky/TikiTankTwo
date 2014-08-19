@@ -23,7 +23,7 @@ namespace TikiTankCommon.Effects
         public bool WouldUpdate()
         {
             TimeSpan delta = DateTime.Now - startTime;
-            if (delta.TotalMilliseconds > 200)
+            if (delta.TotalMilliseconds > 1000)
             {
                 startTime = DateTime.Now;
                 return true;

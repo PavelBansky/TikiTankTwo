@@ -7,7 +7,7 @@ namespace TikiTankHardware
 {
 	public class SpeedSensor
 	{
-		byte[] recvBuffer = new byte[1];
+		byte[] recvBuffer = new byte[1024];
 		Stream stream;
 		SerialPort port;
 

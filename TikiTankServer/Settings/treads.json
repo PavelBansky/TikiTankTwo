@@ -41,16 +41,43 @@
  },
 
   {
+ "Information":  {
+					"Name":"Rolling Rainbow",
+					"ArgumentDescription":"n/a",
+					"IsScreenSaver":false
+				 },
+ "Effect":	{
+					"Class":"RollingRainbow",
+					"IsSensorDriven":true,					
+					"Argument":"0"
+				}
+ },
+
+  {
  "Information":	{
 					"Name":"FullRainbow Tread",
 					"Description":"Treads are full rainbow that moves",
-					"IsScreenSaver":true
+					"IsScreenSaver":false
 				},
  "Effect":		{
 					"Class":"FullRainbowTread",
-					"IsSensorDriven":false,
+					"IsSensorDriven":true,
 				}
  },
+
+   {
+ "Information":  {
+					"Name":"Classic Rainbow",
+					"ArgumentDescription":"n/a",
+					"IsScreenSaver":true
+				 },
+ "Effect":	{
+					"Class":"Rainbow",
+					"IsSensorDriven":false,		
+					"Argument":"8"
+				}
+ },
+
  {
  "Information":	{
 					"Name":"Sparkle Flashes",

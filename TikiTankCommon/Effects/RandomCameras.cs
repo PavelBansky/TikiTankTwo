@@ -8,7 +8,7 @@ public class RandomCameras : IEffect
 {
 	public RandomCameras()
 	{
-		DecayRate = 1;
+		DecayRate = 25;
         Argument = "8"; // 8 flash per sec
 		lastFlash = DateTime.Now;
 		lastDecay = DateTime.Now;
@@ -55,7 +55,7 @@ public class RandomCameras : IEffect
 		}
 
 		// next add a new camera flash if it's been long enough
-		if( DateTime.Now > lastFlash + TimeSpan.FromMilliseconds(_flashRate) )
+		while( DateTime.Now > lastFlash )
 		{
             Color[] colors = new Color[] {
     		    Color.Aqua, Color.Azure, Color.Bisque, Color.BlueViolet, 
@@ -81,7 +81,7 @@ public class RandomCameras : IEffect
 			// 3 pixels wide flash, more pixels last longer
             nextframe[i] = colors[rng.Next(colors.Length)];
 
-			lastFlash = DateTime.Now;
+			lastFlash += TimeSpan.FromMilliseconds(_flashRate);
 		}
 
 		Array.Copy(nextframe, pixels, pixels.Length );
