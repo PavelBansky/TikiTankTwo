@@ -9,7 +9,7 @@ namespace TikiTankServer.Managers
 {
     public class EffectManager
     {
-		private const int FRAME_DELAY_USEC = 1500000;
+		private const int FRAME_DELAY_USEC = 15000;
         private const int THREAD_JOIN_WAIT = 2000;
                 
         public EffectManager(SpeedSensor speedSensor)
