@@ -1,4 +1,5 @@
 ﻿using Nancy;
+using TikiTankServer.Managers;
 using TikiTankServer.Services;
 
 namespace TikiTankServer.Modules
@@ -9,9 +10,8 @@ namespace TikiTankServer.Modules
         {
             Get["/"] = _ =>
             {
-                //EffectData data = sett.GetEffect(parameters.api);
-                //return Response.AsJson<EffectData>(data).WithStatusCode(HttpStatusCode.OK);
-                return HttpStatusCode.OK;
+                SettingsData data = settingsService.GetSettings();
+                return Response.AsJson<SettingsData>(data).WithStatusCode(HttpStatusCode.OK);                
             };
 
             // Set color, argument, sensorDrievr for given effect
@@ -24,7 +24,7 @@ namespace TikiTankServer.Modules
                     settingsService.SetManualTick((string)Request.Form.manualtick);
 
                 if (Request.Form.idleinterval.HasValue)
-                    settingsService.SetDMXBrightness((string)Request.Form.idleinterval);
+                    settingsService.SetScreenSaverInterval((string)Request.Form.idleinterval);
 
                 return HttpStatusCode.OK;
             };

@@ -71,6 +71,23 @@ namespace TikiTankServer.Services
             GetEffectManager(device).SetSensorDrive(result);
         }
 
+        public void SetAsScreenSaver(string device, string screenSaver)
+        {
+            bool result = false;
+            string arg = screenSaver.ToUpper();
+            if (arg == true.ToString().ToUpper() || arg == "1")
+            {
+                result = true;
+            }
+            else
+            {
+                result = false;
+            }
+
+            Console.WriteLine("{0}: Setting screen saver to {1} ({2})", device, result, screenSaver);
+            GetEffectManager(device).SetAsScreenSaver(result);
+        }
+
         private EffectManager GetEffectManager(string device)
         {
             EffectManager result;

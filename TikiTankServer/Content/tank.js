@@ -50,34 +50,47 @@
 
 
     // Get panels effects
-    $.getJSON("/api/panels/effects", function (data, status) {
-        $("#panelsEffectsList").html(displayEffectsList(data, "panels"));
-    });
-
-    // get treads effects
-    $.getJSON("/api/treads/effects", function (data, status) {
-        $("#treadsEffectsList").html(displayEffectsList(data, "treads"));
-    });
-
-    // get barrel effects
-    $.getJSON("/api/barrel/effects", function (data, status) {
-        $("#barrelEffectsList").html(displayEffectsList(data, "barrel"));
-    });    
+    getEffectsList("panels");
+    getEffectsList("treads");
+    getEffectsList("barrel");
 
     getActiveEffects();
+
+    getSettings();
+
+    // Global Vars
+    var treadsSensorDriveValue = false;
+    var treadsScreenSaverValue = false;
+    var barrelScreenSaverValue = false;
+    var panelsScreenSaverValue = false;
 });
+
+
+function getEffectsList(api)
+{
+    console.log("Getting list of effects");
+    // Get panels effects
+    $.getJSON("/api/" + api + "/effects", function (data, status) {
+        console.log(data);
+        displayEffectsList(data, api);
+    });
+}
 
 function displayEffectsList(effects, api) {
     var html = "<ul>";
 
     for (var i = 0, len = effects.length; i < len; i++) {
-        html += "<li onClick=\"selectEffect(" + effects[i].id + ",'" + api + "')\">" + effects[i].name + "</li>";
+
+        var name = effects[i].name;
+        if (effects[i].isScreenSaver) name += "*";
+        html += "<li onClick=\"selectEffect(" + effects[i].id + ",'" + api + "')\">" + name + "</li>";
         console.log(effects[i]);
     }
 
     html += "</ul>";
 
-    return html;
+    $("#" + api + "EffectsList").html(html);    
+    //return html;
 }
 
 function displayActiveEffectData(data, api)
@@ -89,13 +102,29 @@ function displayActiveEffectData(data, api)
     $("#" + api + "ArgumentValue").val(data.argument);
     $("#" + api + "ActiveEffect").text(data.name);
     
-    if (api == "treads")       
-    {
-        if (data.isSensorDriven)
-            $("#treadsAutoButton").text = "SET MANUAL";
-        else
-            $("#treadsAutoButton").text = "SET AUTOMATIC";
+    if (data.isScreenSaver) {
+        $("#" + api + "ScreenSaverButton").text("OFF SSAVER");
     }
+    else {
+        $("#" + api + "ScreenSaverButton").text("ON SSAVER");
+    }
+
+    if (api == "treads") {
+        if (data.isSensorDriven) {            
+            $("#treadsAutoButton").text("SET MANUAL");
+        }
+        else {            
+            $("#treadsAutoButton").text("SET AUTOMATIC");
+        }
+        treadsSensorDriveValue = !data.isSensorDriven;
+        treadsScreenSaverValue = !data.isScreenSaver;
+    }
+    else if (api == "barrel") {
+        barrelScreenSaverValue = !data.isScreenSaver;
+    }
+    else if (api == "panels") {
+        panelsScreenSaverValue = !data.isScreenSaver;
+    }   
 }
 
 
@@ -136,7 +165,7 @@ function setEffectParameters(api, color, arg) {
          argument: arg
      },
      function (data, status) {
-         // alert("Data: " + data + "\nStatus: " + status);
+         getActiveEffects();
      });
 }
 
@@ -148,7 +177,7 @@ function setEffectColor(api, color) {
          color: clr,
      },
      function (data, status) {
-         //displayActiveEffectData(data, api);
+         getActiveEffects();
      });
 }
 
@@ -158,7 +187,7 @@ function setEffectArgument(api, arg) {
          argument: arg
      },
      function (data, status) {
-         //displayActiveEffectData(data, api);
+         getActiveEffects();
      });
 }
 
@@ -168,8 +197,35 @@ function setEffectSensorDrive(api, arg) {
          sensordriven: arg
      },
      function (data, status) {
-         //displayActiveEffectData(data, api);
+         getActiveEffects();
      });
+}
+
+function setEffectScreenSaver(api, arg) {
+    $.post("/api/" + api + "/effect/",
+     {
+         screensaver: arg
+     },
+     function (data, status) {
+         getActiveEffects();
+         getEffectsList(api);
+     });
+}
+
+
+function getSettings() {
+    console.log("Getting settings");
+    // Get panels effects
+    $.getJSON("/settings/", function (data, status) {
+        console.log(data);
+        displaySettings(data);
+    });
+}
+
+function displaySettings(data) {
+    $("#settingsDmxBrightness").val(data.dmxBrightness);
+    $("#settingsManualTick").val(data.manualTick);
+    $("#settingsScreenSaverInterval").val(data.idleInterval);
 }
 
 function setDmxBrightness(arg) {

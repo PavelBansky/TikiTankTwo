@@ -10,7 +10,7 @@ namespace TikiTankCommon.Effects
         {
             DecayRate = 50;
             CycleRate = 500;
-            CreateRate = 500; // 8 flash per sec
+            CreateRate = 500; 
             rng = new Random();
         }
 
@@ -79,8 +79,19 @@ namespace TikiTankCommon.Effects
         public bool IsSensorDriven { get; set; }
         public string Argument
         {
-            get { return CreateRate.ToString(); }
-            set { CreateRate = Convert.ToInt32(value); }
+            get { return _arg.ToString();  }
+            set 
+            {
+                int i;
+                if (int.TryParse(value, out i))
+                {
+                    if (i > 0)
+                    {
+                        _arg = i;
+                        CreateRate = 1000 / i;
+                    }
+                }
+            }
         }
         public System.Drawing.Color Color { get; set; }
 
@@ -88,6 +99,7 @@ namespace TikiTankCommon.Effects
         public int DecayRate { get; set; }
         public int CycleRate { get; set; }
 
+        private int _arg;
         private Color[] memory;
         private int[] indices;
         private Random rng;

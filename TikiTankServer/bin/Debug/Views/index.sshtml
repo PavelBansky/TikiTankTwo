@@ -90,8 +90,11 @@
                                 <div class="effectControlButton" onclick="setEffectColor('treads', cw.color().hex)">
                                     SET COLOR
                                 </div>
-                                <div id="treadsAutoButton" class="effectControlButton" onclick="setEffectSensorDrive('treads', true)">
+                                <div id="treadsAutoButton" class="effectControlButton" onclick="setEffectSensorDrive('treads', treadsSensorDriveValue)">									
                                     AUTOMATIC
+                                </div>
+                                <div id="treadsScreenSaverButton" class="effectControlButton" onclick="setEffectScreenSaver('treads', treadsScreenSaverValue)">									
+                                    SCREEN SAVER
                                 </div>
                             </div>
                         </div>
@@ -124,6 +127,9 @@
                                 </div>
                                 <div class="effectControlButton" onclick="setEffectColor('barrel', cw.color().hex)">
                                     SET COLOR
+                                </div>
+                                <div id="barrelScreenSaverButton" class="effectControlButton" onclick="setEffectScreenSaver('barrel', barrelScreenSaverValue)">									
+                                    SCREEN SAVER
                                 </div>
                             </div>
                         </div>
@@ -159,7 +165,7 @@
                         </div>
                         <div class="settingHR"><hr/></div>
                         <div class="setRowContainer">
-                            <div class="settingLabel">Manual tick interval:</div>
+                            <div class="settingLabel">Manual tick interval [ms]:</div>
                             <div id="brightInputWrap">
                                 <div class="settingDisplay">
                                     <input id="settingsManualTick" type="text" name="">
@@ -173,7 +179,7 @@
                         </div>
                         <div class="settingHR"><hr/></div>
                         <div class="setRowContainer">
-                            <div class="settingLabel">Screensaver effect interval:</div>
+                            <div class="settingLabel">Screensaver effect interval [s]:</div>
                             <div id="brightInputWrap">
                                 <div class="settingDisplay">
                                     <input id="settingsScreenSaverInterval" type="text" name="">

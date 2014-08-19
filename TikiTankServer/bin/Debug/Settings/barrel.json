@@ -6,6 +6,7 @@
 				},
  "Effect":		{
 					"Class":"KitBarrel",
+					"IsScreenSaver":true
 				}
  },
 
@@ -16,16 +17,18 @@
 				},
  "Effect":		{
 					"Class":"MultiLineBarrel",
+					"IsScreenSaver":true
 				}
  },
 
    {
  "Information":	{
-					"Name":"Shooting Start",
+					"Name":"DD's Sperm",
 					"Description":"Multiline Barrel"
 				},
  "Effect":		{
 					"Class":"ShootingStar",
+					"IsScreenSaver":true
 				}
  },
 
@@ -37,7 +40,7 @@
  "Effect":		{
 					"Class":"SparkleFlashes",
 					"IsSensorDriven":false,
-					"Color":"Red"
+					"IsScreenSaver":true					
 				}
  },
 
@@ -49,7 +52,8 @@
 				},
  "Effect":		{
 					"Class":"TwinkleTwinkle",
-					"IsSensorDriven":false,
+					"IsSensorDriven":false,					
+					"IsScreenSaver":true,
 					"Color":"White",
 					"Argument":"8"
 				}
@@ -65,20 +69,9 @@
  "Effect":		{
 					"Class":"CameraFlashes",
 					"IsSensorDriven":false,
+					"IsScreenSaver":true,
 					"Color":"White",
 					"Argument":"8"
-				}
- },
-
-{
- "Information":	{
-					"Name":"Glow",
-					"Description":"Glowing effect",
-				},
- "Effect":		{
-					"Class":"Glow",
-					"IsSensorDriven":false,
-					"Color":"Red"
 				}
  },
 

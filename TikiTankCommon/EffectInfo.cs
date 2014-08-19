@@ -6,5 +6,6 @@ namespace TikiTankCommon
         public string Name { get; set; }
         public string Description { get; set; }
         public string ArgumentDescription { get; set; }
+        public bool IsScreenSaver { get; set; }
     }
 }

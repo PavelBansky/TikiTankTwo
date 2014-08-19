@@ -58,6 +58,7 @@
     <Compile Include="Managers\EffectConverter.cs" />
     <Compile Include="Managers\EffectData.cs" />
     <Compile Include="Managers\EffectManager.cs" />
+    <Compile Include="Managers\SettingsData.cs" />
     <Compile Include="Managers\SettingsLoader.cs" />
     <Compile Include="Modules\EffectApi.cs" />
     <Compile Include="Modules\SettingsApi.cs" />

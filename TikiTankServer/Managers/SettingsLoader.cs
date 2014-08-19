@@ -16,7 +16,7 @@ namespace TikiTankServer.Managers
                 var effList = JsonConvert.DeserializeObject<List<EffectContainer>>(rdr.ReadToEnd(), new EffectConverter());
                 foreach (EffectContainer cont in effList)
                 {
-                    Console.WriteLine(cont.Information.Name);
+                    Console.WriteLine("{0}, {1}",cont.Information.Name, cont.Information.IsScreenSaver);
                     cont.AssignStrip(displayStrip);
                     list.Add(cont);
                 }

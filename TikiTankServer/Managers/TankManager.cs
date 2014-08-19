@@ -21,10 +21,13 @@ namespace TikiTankServer
             idleTimer.Enabled = false;
             idleTimer.Elapsed += idleTimer_Elapsed;
 
+            changeIdleTimer = new Timer(5000);
+            changeIdleTimer.Enabled = false;
+            changeIdleTimer.Elapsed += changeIdleTimer_Elapsed;
+
             manualTickTimer = new Timer();
             manualTickTimer.Enabled = false;                        
         }
-
         public static void StartTheTank()
         {
             string basePath = System.AppDomain.CurrentDomain.BaseDirectory;
@@ -34,7 +37,7 @@ namespace TikiTankServer
             SettingsLoader.LoadEffects(Path.Combine(basePath,"Settings/treads.json"), TreadsLED, TreadsManager.Effects);
             Console.WriteLine("Effects loaded {0}", TreadsManager.Effects.Count);
             TankManager.TreadsManager.SelectEffect(0);
-            TankManager.TreadsManager.SelectIdleEffect(1);            
+            TankManager.TreadsManager.NextIdleEffect();            
             TankManager.TreadsManager.Start();
 
             Console.WriteLine("Barrel Manager: ");
@@ -42,7 +45,7 @@ namespace TikiTankServer
             SettingsLoader.LoadEffects(Path.Combine(basePath,"Settings/barrel.json"), BarrelLED, BarrelManager.Effects);
             Console.WriteLine("Effects loaded {0}", BarrelManager.Effects.Count);
             TankManager.BarrelManager.SelectEffect(0);
-            TankManager.BarrelManager.SelectIdleEffect(1);
+            TankManager.BarrelManager.NextIdleEffect();
             TankManager.BarrelManager.Start();
 
             Console.WriteLine("Panel Manager: ");
@@ -50,7 +53,7 @@ namespace TikiTankServer
             SettingsLoader.LoadEffects(Path.Combine(basePath,"Settings/panels.json"), DmxLED, PanelsManager.Effects);
             Console.WriteLine("Effects loaded {0}", PanelsManager.Effects.Count);
             TankManager.PanelsManager.SelectEffect(0);
-            TankManager.PanelsManager.SelectIdleEffect(1);
+            TankManager.PanelsManager.NextIdleEffect();
             TankManager.PanelsManager.Start();
 
             Sensor.Start();
@@ -86,10 +89,25 @@ namespace TikiTankServer
             }
         }
 
-        public static double GetManualTickInterval()
+        public static void SetScreenSaverInterval(double interval)
         {
-            return manualTickTimer.Interval;
+            if (interval > 0)
+            {
+                changeIdleTimer.Interval = interval*1000;                
+            }           
         }
+
+        public static SettingsData GetSettings()
+        {
+            SettingsData result = new SettingsData();
+            result.DmxBrightness = DmxControl.Brightness;
+            result.IdleInterval = (changeIdleTimer.Interval / 1000);
+            result.ManualTick = manualTickTimer.Interval;
+
+            return result;
+        }
+
+
 
         /// <summary>
         /// Event handler called when tank was idle for a while (minute)
@@ -103,7 +121,15 @@ namespace TikiTankServer
                 Console.WriteLine("Tank State: Idle");
                 State = TankState.Idle;
                 idleTimer.Enabled = false;
+                changeIdleTimer.Enabled = true;
             }
+        }
+
+        static void changeIdleTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {            
+            TreadsManager.NextIdleEffect();
+            BarrelManager.NextIdleEffect();
+            PanelsManager.NextIdleEffect();
         }
 
         static void _sensor_OnTick()
@@ -113,12 +139,12 @@ namespace TikiTankServer
                 Console.WriteLine("Tank State: Running");
                 State = TankState.Running;
                 idleTimer.Enabled = true;
+                changeIdleTimer.Enabled = false;
             }
 
             lastTick = DateTime.Now;
         }
-
-        private static System.Timers.Timer manualTickTimer;
+      
 
         private static SpeedSensor _sensor;
         public static SpeedSensor Sensor
@@ -146,6 +172,8 @@ namespace TikiTankServer
         private static DateTime lastTick;
 
         private static Timer idleTimer = new Timer();
+        private static Timer changeIdleTimer = new Timer();
+        private static Timer manualTickTimer;
 
         public static EffectManager TreadsManager { get; set; }
         public static EffectManager BarrelManager { get; set; }

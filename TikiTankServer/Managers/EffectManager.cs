@@ -13,6 +13,7 @@ namespace TikiTankServer.Managers
         public EffectManager(SpeedSensor speedSensor, System.Timers.Timer extTimer)
         {
             _effectList = new List<EffectContainer>();
+            _idleIndex = 0;
             sensor = speedSensor;
             sensor.OnTick += sensor_OnTick;
 
@@ -23,13 +24,13 @@ namespace TikiTankServer.Managers
         void externalTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             if (ActiveEffect != null)
-                ActiveEffectStep();
+                ActiveEffectTick();
         }
           
         void sensor_OnTick()
         {
             if (ActiveEffect != null && ActiveEffect.IsSensorDriven)
-                ActiveEffectStep();
+                ActiveEffectTick();
         }
 
         public void AddEffect(EffectContainer cont)
@@ -85,11 +86,42 @@ namespace TikiTankServer.Managers
             _effectList[_activeIndex].Activate();
         }
 
-        public void SelectIdleEffect(int index)
+        public void SetAsScreenSaver(bool status)
         {
-            if (index < _effectList.Count)
-            {                
-                _idleIndex = index;             
+            _effectList[_activeIndex].IsScreenSaver = status;
+            //_effectList[_activeIndex].Activate();
+        }
+
+        public void NextIdleEffect()
+        {
+            int index = _idleIndex;
+            for(int i=_idleIndex; i < _effectList.Count; i++)
+            {
+                if (_effectList[i].IsScreenSaver && i > _idleIndex)
+                {
+                    index = i;
+                    break;
+                }
+            }
+
+            // If we didn't find any new effect above the current one.
+            // Let's start from the top.
+            if (index == _idleIndex)
+            {
+                for (int i = 0; i < _effectList.Count; i++)
+                {
+                    if (_effectList[i].IsScreenSaver)
+                    {
+                        index = i;
+                        break;
+                    }
+                }
+            }
+            
+            if (index != _idleIndex)
+            {
+                Console.WriteLine("Settings idle effect to {0}", _effectList[_idleIndex].Information.Name);
+                SwitchIdleEffect(index);
             }
         }
 
@@ -124,7 +156,7 @@ namespace TikiTankServer.Managers
             {
                 sw.Restart();
 
-                EffectUpdate();
+                EffectUpdateFrame();
 
                 Thread.Sleep((int)Math.Max(15 - sw.ElapsedMilliseconds, 0));
             }
@@ -133,7 +165,7 @@ namespace TikiTankServer.Managers
         }
 
         // Thread-safe step
-        private void ActiveEffectStep()
+        private void ActiveEffectTick()
         {
             lock (this)
             {
@@ -142,7 +174,7 @@ namespace TikiTankServer.Managers
             }            
         }
         
-        private void EffectUpdate()
+        private void EffectUpdateFrame()
         {
             lock (this)
             {
@@ -190,6 +222,16 @@ namespace TikiTankServer.Managers
             lock (this)
             {
                 _effectList[_activeIndex].Deactivate();
+                _effectList[_idleIndex].Activate();
+            }
+        }
+
+        private void SwitchIdleEffect(int index)
+        {
+            lock (this)
+            {
+                _effectList[_idleIndex].Deactivate();
+                _idleIndex = index;
                 _effectList[_idleIndex].Activate();
             }
         }

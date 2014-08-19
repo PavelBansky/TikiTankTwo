@@ -41,6 +41,9 @@ namespace TikiTankServer.Modules
                 if (Request.Form.sensordriven.HasValue)
                     effectService.SetSensorDrive(parameters.api, (string)Request.Form.sensordriven);
 
+                if (Request.Form.screensaver.HasValue)
+                    effectService.SetAsScreenSaver(parameters.api, (string)Request.Form.screensaver);
+
                 return HttpStatusCode.OK;
             };
         }

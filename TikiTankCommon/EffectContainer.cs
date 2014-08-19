@@ -63,6 +63,12 @@ namespace TikiTankCommon
             set { Effect.Color = value; }
         }
 
+        public bool IsScreenSaver
+        {
+            get { return Information.IsScreenSaver; }
+            set { Information.IsScreenSaver = value; }
+        }
+
         public bool IsSensorDriven 
         {
             get { return Effect.IsSensorDriven; }

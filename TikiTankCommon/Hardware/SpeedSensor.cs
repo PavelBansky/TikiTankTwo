@@ -31,12 +31,15 @@ namespace TikiTankHardware
 		private void OnRecv(IAsyncResult ar)
 		{
 			try
-			{
+			{                
 				var len = stream.EndRead(ar);
 
 				for (var i = 0; i < len; ++i)
-					for (var j = 0; j < recvBuffer[i]; ++j)
-						OnTick();
+                    for (var j = 0; j < recvBuffer[i]; ++j)
+                    {
+                        if (OnTick != null)
+                                OnTick();
+                    }
 
 				stream.BeginRead(recvBuffer, 0, recvBuffer.Length, OnRecv, null);
 			}

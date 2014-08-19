@@ -2,23 +2,26 @@
  {
  "Information":  {
 					"Name":"Simple Treads",
-					"ArgumentDescription":"n/a"
+					"ArgumentDescription":"n/a",
+					"IsScreenSaver":false
 				 },
  "Effect":	{
 					"Class":"SimpleTread",
-					"IsSensorDriven":false,
+					"IsSensorDriven":true,					
 					"Color":"White",
 					"Argument":"0"
 				}
  },
+
  {
  "Information":  {
 					"Name":"Antialias Treads",
-					"ArgumentDescription":"n/a"
+					"ArgumentDescription":"n/a",
+					"IsScreenSaver":false
 				 },
  "Effect":	{
 					"Class":"AntialiasTread",
-					"IsSensorDriven":false,
+					"IsSensorDriven":true,					
 					"Color":"White",
 					"Argument":"0"
 				}
@@ -27,11 +30,12 @@
  {
  "Information":  {
 					"Name":"Rainbow Treads",
-					"ArgumentDescription":"n/a"
+					"ArgumentDescription":"n/a",
+					"IsScreenSaver":false
 				 },
  "Effect":	{
 					"Class":"RainbowTread",
-					"IsSensorDriven":false,
+					"IsSensorDriven":true,					
 					"Argument":"0"
 				}
  },
@@ -39,44 +43,23 @@
   {
  "Information":	{
 					"Name":"Full Rainbow Tread",
-					"Description":"Treads are full rainbow that moves"
+					"Description":"Treads are full rainbow that moves",
+					"IsScreenSaver":true
 				},
  "Effect":		{
 					"Class":"FullRainbowTread",
-					"IsSensorDriven":false
+					"IsSensorDriven":false,
 				}
  },
-
- {
- "Information":	{
-					"Name":"Ants Tread",
-					"Description":"Random color tread"
-				},
- "Effect":		{
-					"Class":"AntsTread",
-					"IsSensorDriven":false
-				}
- },
-
-  {
- "Information":	{
-					"Name":"SpotTread",
-					"Description":"Random color tread"
-				},
- "Effect":		{
-					"Class":"SpotTread",
-					"IsSensorDriven":false
-				}
- },
-
  {
  "Information":	{
 					"Name":"Sparkle Flashes",
 					"Description":"Sparkly camera flashes",
+					"IsScreenSaver":true
 				},
  "Effect":		{
 					"Class":"SparkleFlashes",
-					"IsSensorDriven":false,
+					"IsSensorDriven":false,					
 					"Color":"Red"
 				}
  },
@@ -85,11 +68,12 @@
  "Information":	{
 					"Name":"Twinkle Twinkle",
 					"Description":"Twinkly star lights",
-					"ArgumentDescription":"Flashes per second"
+					"ArgumentDescription":"Flashes per second",
+					"IsScreenSaver":true
 				},
  "Effect":		{
 					"Class":"TwinkleTwinkle",
-					"IsSensorDriven":false,
+					"IsSensorDriven":false,					
 					"Color":"White",
 					"Argument":"8"
 				}
@@ -97,40 +81,43 @@
 
     {
  "Information":	{
-					"Name":"Random Cameras",
-					"Description":"Twinkly star lights",
-					"ArgumentDescription":"Flashes per second"
+					"Name":"Random Cameras",					
+					"ArgumentDescription":"Flashes per second",
+					"IsScreenSaver":true
 				},
  "Effect":		{
 					"Class":"RandomCameras",
 					"IsSensorDriven":false,
-					"Color":"White",
-					"Argument":"8"
+					"Color":"White",					
+					"Argument":"250"
 				}
  },
 
-  {
+{
  "Information":	{
 					"Name":"Camera Flashes",
 					"Description":"Camera Flased",
-					"ArgumentDescription":"Flashes per second"
+					"ArgumentDescription":"Flashes per second",
+					"IsScreenSaver":true
 				},
  "Effect":		{
 					"Class":"CameraFlashes",
 					"IsSensorDriven":false,
-					"Color":"White",
-					"Argument":"8"
+					"Color":"White",					
+					"Argument":"250"
 				}
  },
 
  {
  "Information":	{
 					"Name":"Solid Color",
-					"Description":"Solid Color"
+					"Description":"Solid Color",
+					"IsScreenSaver":false
 				},
  "Effect":		{
 					"Class":"SolidColor",
-					"IsSensorDriven":false
+					"IsSensorDriven":false,
+					"IsScreenSaver":false
 				}
  }
 

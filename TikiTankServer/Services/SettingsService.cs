@@ -2,11 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using TikiTankServer.Managers;
 
 namespace TikiTankServer.Services
 {
     public class SettingsService : ISettingsService
     {
+        public SettingsData GetSettings()
+        {
+            Console.WriteLine("Settings: Getting settings");
+            return TankManager.GetSettings();
+        }
+
         public void SetDMXBrightness(string brightness)
         {
             Console.WriteLine("Settings: Setting DMX brightness {0}", brightness);
@@ -29,7 +36,12 @@ namespace TikiTankServer.Services
 
         public void SetScreenSaverInterval(string interval)
         {
-            //throw new NotImplementedException();
+            Console.WriteLine("Settings: Setting screen saver effect inetrval {0}", interval);
+            int i;
+            if (int.TryParse(interval, out i))
+            {
+                TankManager.SetManualTick(i);
+            }
         }
     }
 }

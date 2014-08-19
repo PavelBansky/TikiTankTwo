@@ -245,7 +245,6 @@ body {
 #trapezoid_L { width: 50px; height: 110px; background: red; }
 #trapezoid_R { width: 50px; height: 110px; background: red;  }
 
-
 #settingsWrapper {
 	position:relative;
 	width:605px;
@@ -253,13 +252,14 @@ body {
 
 .setRowContainer {
 	width:605px;
-	height:115px;
-	margin:15px 0px 25px 0px;
+	height:120px;
+	margin:10px 0px 20px 10px;
 }
 #brightInputWrap {
-	width: 260px;
+	width: 235px;
 	height: 100px;
 	float: left;
+	margin-top:-5px;
 }
 .settingControlWrapper {
 	position: relative;
@@ -268,10 +268,13 @@ body {
 	width:200px;
 	height:50px;
 }
-.settingDisplay {
+.settingDisplay {height: 60px;}
+.settingDisplay input {
 	font-family: Helvetica, Arial;
-	font-size: 1em;
-	padding:10px;
+	width: 210px;
+	height: 35px;
+	font-size: 2em;
+	margin:10px;
 }
 .settingLabel {
 	font-family: Helvetica, Arial;
@@ -279,8 +282,8 @@ body {
 	padding-left:10px;
 }
 .settingControlButton {
-	width:200px;
-	height:30px;
+	width:195px;
+	height:25px;
 	font-size: 1.5em;
 	background-color: #333333;
 	font-family: arial;
