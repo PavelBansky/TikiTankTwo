@@ -17,8 +17,8 @@
   {
  "Information":	{
 					"Name":"Breather",
-					"Description":"Classic rainbow",	
-					"IsScreenSaver":true				
+					"Description":"Breather",	
+					"IsScreenSaver":false			
 				},
  "Effect":		{
 					"Class":"DMXBreather",

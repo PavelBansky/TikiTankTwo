@@ -11,6 +11,17 @@
 				}
  },
 
+  {
+ "Information":	{
+					"Name":"Multiline Barrel",
+					"Description":"Multiline Barrel",
+					"IsScreenSaver":true
+				},
+ "Effect":		{
+					"Class":"MultiLineBarrel",
+				}
+ },
+
 {
  "Information":  {
 					"Name":"Classic Rainbow",
@@ -32,17 +43,6 @@
 				},
  "Effect":		{
 					"Class":"KitBarrel",					
-				}
- },
-
-  {
- "Information":	{
-					"Name":"Multiline Barrel",
-					"Description":"Multiline Barrel",
-					"IsScreenSaver":true
-				},
- "Effect":		{
-					"Class":"MultiLineBarrel",					
 				}
  },
 
