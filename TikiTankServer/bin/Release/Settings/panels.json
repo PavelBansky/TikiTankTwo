@@ -1,0 +1,42 @@
+﻿[
+  
+ {
+ "Information":	{
+					"Name":"Rainbow",
+					"Description":"Classic rainbow",	
+					"IsScreenSaver":true				
+				},
+ "Effect":		{
+					"Class":"DMXRainbow",
+					"IsSensorDriven":false,
+					"Color":"White",
+					"Argument":"8"
+				}
+ },
+
+  {
+ "Information":	{
+					"Name":"Breather",
+					"Description":"Breather",	
+					"IsScreenSaver":false			
+				},
+ "Effect":		{
+					"Class":"DMXBreather",
+					"IsSensorDriven":false,
+				}
+ },
+
+
+ {
+ "Information":	{
+					"Name":"Solid Color",
+					"Description":"Solid Color",
+					"IsScreenSaver":false
+				},
+ "Effect":		{
+					"Class":"DMXSolidColor",
+					"IsSensorDriven":false
+				}
+ }
+
+ ]

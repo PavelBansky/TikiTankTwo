@@ -52,6 +52,9 @@ namespace TikiTankCommon.Effects
             double remainder = trueOffset - offset; // remainder used to calculate partially shaded regions
             // double overage = Math.Pow(((metersShown / pixelSize) - pixelsMoved), 4);
 
+            var head = remainder; // Math.Pow(remainder, 4);
+            var tail = 1 - remainder;
+
             for (int i = 0; i < pixels.Length; i++)
             {
                 int n = (i + offset) % pixels.Length;
@@ -59,18 +62,19 @@ namespace TikiTankCommon.Effects
                 switch (i % 15)
                 {
                     default:
-                        pixels[i] = Color.Black;
+                        pixels[n] = Color.Black;
                         break;
                     case 14:
-                        pixels[i] = Color.FromArgb(
-                            (int)(this.Color.R * Math.Pow(remainder, 4)), (int)(this.Color.G * Math.Pow(remainder, 4)), (int)(this.Color.B * Math.Pow(remainder,4)));
+                        pixels[n] = Color.FromArgb(
+                            (int)(this.Color.R * head), (int)(this.Color.G * head), (int)(this.Color.B * head));
                         break;
-                    case 13: continue;
-                    case 12: continue;
-                    case 11: continue;
-                    case 10:
-                        pixels[i] = Color.FromArgb(
-                            (int)(this.Color.R * (1 - remainder)), (int)(this.Color.G * (1 - remainder)), (int)(this.Color.B * (1 - remainder)));
+                    case 13: pixels[n] = this.Color;  continue;
+                    case 12: pixels[n] = this.Color; continue;
+                    case 11: pixels[n] = this.Color; continue;
+                    case 10: pixels[n] = this.Color; continue;
+                    case 9:
+                        pixels[n] = Color.FromArgb(
+                            (int)(this.Color.R * tail), (int)(this.Color.G * tail), (int)(this.Color.B * tail));
                         break;
                 }
             }           

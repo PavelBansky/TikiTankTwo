@@ -3,3 +3,8 @@ D:\GitHub\TikiTankTwo\TikiTankCommon\bin\Release\TikiTankCommon.pdb
 D:\GitHub\TikiTankTwo\TikiTankCommon\bin\Release\LibUsbDotNet.dll
 D:\GitHub\TikiTankTwo\TikiTankCommon\obj\Release\TikiTankCommon.dll
 D:\GitHub\TikiTankTwo\TikiTankCommon\obj\Release\TikiTankCommon.pdb
+C:\GitHub\TikiTankTwo\TikiTankCommon\bin\Release\TikiTankCommon.dll
+C:\GitHub\TikiTankTwo\TikiTankCommon\bin\Release\TikiTankCommon.pdb
+C:\GitHub\TikiTankTwo\TikiTankCommon\bin\Release\LibUsbDotNet.dll
+C:\GitHub\TikiTankTwo\TikiTankCommon\obj\Release\TikiTankCommon.dll
+C:\GitHub\TikiTankTwo\TikiTankCommon\obj\Release\TikiTankCommon.pdb

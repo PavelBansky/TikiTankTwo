@@ -97,7 +97,7 @@ namespace TikiTankServer
         {
             if (interval > 0)
             {
-                changeIdleTimer.Interval = interval*60000;                
+                changeIdleTimer.Interval = interval*60000;             
             }           
         }
 

@@ -40,7 +40,7 @@ namespace TikiTankServer.Services
             int i;
             if (int.TryParse(interval, out i))
             {
-                TankManager.SetManualTick(i);
+                TankManager.SetScreenSaverInterval(i);
             }
         }
     }

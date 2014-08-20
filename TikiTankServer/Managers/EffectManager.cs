@@ -49,6 +49,7 @@ namespace TikiTankServer.Managers
                 {                                        
                     _effectList[_activeIndex].Deactivate();
                     _activeIndex = index;
+                    
                     result = GetEffectData(index);
 
                     _effectList[_activeIndex].Activate();
@@ -86,8 +87,12 @@ namespace TikiTankServer.Managers
 
         public void SetSensorDrive(bool status)
         {
-            _effectList[_activeIndex].IsSensorDriven = status;
-            _effectList[_activeIndex].Activate();
+            lock (this)
+            {
+                //Console.WriteLine("!!!!Setting sensor status to {0}", status);
+                ActiveEffect.IsSensorDriven = status;
+                ActiveEffect.Activate();
+            }
         }
 
         public void SetAsScreenSaver(bool status)
@@ -124,8 +129,8 @@ namespace TikiTankServer.Managers
 
             if (index != _idleIndex)
             {
-                // If this effect is still in idle do proper
-                // activation of the effect. Otherwise just move the index
+                // If this effect is still in idle do proper activation of the effect.
+                // Otherwise just move the index
                 if (State == TankState.Idle)
                 {
                     SwitchIdleEffect(index);
@@ -203,7 +208,7 @@ namespace TikiTankServer.Managers
         {
             lock (this)
             {
-                if (State == TankState.Idle)
+                if (State == TankState.Idle && ActiveEffect.IsSensorDriven)
                     IdleEffect.Update();
                 else
                     ActiveEffect.Update();
@@ -266,9 +271,11 @@ namespace TikiTankServer.Managers
             get { return _state; }
             set
             {
+                //Console.WriteLine("Turning on ssaver saesnor drive {0}, state {1}, new state {2}", ActiveEffect.IsSensorDriven, _state, value);
+
                 // Transition from running to idle when in sensor driven mode
                 if (_state == TankState.Running && value == TankState.Idle && ActiveEffect.IsSensorDriven)
-                {
+                {                   
                     ActivateIdleEffect();
                 }
                 // Transitioin from idle to running when in sensor driven mode
@@ -310,7 +317,7 @@ namespace TikiTankServer.Managers
         private TankState _state;
         private bool _isRunning = false;
         private Thread _thread;
-        private int _activeIndex, _idleIndex;
+        private int _activeIndex, _idleIndex =1;
         private System.Timers.Timer externalTimer;
     }
 }
