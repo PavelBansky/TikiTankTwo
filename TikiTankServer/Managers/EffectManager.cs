@@ -12,26 +12,16 @@ namespace TikiTankServer.Managers
 		private const int FRAME_DELAY_USEC = 15000;
         private const int THREAD_JOIN_WAIT = 2000;
                 
-        public EffectManager(SpeedSensor speedSensor, System.Timers.Timer extTimer)
+        public EffectManager(SpeedSensor speedSensor)
         {
             _effectList = new List<EffectContainer>();
             _idleIndex = 0;
-            sensor = speedSensor;
-            sensor.OnTick += sensor_OnTick;
-
-            externalTimer = extTimer;
-            externalTimer.Elapsed += externalTimer_Elapsed;
+            speedSensor.OnTick += sensor_OnTick;
         }
 
-        void externalTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
-        {
-            if (ActiveEffect != null)
-                ActiveEffectTick();
-        }
-          
         void sensor_OnTick()
         {
-            if (ActiveEffect != null && ActiveEffect.IsSensorDriven)
+            if (ActiveEffect != null)
                 ActiveEffectTick();
         }
 
@@ -168,8 +158,6 @@ namespace TikiTankServer.Managers
         {
             Console.WriteLine("Starting thread");
 
-            tickStartTime = DateTime.Now;
-
             var sw = new System.Diagnostics.Stopwatch();
 
             sw.Start();
@@ -200,7 +188,6 @@ namespace TikiTankServer.Managers
             //lock (this)
             //{
                 ActiveEffect.Tick();
-                tickStartTime = DateTime.Now;
             //}            
         }
         
@@ -312,12 +299,9 @@ namespace TikiTankServer.Managers
 
         private int delayInterval;
 
-        private SpeedSensor sensor;
-        private DateTime tickStartTime;
         private TankState _state;
         private bool _isRunning = false;
         private Thread _thread;
         private int _activeIndex, _idleIndex =1;
-        private System.Timers.Timer externalTimer;
     }
 }

@@ -14,6 +14,66 @@ namespace TikiTankServer
         Idle,
     }
 
+	public class Timer
+	{
+		Thread thread;
+
+		public event System.Timers.ElapsedEventHandler Elapsed;
+
+		public Timer(int milliseconds)
+		{
+			Interval = milliseconds;
+		}
+
+		public int Interval { get; set; }
+
+		public bool Enabled
+		{
+			get
+			{
+				return thread != null;
+			}
+			set
+			{
+				if (thread == null && value)
+				{
+					thread = new Thread(DoWork);
+					thread.Start();
+				}
+				else if (thread != null && !value)
+				{
+					thread.Abort();
+					thread = null;
+				}
+			}
+		}
+
+        [System.Runtime.InteropServices.DllImport("libc")]
+        private static extern void usleep(int time);
+
+        private void DoWork()
+        {
+            var sw = new System.Diagnostics.Stopwatch();
+
+            sw.Start();
+
+            var next = sw.ElapsedTicks;
+            var ticksPerUsec = System.Diagnostics.Stopwatch.Frequency / 1000000;
+
+            while (true)
+            {
+                next += (Interval * 1000);
+
+                if (Elapsed != null)
+                    Elapsed(null, null);
+
+                var wait = (int)Math.Max(0, next - (sw.ElapsedTicks / ticksPerUsec));
+
+                usleep(wait);
+            }
+        }
+	}
+
     public static class TankManager
     {       
         static TankManager()
@@ -26,16 +86,32 @@ namespace TikiTankServer
             changeIdleTimer.Enabled = false;
             changeIdleTimer.Elapsed += changeIdleTimer_Elapsed;
 
-            manualTickTimer = new System.Timers.Timer(150);            
+            manualTickTimer = new Timer(150);
             manualTickTimer.Enabled = false;
-            
+            manualTickTimer.Elapsed += manualTickTimer_Elapsed;
         }
+
+		static void manualTickTimer_Elapsed(object sender, ElapsedEventArgs e)
+		{
+			var effect = PanelsManager.ActiveEffect;
+			if (effect != null)
+				effect.Tick();
+
+			effect = BarrelManager.ActiveEffect;
+			if (effect != null)
+				effect.Tick();
+
+			effect = TreadsManager.ActiveEffect;
+			if (effect != null)
+				effect.Tick();
+		}
+
         public static void StartTheTank()
         {
             string basePath = System.AppDomain.CurrentDomain.BaseDirectory;
 
             Console.WriteLine("Tread Manager: ");
-            TreadsManager = new EffectManager(Sensor, manualTickTimer);
+            TreadsManager = new EffectManager(Sensor);
             SettingsLoader.LoadEffects(Path.Combine(basePath,"Settings/treads.json"), TreadsLED, TreadsManager.Effects);
             Console.WriteLine("Effects loaded {0}", TreadsManager.Effects.Count);
             TankManager.TreadsManager.SelectEffect(0);
@@ -44,7 +120,7 @@ namespace TikiTankServer
             Thread.Sleep(5);
 
             Console.WriteLine("Barrel Manager: ");
-            BarrelManager = new EffectManager(Sensor, manualTickTimer);
+            BarrelManager = new EffectManager(Sensor);
             SettingsLoader.LoadEffects(Path.Combine(basePath,"Settings/barrel.json"), BarrelLED, BarrelManager.Effects);
             Console.WriteLine("Effects loaded {0}", BarrelManager.Effects.Count);
             TankManager.BarrelManager.SelectEffect(0);
@@ -53,7 +129,7 @@ namespace TikiTankServer
             Thread.Sleep(5);
 
             Console.WriteLine("Panel Manager: ");
-            PanelsManager = new EffectManager(Sensor, manualTickTimer);
+            PanelsManager = new EffectManager(Sensor);
             SettingsLoader.LoadEffects(Path.Combine(basePath,"Settings/panels.json"), DmxLED, PanelsManager.Effects);
             Console.WriteLine("Effects loaded {0}", PanelsManager.Effects.Count);
             TankManager.PanelsManager.SelectEffect(0);
@@ -84,8 +160,8 @@ namespace TikiTankServer
         {
             if (interval > 0)
             {
-                manualTickTimer.Interval = interval;
-                manualTickTimer.Enabled = true;                
+                manualTickTimer.Interval = Convert.ToInt32(interval);
+                manualTickTimer.Enabled = true;
             }
             else
             {
@@ -177,7 +253,7 @@ namespace TikiTankServer
 
         private static System.Timers.Timer idleTimer; 
         private static System.Timers.Timer changeIdleTimer; 
-        private static System.Timers.Timer manualTickTimer;        
+        private static Timer manualTickTimer;
 
         public static EffectManager TreadsManager { get; set; }
         public static EffectManager BarrelManager { get; set; }

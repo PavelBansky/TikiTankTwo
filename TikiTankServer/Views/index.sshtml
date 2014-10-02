@@ -31,7 +31,7 @@
                             <img src="@Path['~/content/panels.png']" width="256" height="356" usemap="#panelsmap" />
 
                             <map name="panelsmap">
-                                <area shape="rect" alt="grill" href="javascript:setEffectParameters('panels', eval(cw.color).hex, 0)" coords="18, 10, 239, 59" />
+                                <area shape="rect" alt="grill" href="javascript:setEffectParameters('panels', cw.color().hex, 0)" coords="18, 10, 239, 59" />
 
                                 <area shape="poly" alt="cabin_F" href="javascript:setEffectParameters('panels', cw.color().hex, 1)" coords="19, 65, 239, 65, 189, 114, 68, 114, 19, 65" />
                                 <area shape="poly" alt="cabin_L" href="javascript:setEffectParameters('panels', cw.color().hex, 4)" coords="9, 65, 9, 244, 58, 244, 58, 114, 9, 65" />

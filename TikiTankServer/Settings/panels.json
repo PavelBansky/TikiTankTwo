@@ -14,6 +14,20 @@
 				}
  },
 
+ {
+ "Information":	{
+					"Name":"Better Rainbow",
+					"Description":"Better rainbow",	
+					"IsScreenSaver":false
+				},
+ "Effect":		{
+					"Class":"DMXSplitRainbow",
+					"IsSensorDriven":false,
+					"Color":"White",
+					"Argument":"8"
+				}
+ },
+
   {
  "Information":	{
 					"Name":"Breather",

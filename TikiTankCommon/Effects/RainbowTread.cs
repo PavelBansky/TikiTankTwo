@@ -51,7 +51,7 @@ namespace TikiTankCommon.Effects
             // move the treads about 5% of the way toward the goal each frame
             // while this does lag a bit, it is so simple that it's attractive
             // and it speeds up exponentially rather than continuing to lag
-            metersShown = (metersShown * 30 + metersTraveled) / 31;
+            metersShown = (metersShown * SimpleTread.SmoothFactor + metersTraveled) / (SimpleTread.SmoothFactor + 1);
             double pixelSize = 1.0 / 32; // 32 pixels per meter
             double maxMeters = pixelSize * pixels.Length; // size of display (meters that can be shown)
             double traveled = metersShown; // actual offset
@@ -62,6 +62,9 @@ namespace TikiTankCommon.Effects
             double remainder = trueOffset - offset; // remainder used to calculate partially shaded regions
             // double overage = Math.Pow(((metersShown / pixelSize) - pixelsMoved), 4);
             //Console.WriteLine("offset: {0}", remainder);
+
+            var head = remainder; // Math.Pow(remainder, 4);
+            var tail = 1 - remainder;
 
            // for (int i = 0; i < pixels.Length; i++)
            // {
@@ -77,9 +80,26 @@ namespace TikiTankCommon.Effects
             for (int i = 0; i < pixels.Length; i++)
             {
                 int n = (i + offset) % pixels.Length;
+                var c = pixels[n];
 
-                if( i % 15 < 10 )
-                    pixels[n] = Color.Black;
+                switch (i % 15)
+                {
+                    default:
+                        pixels[n] = Color.Black;
+                        break;
+                    case 14:
+                        pixels[n] = Color.FromArgb(
+                            (int)(c.R * head), (int)(c.G * head), (int)(c.B * head));
+                        break;
+                    case 13: pixels[n] = c;  continue;
+                    case 12: pixels[n] = c; continue;
+                    case 11: pixels[n] = c; continue;
+                    case 10: pixels[n] = c; continue;
+                    case 9:
+                        pixels[n] = Color.FromArgb(
+                            (int)(c.R * tail), (int)(c.G * tail), (int)(c.B * tail));
+                        break;
+                }
             }           
         }
 
