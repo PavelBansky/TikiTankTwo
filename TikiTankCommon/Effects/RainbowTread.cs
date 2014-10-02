@@ -63,6 +63,9 @@ namespace TikiTankCommon.Effects
             // double overage = Math.Pow(((metersShown / pixelSize) - pixelsMoved), 4);
             //Console.WriteLine("offset: {0}", remainder);
 
+            var head = remainder; // Math.Pow(remainder, 4);
+            var tail = 1 - remainder;
+
            // for (int i = 0; i < pixels.Length; i++)
            // {
            //     pixels[(pixels.Length - 1) - i] = ColorHelper.Wheel(((i * 384 / pixels.Length)) % 384);
@@ -77,9 +80,26 @@ namespace TikiTankCommon.Effects
             for (int i = 0; i < pixels.Length; i++)
             {
                 int n = (i + offset) % pixels.Length;
+                var c = pixels[n];
 
-                if( i % 15 < 10 )
-                    pixels[n] = Color.Black;
+                switch (i % 15)
+                {
+                    default:
+                        pixels[n] = Color.Black;
+                        break;
+                    case 14:
+                        pixels[n] = Color.FromArgb(
+                            (int)(c.R * head), (int)(c.G * head), (int)(c.B * head));
+                        break;
+                    case 13: pixels[n] = c;  continue;
+                    case 12: pixels[n] = c; continue;
+                    case 11: pixels[n] = c; continue;
+                    case 10: pixels[n] = c; continue;
+                    case 9:
+                        pixels[n] = Color.FromArgb(
+                            (int)(c.R * tail), (int)(c.G * tail), (int)(c.B * tail));
+                        break;
+                }
             }           
         }
 
