@@ -48,7 +48,7 @@ namespace TikiTankCommon.Effects
             // move the treads about 5% of the way toward the goal each frame
             // while this does lag a bit, it is so simple that it's attractive
             // and it speeds up exponentially rather than continuing to lag
-            metersShown = (metersShown * 30 + metersTraveled) / 31;
+            metersShown = (metersShown * SimpleTread.SmoothFactor + metersTraveled) / (SimpleTread.SmoothFactor + 1);
             double pixelSize = 1.0 / 32; // 32 pixels per meter
             double maxMeters = pixelSize * pixels.Length; // size of display (meters that can be shown)
             double traveled = metersShown; // actual offset
