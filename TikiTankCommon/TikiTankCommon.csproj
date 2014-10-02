@@ -48,6 +48,7 @@
     <Compile Include="Effects\CameraFlashes.cs" />
     <Compile Include="Effects\DMXBreather.cs" />
     <Compile Include="Effects\DMXRainbow.cs" />
+    <Compile Include="Effects\DMXSplitRainbow.cs" />
     <Compile Include="Effects\FullRainbowTread.cs" />
     <Compile Include="Effects\KitBarrel.cs" />
     <Compile Include="Effects\MultiLineBarrel.cs" />

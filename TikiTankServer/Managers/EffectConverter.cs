@@ -26,6 +26,8 @@ namespace TikiTankServer.Managers
                     return new DMXBreather();
                 case "DMXRainbow":
                     return new DMXRainbow();
+                case "DMXSplitRainbow":
+                    return new DMXSplitRainbow();
                 case "DMXSolidColor":
                     return new DMXSolidColor();
                 case "FullRainbowTread":
